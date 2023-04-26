@@ -61,13 +61,16 @@
                     <hr>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/project-details/{{ $products->id }}" type="button"
+                            <a href="{{ route('project.details', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Message Center</a>
-                            <a href="/view-files/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.files', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Files</a>
-                            <a href="/view-account/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.account', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Accounts</a>
-                            <a href="/view-trash/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.trash', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Trash</a>
                         </div>
                     </div>
@@ -133,7 +136,7 @@
                 <div class="col-md-4">
                     <h4>Send communication</h4>
 
-                    <form action="/message-send" method="POST">
+                    <form action="{{ route('message.send') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1">Title</label>
@@ -176,7 +179,8 @@
 
         setInterval(() => {
             $.ajax({
-                url: '/conversation/' + product_id,
+                // url: '/conversation/' + product_id,   
+                url: "{{ route('conversation', ':id') }}".replace(':id', product_id),
                 method: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -244,63 +248,6 @@
                 }
             })
         }, 2000);
-
-        // $(document).ready(function() {
-        //     $.ajax({
-        //         url: '/conversation/' + product_id,
-        //         method: 'GET',
-        //         dataType: 'json',
-        //         success: function(response) {
-        //             var conversations = response;
-        //             var html = '';
-        //             $.each(conversations, function(index, conversation) {
-        //                 if (user_id === conversation.sender_id) {
-        //                     console.log(conversation.sender_id, 'uper wala');
-        //                     html += '<div class="col-12">';
-        //                     html +=
-        //                         '<div class="float-left card  text-white bg-gradient-success mb-3" style="width: 60%;">'
-        //                     html += '<div class="card-header text-white bg-success">' +
-        //                         +conversation.id + '<small class="float-right text-white">' +
-        //                         conversation.created_at + '</small>'
-        //                     '</div>'
-        //                     html += '<div class="card-body">'
-        //                     html += '<h5 class="card-title">' +
-        //                         conversation.title + '</h5>'
-        //                     html += '<p class="card-text">' +
-        //                         conversation.messages + '</p>'
-        //                     html += '</div>'
-        //                     html += '</div>'
-        //                     html += '</div>'
-        //                 } else {
-        //                     console.log(conversation.sender_id, 'else wla');
-        //                     html += '<div class="col-12">';
-        //                     html +=
-        //                         '<div class="float-left card  text-white bg-gradient-success mb-3" style="width: 60%;">'
-        //                     html += '<div class="card-header text-white bg-success">' +
-        //                         conversation.id + '<small class="float-right text-white">' +
-        //                         conversation.created_at + '</small>'
-        //                     '</div>'
-        //                     html += '<div class="card-body">'
-        //                     html += '<h5 class="card-title">' +
-        //                         conversation.title + '</h5>'
-        //                     html += '<p class="card-text">' +
-        //                         conversation.messages + '</p>'
-        //                     html += '</div>'
-        //                     html += '</div>'
-        //                     html += '</div>'
-        //                     // html += '<div>' + conversation + '</div>';
-        //                 }
-        //                 // console.log(conversation.id, '00909');
-        //             });
-        //             $('#message-center').html(html);
-        //         },
-        //         error: function(jqXHR, textStatus, errorThrown) {
-        //             console.log(9999);
-        //             console.log(textStatus, errorThrown);
-        //         }
-        //     });
-
-        // });
     </script>
 
 </x-app-layout>

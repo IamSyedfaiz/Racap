@@ -63,7 +63,7 @@
                                                     <td>{{ $product->project->project_end_date }}</td>
 
 
-                                                    <td><a href="./project-details/{{ $product->id }}"
+                                                    <td><a href="{{ route('project.details', ['id' => $product->id]) }}"
                                                             class="btn btn-primary btn-sm">View</a>
                                                     </td>
                                                 </tr>

@@ -36,18 +36,18 @@
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">{{ $products->modal_number }}</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">{{ @$products->modal_number }}</h6>
                         </div>
                         <div class="card-body">
                             <ul>
-                                <li>Project : {{ $products->project->project_name }}</li>
-                                <li>Product : {{ $products->product_name }}</li>
+                                <li>Project : {{ @$products->project->project_name }}</li>
+                                <li>Product : {{ @$products->product_name }}</li>
                                 <li>No of Application : 001</li>
-                                <li>Brand : {{ $products->client->name }}</li>
-                                <li>Model : {{ $products->modal_number }}</li>
-                                <li>Start Date: {{ $products->project->project_start_date }}</li>
+                                <li>Brand : {{ @$products->client->name }}</li>
+                                <li>Model : {{ @$products->modal_number }}</li>
+                                <li>Start Date: {{ @$products->project->project_start_date }}</li>
                                 <li>Standard Due Date: 31-12-2020</li>
-                                <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li>
+                                <li>Expected Finishing Date: {{ @$products->project->project_end_date }}</li>
                             </ul>
                         </div>
                     </div>
@@ -64,13 +64,16 @@
                     <hr>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="./project-details/{{ $products->id }}" type="button"
+                            <a href="{{ route('project.details', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Message Center</a>
-                            <a href="./view-files/{{ @$products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.files', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Files</a>
-                            <a href="./view-account/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.account', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Accounts</a>
-                            <a href="./view-trash/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.trash', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Trash</a>
                         </div>
                     </div>
@@ -168,32 +171,32 @@
                                             </thead>
 
                                             <tbody>
-                                                @foreach ($upload_files as $upload_file)
-                                                    @if ($upload_file->section == 'IB')
+                                                @foreach (@$upload_files as $upload_file)
+                                                    @if (@$upload_file->section == 'IB')
                                                         <tr>
-                                                            <td>{{ $upload_file->file_subject }}</td>
+                                                            <td>{{ @$upload_file->file_subject }}</td>
                                                             <td>Xls</td>
                                                             {{-- <td><a href="{{ $upload_file->getMedia()->first()->getUrl() }}"
                                                     target="_blank"
                                                     class="btn btn-primary btn-sm">View</a></td> --}}
-                                                            <td>{{ $upload_file->created_at }}</td>
+                                                            <td>{{ @$upload_file->created_at }}</td>
                                                             <td>
-                                                                @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($upload_file->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                @elseif (@$upload_file->user->getRoleNames()->first() == 'Consultant')
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($upload_file->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                @elseif (@$upload_file->user->getRoleNames()->first() == 'Client')
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @endif
 
-                                                                {{ $upload_file->user->name }}
+                                                                {{ @$upload_file->user->name }}
                                                             </td>
-                                                            <td>{{ $upload_file->remark }}</td>
+                                                            <td>{{ @$upload_file->remark }}</td>
                                                             <td>
-                                                            <td><a href="/destroy/{{ $upload_file->id }}"
+                                                            <td><a href="{{ route('destroy', ['id' => $products->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
 
@@ -233,29 +236,29 @@
                                             </thead>
 
                                             <tbody>
-                                                @foreach ($upload_files as $upload_file)
-                                                    @if ($upload_file->section == 'D')
+                                                @foreach (@$upload_files as $upload_file)
+                                                    @if (@$upload_file->section == 'D')
                                                         <tr>
-                                                            <td>{{ $upload_file->file_subject }}</td>
+                                                            <td>{{ @$upload_file->file_subject }}</td>
                                                             <td>Xls</td>
                                                             <td><a href="#" target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
-                                                            <td>{{ $upload_file->created_at }}</td>
+                                                            <td>{{ @$upload_file->created_at }}</td>
                                                             <td>
-                                                                @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($upload_file->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                @elseif (@$upload_file->user->getRoleNames()->first() == 'Consultant')
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($upload_file->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                @elseif (@$upload_file->user->getRoleNames()->first() == 'Client')
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @endif
-                                                                {{ $upload_file->user->name }}
+                                                                {{ @$upload_file->user->name }}
                                                             </td>
                                                             <td>{{ $upload_file->remark }}</td>
-                                                            <td><a href="/destroy/{{ $upload_file->id }}"
+                                                            <td><a href="{{ route('destroy', ['id' => $products->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
@@ -302,19 +305,19 @@
                                                             <td>{{ $upload_file->created_at }}</td>
                                                             <td>
                                                                 @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($upload_file->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($upload_file->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @endif
                                                                 {{ $upload_file->user->name }}
                                                             </td>
                                                             <td>{{ $upload_file->remark }}</td>
-                                                            <td><a href="/destroy/{{ $upload_file->id }}"
+                                                            <td><a href="{{ route('destroy', ['id' => $products->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
@@ -351,34 +354,39 @@
                                                 </tr>
                                             </thead>
 
-                                            {{-- <tbody>
+                                            <tbody>
                                                 @foreach ($upload_files as $upload_file)
-                                                @if ($upload_file->section == 'FC')
-                                                <tr>
-                                                    <td>{{ $upload_file->file_subject }}</td>
-                                                    <td>Xls</td>
-                                                    <td><a href="#" target="_blank" class="btn btn-primary btn-sm">View</a></td>
-                                                    <td>{{ $upload_file->created_at }}</td>
-                                                    <td>
-                                                        @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
-                                                        <img src="/img/client.jpg" class="rounded mr-0" alt="...">
-                                                        @elseif ($upload_file->user->getRoleNames()->first() == 'Consultant')
-                                                        <img src="/img/client.jpg" class="rounded mr-0" alt="...">
-                                                        @elseif ($upload_file->user->getRoleNames()->first() == 'Client')
-                                                        <img src="/img/vendor.jpg" class="rounded mr-0" alt="...">
-                                                        @endif
-                                                        {{ $upload_file->user->name }}
-                                                    </td>
-                                                    <td>{{ $upload_file->remark }}</td>
-                                                    <td><a href="/destroy/{{$upload_file->id}}" class="btn btn-primary btn-sm">Delete</a>
-                                                    </td>
-                                                </tr>
-                                                @endif
+                                                    @if ($upload_file->section == 'FC')
+                                                        <tr>
+                                                            <td>{{ $upload_file->file_subject }}</td>
+                                                            <td>Xls</td>
+                                                            <td><a href="#" target="_blank"
+                                                                    class="btn btn-primary btn-sm">View</a></td>
+                                                            <td>{{ $upload_file->created_at }}</td>
+                                                            <td>
+                                                                @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                        alt="...">
+                                                                @elseif ($upload_file->user->getRoleNames()->first() == 'Consultant')
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                        alt="...">
+                                                                @elseif ($upload_file->user->getRoleNames()->first() == 'Client')
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
+                                                                        alt="...">
+                                                                @endif
+                                                                {{ $upload_file->user->name }}
+                                                            </td>
+                                                            <td>{{ $upload_file->remark }}</td>
+                                                            <td><a href="{{ route('destroy', ['id' => $products->id]) }}"
+                                                                    class="btn btn-primary btn-sm">Delete</a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                 @endforeach
 
 
 
-                                            </tbody> --}}
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -393,7 +401,8 @@
                                 <div class="card-body">
 
 
-                                    <form action="/upload_file" method="post" enctype="multipart/form-data">
+                                    <form action="{{ route('upload.file') }}" method="post"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group">
                                             <label for="file">File</label>
@@ -419,7 +428,7 @@
                                                 {{-- <option value="FC">Final Certificate</option> --}}
                                             </select>
                                         </div>
-                                        <input type="text" name="product_id" hidden value="{{ $products->id }}">
+                                        <input type="text" name="product_id" hidden value="{{ @$products->id }}">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>
 

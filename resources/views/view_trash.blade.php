@@ -68,13 +68,16 @@
                     <hr>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="./project-details/{{ $products->id }}" type="button"
+                            <a href="{{ route('project.details', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Message Center</a>
-                            <a href="./view-files/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.files', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Files</a>
-                            <a href="./view-account/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.account', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Accounts</a>
-                            <a href="./view-trash/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.trash', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Trash</a>
                         </div>
                     </div>
@@ -190,7 +193,7 @@
                                                                 @endif {{ $trash->user->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
-                                                            <td><a href="/restore_file/{{ $trash->id }}"
+                                                            <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
                                                                     class="btn btn-primary btn-sm">Restore</a>
                                                                 <button class="bg-black" type="button"
                                                                     onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
@@ -223,7 +226,8 @@
                                                                     class="mr-2 px-2 py-1 rounded-lg "
                                                                     data-modal-toggle="default-modal">Cancel</button>
 
-                                                                <a href="/final_delete/{{ $trash->id }}">
+                                                                <a
+                                                                    href="{{ route('final.delete', ['id' => $trash->id]) }}">
 
                                                                     <button
                                                                         onclick="document.getElementById('myModal').close();"
@@ -289,7 +293,7 @@
                                                                 @endif {{ $trash->user->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
-                                                            <td><a href="/restore_file/{{ $trash->id }}"
+                                                            <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
                                                                     class="btn btn-primary btn-sm">Restore</a>
                                                                 <button class="bg-black" type="button"
                                                                     onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
@@ -322,7 +326,8 @@
                                                                     class="mr-2 px-2 py-1 rounded-lg "
                                                                     data-modal-toggle="default-modal">Cancel</button>
 
-                                                                <a href="/final_delete/{{ $trash->id }}">
+                                                                <a
+                                                                    href="{{ route('final.delete', ['id' => $trash->id]) }}">
 
                                                                     <button
                                                                         onclick="document.getElementById('myModal').close();"
@@ -386,7 +391,7 @@
                                                                 @endif{{ $trash->user->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
-                                                            <td><a href="/restore_file/{{ $trash->id }}"
+                                                            <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
                                                                     class="btn btn-primary btn-sm">Restore</a>
                                                                 <button class="bg-black" type="button"
                                                                     onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
@@ -419,7 +424,8 @@
                                                                     class="mr-2 px-2 py-1 rounded-lg "
                                                                     data-modal-toggle="default-modal">Cancel</button>
 
-                                                                <a href="/final_delete/{{ $trash->id }}">
+                                                                <a
+                                                                    href="{{ route('final.delete', ['id' => $trash->id]) }}">
 
                                                                     <button
                                                                         onclick="document.getElementById('myModal').close();"
@@ -485,7 +491,7 @@
                                                                 {{ $trash->user->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
-                                                            <td><a href="/restore_file/{{ $trash->id }}"
+                                                            <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
                                                                     class="btn btn-primary btn-sm">Restore</a>
                                                                 <button class="bg-black" type="button"
                                                                     onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
@@ -520,7 +526,8 @@
                                                                     class="mr-2 px-2 py-1 rounded-lg "
                                                                     data-modal-toggle="default-modal">Cancel</button>
 
-                                                                <a href="/final_delete/{{ $trash->id }}">
+                                                                <a
+                                                                    href="{{ route('final.delete', ['id' => $trash->id]) }}">
 
                                                                     <button
                                                                         onclick="document.getElementById('myModal').close();"

@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="d-flex">
-        @if (auth()->user()->getRoleNames()->first() === 'Sub Admin')
+        @if (auth()->user()->getRoleNames()->first() === 'Super Admin')
             @include('layouts.sidebar')
         @elseif(auth()->user()->getRoleNames()->first() === 'Sub Admin')
             @include('layouts.sidebar')

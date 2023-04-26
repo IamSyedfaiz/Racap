@@ -37,9 +37,9 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <!--<h6 class="collapse-header">View Projects:</h6>-->
-                    <a class="collapse-item" href="./current-Projects">Current Projects</a>
-                    <a class="collapse-item" href="./upcoming_projects">Upcoming Projects</a>
-                    <a class="collapse-item" href="./past_projects">Past Projects</a>
+                    <a class="collapse-item" href="{{ route('currentprojects') }}">Current Projects</a>
+                    <a class="collapse-item" href="{{ route('upcoming.project') }}">Upcoming Projects</a>
+                    <a class="collapse-item" href="{{ route('past.projects') }}">Past Projects</a>
 
                 </div>
             </div>

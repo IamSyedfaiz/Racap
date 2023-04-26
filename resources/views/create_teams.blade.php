@@ -42,7 +42,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Add Client</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form action="/add_client" method="post">
+                                    <form action="{{ route('add_client') }}" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <label for="cname">Client name</label>
@@ -61,7 +61,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Add Project</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form action="/add_project" method="post">
+                                    <form action="{{ route('add_project') }}" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <label for="cname">Project name</label>
@@ -105,7 +105,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Add Product</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form action="/add_product" method="post">
+                                    <form action="{{ route('add_product') }}" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <label for="cname">Product name</label>
@@ -151,7 +151,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Add (Client) User to project</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form action="add_client_project" method="post">
+                                    <form action="{{ route('add_client_project') }}" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <label for="cname">User name</label>
@@ -222,7 +222,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Add (Consultant) User to product</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form action="add_consultant_project" method="post">
+                                    <form action="{{ route('add_consultant_project') }}" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <label for="cname">User Name</label>
@@ -353,7 +353,7 @@
                                                             @endforeach
                                                         </td>
 
-                                                        <td><a href="/product_delete/{{$product->id}}"
+                                                        <td><a href="{{ route('product.delete', ['id' => $product->id]) }}"
                                                                 class="btn btn-primary btn-sm">Delete</a>
                                                         </td>
                                                     </tr>

@@ -14,7 +14,7 @@
 
            <!-- Nav Item - Dashboard -->
            <li class="nav-item active">
-               <a class="nav-link" href="./dashboard">
+               <a class="nav-link" href="{{ route('dashboard') }}">
                    <i class="fas fa-fw fa-tachometer-alt"></i>
                    <span>Dashboard</span></a>
            </li>
@@ -37,9 +37,9 @@
                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                    <div class="bg-white py-2 collapse-inner rounded">
                        <!--<h6 class="collapse-header">View Projects:</h6>-->
-                       <a class="collapse-item" href="./current-Projects">Current Projects</a>
-                       <a class="collapse-item" href="./upcoming_projects">Upcoming Projects</a>
-                       <a class="collapse-item" href="./past_projects">Past Projects</a>
+                       <a class="collapse-item" href="{{ route('currentprojects') }}">Current Projects</a>
+                       <a class="collapse-item" href="{{ route('upcoming.project') }}">Upcoming Projects</a>
+                       <a class="collapse-item" href="{{ route('past.projects') }}">Past Projects</a>
                    </div>
                </div>
            </li>
@@ -79,7 +79,7 @@
                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                    <div class="bg-white py-2 collapse-inner rounded">
                        <h6 class="collapse-header">Provisions:</h6>
-                       <a class="collapse-item" href="./create_teams">Create Teams</a>
+                       <a class="collapse-item" href="{{ route('create_teams') }}">Create Teams</a>
                        <div class="collapse-divider"></div>
                        <!--<h6 class="collapse-header">Other Pages:</h6>
                     <a class="collapse-item" href="404.html">404 Page</a>
@@ -89,7 +89,7 @@
            </li>
            @if (auth()->user()->getRoleNames()->first() == 'Super Admin')
                <li class="nav-item">
-                   <a class="nav-link collapsed" href="./add_subadmin">
+                   <a class="nav-link collapsed" href="{{ route('add.subadmin') }}">
                        <i class="fas fa-fw fa-folder"></i>
                        <span>Add Sub Admin</span>
                    </a>

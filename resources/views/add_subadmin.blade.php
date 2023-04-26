@@ -44,7 +44,7 @@
                         <div class="col-md-6">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <form action="/add_subadmin" method="post">
+                                    <form action="{{ route('add.subadmin') }}" method="post">
                                         @csrf
                                         <div class="form-group">
                                             <label for="cname">User name</label>

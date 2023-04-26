@@ -34,31 +34,31 @@ Route::middleware('auth')->group(function () {
 Route::get('/create_teams', [Controller::class, 'create_teams'])->name('create_teams');
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-Route::post('/add_client', [ManagementController::class, 'add_client']);
-Route::post('/add_project', [ManagementController::class, 'add_project']);
-Route::post('/add_product', [ManagementController::class, 'add_product']);
-Route::post('/add_client_project', [ManagementController::class, 'add_client_project']);
-Route::post('/add_consultant_project', [ManagementController::class, 'add_consultant_project']);
+Route::post('/add_client', [ManagementController::class, 'add_client'])->name('add_client');
+Route::post('/add_project', [ManagementController::class, 'add_project'])->name('add_project');
+Route::post('/add_product', [ManagementController::class, 'add_product'])->name('add_product');
+Route::post('/add_client_project', [ManagementController::class, 'add_client_project'])->name('add_client_project');
+Route::post('/add_consultant_project', [ManagementController::class, 'add_consultant_project'])->name('add_consultant_project');
 
-Route::get('/current-Projects', [AdminController::class, 'currentprojects']);
-Route::get('/project-details/{id}', [AdminController::class, 'project_details']);
-Route::get('/view-files/{id}', [AdminController::class, 'view_files']);
-Route::post('/upload_file', [AdminController::class, 'upload_file']);
+Route::get('/current-Projects', [AdminController::class, 'currentprojects'])->name('currentprojects');
+Route::get('/project-details/{id}', [AdminController::class, 'project_details'])->name('project.details');
+Route::get('/view-files/{id}', [AdminController::class, 'view_files'])->name('view.files');
+Route::post('/upload_file', [AdminController::class, 'upload_file'])->name('upload.file');
 
-Route::get('/view-account/{id}', [AdminController::class, 'view_account']);
-Route::get('/view-trash/{id}', [AdminController::class, 'view_trash']);
-Route::post('/add_account', [AdminController::class, 'add_account']);
-Route::get('/destroy/{id}', [AdminController::class, 'destroy']);
-Route::get('/restore_file/{id}', [AdminController::class, 'restore_file']);
-Route::get('/final_delete/{id}', [AdminController::class, 'final_delete']);
-Route::get('/past_projects', [AdminController::class, 'pastprojects']);
-Route::get('/upcoming_projects', [AdminController::class, 'upcomingproject']);
-Route::get('/product_delete/{id}', [AdminController::class, 'productdelete']);
-Route::get('/add_subadmin', [AdminController::class, 'addsubadmin']);
-Route::post('/add_subadmin', [AdminController::class, 'add_subadmin']);
+Route::get('/view-account/{id}', [AdminController::class, 'view_account'])->name('view.account');
+Route::get('/view-trash/{id}', [AdminController::class, 'view_trash'])->name('view.trash');
+Route::post('/add_account', [AdminController::class, 'add_account'])->name('add.account');
+Route::get('/destroy/{id}', [AdminController::class, 'destroy'])->name('destroy');
+Route::get('/restore_file/{id}', [AdminController::class, 'restore_file'])->name('restore.file');
+Route::get('/final_delete/{id}', [AdminController::class, 'final_delete'])->name('final.delete');
+Route::get('/past_projects', [AdminController::class, 'pastprojects'])->name('past.projects');
+Route::get('/upcoming_projects', [AdminController::class, 'upcomingproject'])->name('upcoming.project');
+Route::get('/product_delete/{id}', [AdminController::class, 'productdelete'])->name('product.delete');
+Route::get('/add_subadmin', [AdminController::class, 'addsubadmin'])->name('add.subadmin');
+Route::post('/add_subadmin', [AdminController::class, 'add_subadmin'])->name('add.subadmin');
 
-Route::post('/message-send', [MessageController::class, 'message_send']);
-Route::get('/conversation/{id}', [MessageController::class, 'conversation']);
+Route::post('/message-send', [MessageController::class, 'message_send'])->name('message.send');
+Route::get('/conversation/{id}', [MessageController::class, 'conversation'])->name('conversation');
 
 
 

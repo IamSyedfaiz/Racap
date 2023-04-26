@@ -59,13 +59,16 @@
                     <hr>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="/project-details/{{ $products->id }}" type="button"
+                            <a href="{{ route('project.details', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Message Center</a>
-                            <a href="/view-files/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.files', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Files</a>
-                            <a href="/view-account/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.account', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Accounts</a>
-                            <a href="/view-trash/{{ $products->id }}" type="button" class="btn btn-primary">View
+                            <a href="{{ route('view.trash', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">View
                                 Trash</a>
                         </div>
                     </div>
