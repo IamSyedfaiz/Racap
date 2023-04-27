@@ -196,7 +196,8 @@
                                                             </td>
                                                             <td>{{ @$upload_file->remark }}</td>
                                                             <td>
-                                                            <td><a href="{{ route('destroy', ['id' => $products->id]) }}"
+                                                            <td>
+                                                                <a href="{{ route('fileDelete', $products->id) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
 

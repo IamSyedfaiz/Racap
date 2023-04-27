@@ -165,13 +165,15 @@ class AdminController extends Controller
         $data->save();
         return redirect()->back();
     }
-    public function destroy($id)
+    public function fileDelete($id)
     {
+
+        // DD($id);
         // Get the product with the specified ID
-        $uploadFile = UploadFile::findOrFail($id);
+        $uploadFile = UploadFile::where('product_id', $id)->first();
+
 
         // Delete the product
-
         $uploadFile->delete();
         $data = new Trash;
         $data->file_subject = $uploadFile->file_subject;
@@ -201,6 +203,7 @@ class AdminController extends Controller
 
     public function final_delete($id)
     {
+
         $trash_delete = Trash::find($id);
         $trash_delete->delete();
 
