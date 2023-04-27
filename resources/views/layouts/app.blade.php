@@ -21,15 +21,33 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
+
     @role('Super Admin')
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/admin.css', 'resources/js/admin.js'])
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{ asset('js/app.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+        <script src="{{ asset('js/admin.js') }}"></script>
+
+        {{-- @vite([asset('public/css/app.css'), 'public/js/app.js', 'public/css/admin.css', 'public/js/admin.js']) --}}
         @elserole('Sub Admin')
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/admin.css', 'resources/js/admin.js'])
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{ asset('js/app.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+        <script src="{{ asset('js/admin.js') }}"></script>
+        {{-- @vite([asset('public/css/app.css'), 'public/js/app.js', 'public/css/admin.css', 'public/js/admin.js']) --}}
 
         @elserole('Client')
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/client.css', 'resources/js/client.js'])
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{ asset('js/app.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('css/client.css') }}">
+        <script src="{{ asset('js/client.js') }}"></script>
+        {{-- @vite([asset('css/app.css'), 'js/app.js', 'css/client.css', 'js/client.js']) --}}
     @else
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/consultant.css', 'resources/js/consultant.js'])
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{ asset('js/app.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('css/consultant.css') }}">
+        <script src="{{ asset('js/consultant.js') }}"></script>
+        {{-- @vite([asset('css/app.css'), 'js/app.js', 'css/consultant.css', 'js/consultant.js']) --}}
     @endrole
 </head>
 
