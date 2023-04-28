@@ -13,18 +13,21 @@ class ReportController extends Controller
     {
         $user = auth()->user();
         $roles = $user->getRoleNames()->first();
-        $clients = Client::where('user_id', auth()->user()->id)->get();
+        $clients = Client::all();
         return view('project_report', compact(['roles', 'clients']));
     }
     public function filter_project(Request $request)
     {
+        $user = auth()->user();
+        $roles = $user->getRoleNames()->first();
+        $clients = Client::all();
         if ($request->client_id !== 'all') {
 
             $products = Product::where('client_id', $request->client_id)->get();
         } else {
             $products = Product::all();
         }
-        return $products;
-        // return view('project_report', compact('products'));
+        // return $products;
+        return view('project_report', compact(['roles', 'products', 'clients']));
     }
 }
