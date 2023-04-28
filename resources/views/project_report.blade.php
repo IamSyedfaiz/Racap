@@ -148,6 +148,7 @@
 
                                         </tr> --}}
                                         {{-- @endforeach --}}
+                                        {{-- <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
@@ -155,8 +156,7 @@
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
+                                        <td>-</td> --}}
 
                                     </tbody>
                                 </table>

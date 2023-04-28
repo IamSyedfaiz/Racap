@@ -176,7 +176,7 @@
                                                     @if (@$upload_file->section == 'IB')
                                                         <tr>
                                                             <td>{{ @$upload_file->file_subject }}</td>
-                                                            <td>{{ @$upload_file->getMedia('post_image')->first()->file_name }}
+                                                            <td>{{ @$upload_file->getMedia('post_image')->first()->mime_type }}
                                                             </td>
                                                             <td>
                                                                 <a href="{{ @$upload_file->getMedia('post_image')->first()->getUrl() }}"
