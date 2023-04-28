@@ -182,13 +182,13 @@
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @endif {{ $trash->user->name }}
                                                             </td>
@@ -282,13 +282,13 @@
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @endif {{ $trash->user->name }}
                                                             </td>
@@ -380,15 +380,15 @@
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @endif{{ $trash->user->name }}
+                                                                @endif {{ $trash->user->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
                                                             <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"

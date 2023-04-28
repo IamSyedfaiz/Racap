@@ -91,7 +91,7 @@
             </div>
             @if ($roles == 'Sub Admin' || $roles == 'Consultant')
                 <div class="mb-5">
-                    <form action="/add_account" method="post">
+                    <form action="{{ route('add.account') }}" method="post">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">

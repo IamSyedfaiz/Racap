@@ -176,9 +176,8 @@
                                                         <tr>
                                                             <td>{{ @$upload_file->file_subject }}</td>
                                                             <td>Xls</td>
-                                                            {{-- <td><a href="{{ $upload_file->getMedia()->first()->getUrl() }}"
-                                                    target="_blank"
-                                                    class="btn btn-primary btn-sm">View</a></td> --}}
+                                                                  <td><a href="#" target="_blank"
+                                                                    class="btn btn-primary btn-sm">View</a></td>
                                                             <td>{{ @$upload_file->created_at }}</td>
                                                             <td>
                                                                 @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
@@ -195,13 +194,13 @@
                                                                 {{ @$upload_file->user->name }}
                                                             </td>
                                                             <td>{{ @$upload_file->remark }}</td>
-                                                            <td>
+                                                            
                                                             <td>
                                                                 <a href="{{ route('fileDelete', $products->id) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
 
-                                                            </td>
+                                                            
                                                         </tr>
                                                     @endif
                                                 @endforeach
@@ -259,7 +258,7 @@
                                                                 {{ @$upload_file->user->name }}
                                                             </td>
                                                             <td>{{ $upload_file->remark }}</td>
-                                                            <td><a href="{{ route('destroy', ['id' => $products->id]) }}"
+                                                            <td><a href="{{ route('fileDelete', ['id' => $products->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
@@ -318,7 +317,7 @@
                                                                 {{ $upload_file->user->name }}
                                                             </td>
                                                             <td>{{ $upload_file->remark }}</td>
-                                                            <td><a href="{{ route('destroy', ['id' => $products->id]) }}"
+                                                            <td><a href="{{ route('fileDelete', ['id' => $products->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
@@ -378,7 +377,7 @@
                                                                 {{ $upload_file->user->name }}
                                                             </td>
                                                             <td>{{ $upload_file->remark }}</td>
-                                                            <td><a href="{{ route('destroy', ['id' => $products->id]) }}"
+                                                            <td><a href="{{ route('fileDelete', ['id' => $products->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
