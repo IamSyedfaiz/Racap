@@ -46,12 +46,13 @@
                             <ul>
                                 <li>Project : {{ $products->project->project_name }}</li>
                                 <li>Product : {{ $products->product_name }}</li>
-                                <li>No of Application : 001</li>
+                                <li>Factory : {{ $products->factory->name }}</li>
+                                {{-- <li>No of Application : 001</li> --}}
                                 <li>Brand : {{ $products->client->name }}</li>
                                 <li>Model : {{ $products->modal_number }}</li>
                                 <li>Start Date: {{ $products->project->project_start_date }}</li>
-                                <li>Standard Due Date: 31-12-2020</li>
-                                <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li>
+                                <li>Standard Due Date: {{ $products->project->project_end_date }}</li>
+                                {{-- <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>
                     </div>
@@ -182,33 +183,36 @@
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @endif {{ $trash->user->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
                                                             <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
                                                                     class="btn btn-primary btn-sm">Restore</a>
-                                                                <button class="bg-black" type="button"
-                                                                    onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
-                                                                    id="btn"
-                                                                    style="background-color: black; border-radius: 5px;">
+                                                                @if (auth()->user()->getRoleNames()->first() == 'Sub Admin' ||
+                                                                        auth()->user()->getRoleNames()->first() == 'Super Admin')
+                                                                    <button class="bg-black" type="button"
+                                                                        onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
+                                                                        id="btn"
+                                                                        style="background-color: black; border-radius: 5px;">
 
-                                                                    <a href="#" class=" bg-black">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="16" height="16"
-                                                                            fill="currentColor" class="text-white"
-                                                                            viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                        </svg></a>
-                                                                </button>
+                                                                        <a href="#" class=" bg-black">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="16" height="16"
+                                                                                fill="currentColor" class="text-white"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                            </svg></a>
+                                                                    </button>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                     @endif
@@ -253,7 +257,7 @@
                         <div class="tab-pane fade" id="pills-docs" role="tabpanel" aria-labelledby="pills-docs-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Docs</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary"> Project Docs</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -282,37 +286,40 @@
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @endif {{ $trash->user->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
                                                             <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
                                                                     class="btn btn-primary btn-sm">Restore</a>
-                                                                <button class="bg-black" type="button"
-                                                                    onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
-                                                                    id="btn"
-                                                                    style="background-color: black; border-radius: 5px;">
+                                                                @if (auth()->user()->getRoleNames()->first() == 'Sub Admin' ||
+                                                                        auth()->user()->getRoleNames()->first() == 'Super Admin')
+                                                                    <button class="bg-black" type="button"
+                                                                        onclick="document.getElementById('myModalPD{{ $trash->id }}').showModal()"
+                                                                        id="btn"
+                                                                        style="background-color: black; border-radius: 5px;">
 
-                                                                    <a href="#" class=" bg-black">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="16" height="16"
-                                                                            fill="currentColor" class="text-white"
-                                                                            viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                        </svg></a>
-                                                                </button>
+                                                                        <a href="#" class=" bg-black">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="16" height="16"
+                                                                                fill="currentColor" class="text-white"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                            </svg></a>
+                                                                    </button>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                     @endif
-                                                    <dialog id="myModal{{ $trash->id }}">
+                                                    <dialog id="myModalPD{{ $trash->id }}">
                                                         <div class="flex flex-col w-full h-auto ">
                                                             <div
                                                                 class="flex w-full h-auto mb-20 px-4 rounded text-center ">
@@ -330,7 +337,7 @@
                                                                     href="{{ route('final.delete', ['id' => $trash->id]) }}">
 
                                                                     <button
-                                                                        onclick="document.getElementById('myModal').close();"
+                                                                        onclick="document.getElementById('myModalPD').close();"
                                                                         class=" px-2 py-1 rounded-lg   hover:bg-opacity-50">OK</button>
                                                                 </a>
                                                             </div>
@@ -351,7 +358,7 @@
                         <div class="tab-pane fade" id="pills-test" role="tabpanel" aria-labelledby="pills-test-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Test Reports</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Other Docs</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -380,37 +387,41 @@
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Client')
-                                                                    <img src="/img/vendor.jpg" class="rounded mr-0"
+                                                                    <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @endif{{ $trash->user->name }}
+                                                                @endif {{ $trash->user->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
                                                             <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
                                                                     class="btn btn-primary btn-sm">Restore</a>
-                                                                <button class="bg-black" type="button"
-                                                                    onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
-                                                                    id="btn"
-                                                                    style="background-color: black; border-radius: 5px;">
 
-                                                                    <a href="#" class=" bg-black">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="16" height="16"
-                                                                            fill="currentColor" class="text-white"
-                                                                            viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                        </svg></a>
-                                                                </button>
+                                                                @if (auth()->user()->getRoleNames()->first() == 'Sub Admin' ||
+                                                                        auth()->user()->getRoleNames()->first() == 'Super Admin')
+                                                                    <button class="bg-black" type="button"
+                                                                        onclick="document.getElementById('myModalOD{{ $trash->id }}').showModal()"
+                                                                        id="btn"
+                                                                        style="background-color: black; border-radius: 5px;">
+
+                                                                        <a href="#" class=" bg-black">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="16" height="16"
+                                                                                fill="currentColor" class="text-white"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                            </svg></a>
+                                                                    </button>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                     @endif
-                                                    <dialog id="myModal{{ $trash->id }}">
+                                                    <dialog id="myModalOD{{ $trash->id }}">
                                                         <div class="flex flex-col w-full h-auto ">
                                                             <div
                                                                 class="flex w-full h-auto mb-20 px-4 rounded text-center ">
@@ -428,7 +439,7 @@
                                                                     href="{{ route('final.delete', ['id' => $trash->id]) }}">
 
                                                                     <button
-                                                                        onclick="document.getElementById('myModal').close();"
+                                                                        onclick="document.getElementById('myModalOD').close();"
                                                                         class=" px-2 py-1 rounded-lg   hover:bg-opacity-50">OK</button>
                                                                 </a>
                                                             </div>
@@ -493,20 +504,23 @@
                                                             <td>{{ $trash->remark }}</td>
                                                             <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
                                                                     class="btn btn-primary btn-sm">Restore</a>
-                                                                <button class="bg-black" type="button"
-                                                                    onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
-                                                                    id="btn"
-                                                                    style="background-color: black; border-radius: 5px;">
+                                                                @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
+                                                                    <button class="bg-black" type="button"
+                                                                        onclick="document.getElementById('myModal{{ $trash->id }}').showModal()"
+                                                                        id="btn"
+                                                                        style="background-color: black; border-radius: 5px;">
 
-                                                                    <a href="#" class=" bg-black">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="16" height="16"
-                                                                            fill="currentColor" class="text-white"
-                                                                            viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                                        </svg></a>
-                                                                </button>
+                                                                        <a href="#" class=" bg-black">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="16" height="16"
+                                                                                fill="currentColor" class="text-white"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                                            </svg></a>
+                                                                    </button>
+                                                                @endif
+
                                                             </td>
                                                             {{-- /final_delete/{{$trash->id}} --}}
                                                         </tr>

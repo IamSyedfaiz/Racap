@@ -48,6 +48,9 @@ class AdminController extends Controller
                 $q->where('project_start_date', '<=', $currentDate)->where('project_end_date', '>=', $currentDate);
             })->get();
             $upcoming_project = Project::where('project_start_date', '>', $currentDate)->get();
+            // $upcoming_project = Product::whereHas('productdetail', function ($q) use ($currentDate) {
+            //     $q->where('project_start_date', '>', $currentDate)->where('user_id', auth()->user()->id);
+            // })->get();
             $past_project = Project::where('project_end_date', '<', $currentDate)->get();
         }
 
@@ -104,30 +107,27 @@ class AdminController extends Controller
     {
 
         $data = new UploadFile;
-        $data->addMediaFromRequest('file')->toMediaCollection();
+        $data->addMediaFromRequest('file')->toMediaCollection('post_image');
         $data->file_subject = $request->file_subject;
         $data->remark = $request->remark;
         $data->section = $request->section;
         $data->product_id = $request->product_id;
         $data->user_id = auth()->user()->id;
-
         $data->save();
         return redirect()->back();
         // return view('files')->with('success', 'Upload File Successfully');
-
-
     }
+
+
 
     public function view_account($id)
     {
-        // $products = Product::find($id);
         $user = User::find(auth()->user()->id);
         $roles = $user->getRoleNames()->first();
         $products = Product::find($id);
-        //  return $id;
-        // $accounts = Account::all();
+
         $accounts = Account::where('product_id', $id)->get();
-        // return $accounts;
+
         return view('view_account', compact(['products', 'roles', 'accounts']));
     }
     public function view_trash($id)
@@ -144,14 +144,15 @@ class AdminController extends Controller
     {
 
 
-        $last = Account::latest()->limit(1)->first();
+        $last = Account::where('product_id', $request->product_id)->orderBy('created_at', 'desc')->first();
 
         $data = new Account;
         $data->date = $request->date;
         $data->particulars = $request->particulars;
         $data->invoice_payment = $request->invoice_payment;
         $data->remark = $request->remark;
-        if ($last) {
+        if ($last && $last->product_id == $request->product_id) {
+
             $last_balance = $last->available_balance;
             if ($last_balance) {
                 $data->available_balance = $request->invoice_payment == 'IR' ? $last_balance + $request->balance : $last_balance - $request->balance;
@@ -169,9 +170,9 @@ class AdminController extends Controller
     {
 
         // DD($id);
+        // die;
         // Get the product with the specified ID
-        $uploadFile = UploadFile::where('product_id', $id)->first();
-
+        $uploadFile = UploadFile::where('id', $id)->first();
 
         // Delete the product
         $uploadFile->delete();
@@ -200,10 +201,8 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Restore Form Trash');
     }
-
     public function final_delete($id)
     {
-
         $trash_delete = Trash::find($id);
         $trash_delete->delete();
 

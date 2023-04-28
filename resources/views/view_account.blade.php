@@ -37,12 +37,13 @@
                             <ul>
                                 <li>Project : {{ $products->project->project_name }}</li>
                                 <li>Product : {{ $products->product_name }}</li>
-                                <li>No of Application : 001</li>
+                                <li>Factory : {{ $products->factory->name }}</li>
+                                {{-- <li>No of Application : 001</li> --}}
                                 <li>Brand : {{ $products->client->name }}</li>
                                 <li>Model : {{ $products->modal_number }}</li>
                                 <li>Start Date: {{ $products->project->project_start_date }}</li>
                                 <li>Standard Due Date: 31-12-2020</li>
-                                <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li>
+                                {{-- <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>
                     </div>
@@ -91,7 +92,7 @@
             </div>
             @if ($roles == 'Sub Admin' || $roles == 'Consultant')
                 <div class="mb-5">
-                    <form action="/add_account" method="post">
+                    <form action="{{ route('add.account') }}" method="post">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -133,20 +134,20 @@
                 <div class="col-12 mt-20">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Ledger</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Accounts</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable3" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
+                                            <th>Payment Date</th>
                                             <th>Particulars</th>
                                             <th>PI/Invoice Raised</th>
                                             <th>Payment Received</th>
                                             <th>Balance</th>
                                             <th>Remarks</th>
-                                            <th>Created Date</th>
+                                            <th>Posting Date</th>
                                         </tr>
                                     </thead>
 

@@ -39,12 +39,12 @@
                             <ul>
                                 <li>Project : {{ $products->project->project_name }}</li>
                                 <li>Product : {{ $products->product_name }}</li>
-                                <li>No of Application : 001</li>
+                                <li>Factory : {{ $products->factory->name }}</li>
                                 <li>Brand :{{ $products->client->name }}</li>
                                 <li>Model :{{ $products->modal_number }}</li>
                                 <li>Start Date: {{ $products->project->project_start_date }}</li>
-                                <li>Standard Due Date: 31-12-2020</li>
-                                <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li>
+                                <li>Standard Due Date: {{ $products->project->project_end_date }}</li>
+                                {{-- <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>
                     </div>
@@ -187,7 +187,9 @@
                     var conversations = response;
                     var html = '';
                     $.each(conversations, function(index, conversation) {
-                        if (user_id === conversation.sender_id) {
+
+                        if (user_id == conversation.sender_id) {
+
 
                             const created_at = conversation
                                 .created_at; // example timestamp string

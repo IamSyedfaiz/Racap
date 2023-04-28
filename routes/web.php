@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,13 +35,18 @@ Route::middleware('auth')->group(function () {
 Route::get('/create_teams', [Controller::class, 'create_teams'])->name('create_teams');
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
+// Project-Report
+Route::get('/project-report', [ReportController::class, 'project_report'])->name('project.report');
+Route::get('/filter-project', [ReportController::class, 'filter_project'])->name('filter.project');
+
 Route::post('/add_client', [ManagementController::class, 'add_client'])->name('add_client');
+Route::post('/add_factory', [ManagementController::class, 'add_factory'])->name('add.factory');
 Route::post('/add_project', [ManagementController::class, 'add_project'])->name('add_project');
 Route::post('/add_product', [ManagementController::class, 'add_product'])->name('add_product');
 Route::post('/add_client_project', [ManagementController::class, 'add_client_project'])->name('add_client_project');
 Route::post('/add_consultant_project', [ManagementController::class, 'add_consultant_project'])->name('add_consultant_project');
 
-Route::get('/current-Projects', [AdminController::class, 'currentprojects'])->name('currentprojects');
+Route::get('/current-projects', [AdminController::class, 'currentprojects'])->name('currentprojects');
 Route::get('/project-details/{id}', [AdminController::class, 'project_details'])->name('project.details');
 Route::get('/view-files/{id}', [AdminController::class, 'view_files'])->name('view.files');
 Route::post('/upload_file', [AdminController::class, 'upload_file'])->name('upload.file');
