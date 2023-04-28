@@ -24,4 +24,8 @@ class Product extends Model
     {
         return $this->hasMany(UploadFile::class);
     }
+    public function factory()
+    {
+        return $this->belongsTo(Factory::class);
+    }
 }

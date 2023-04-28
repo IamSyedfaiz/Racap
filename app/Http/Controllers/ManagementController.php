@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\Roles;
 use App\Models\Client;
+use App\Models\Factory;
 use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Models\Project;
@@ -27,6 +28,20 @@ class ManagementController extends Controller
         $data->save();
         return redirect()->back()->with('success', 'Add Client Successfully');
     }
+    public function add_factory(Request $request)
+    {
+        $input      = $request->all();
+        Validator::make($input, [
+            'factory_name'    => ['required'],
+        ])->validate();
+
+        $data = new Factory();
+        $data->name = $request->factory_name;
+        $data->client_id = $request->client_id;
+        $data->user_id = auth()->user()->id;
+        $data->save();
+        return redirect()->back()->with('success', 'Add Factory Name Successfully');
+    }
 
     public function add_project(Request $request)
     {
@@ -45,6 +60,7 @@ class ManagementController extends Controller
         $data->project_start_date = $request->project_start_date;
         $data->project_end_date = $request->project_end_date;
         $data->client_id = $request->client_id;
+        $data->factory_id = $request->factory_id;
         $data->user_id = auth()->user()->id;
 
         $data->save();
@@ -67,6 +83,7 @@ class ManagementController extends Controller
         $data->product_name = $request->product_name;
         $data->modal_number = $request->modal_number;
         $data->client_id = $request->client_id;
+        $data->factory_id = $request->factory_id;
         $data->project_id = $request->project_id;
         $data->user_id = auth()->user()->id;
 
@@ -78,6 +95,8 @@ class ManagementController extends Controller
         $data = new User;
         $data->name = $request->user_name;
         $data->email  = $request->user_email;
+        $data->mobile_number  = $request->user_mobile_number;
+        $data->landline_number  = $request->user_landline_number;
         $data->password = bcrypt('12345678');
         $data->parent_id = auth()->user()->id;
         $data->assignRole(Roles::CLIENT()->getValue());
@@ -87,6 +106,8 @@ class ManagementController extends Controller
         $product_detail->client_id = $request->client_id;
         $product_detail->product_id = $request->product_id;
         $product_detail->project_id = $request->project_id;
+        $product_detail->factory_id = $request->factory_id;
+
         $product_detail->parent_id = auth()->user()->id;
         $product_detail->type = 'CL';
 
@@ -100,6 +121,8 @@ class ManagementController extends Controller
         $data = new User;
         $data->name = $request->user_name;
         $data->email  = $request->user_email;
+        $data->mobile_number  = $request->user_mobile_number;
+        $data->landline_number  = $request->user_landline_number;
         $data->password = bcrypt('12345678');
         $data->parent_id = auth()->user()->id;
         $data->assignRole(Roles::CONSULTANT()->getValue());
@@ -109,6 +132,7 @@ class ManagementController extends Controller
         $product_detail->client_id = $request->client_id;
         $product_detail->product_id = $request->product_id;
         $product_detail->project_id = $request->project_id;
+        $product_detail->factory_id = $request->factory_id;
         $product_detail->parent_id = auth()->user()->id;
         $product_detail->type = 'CO';
 

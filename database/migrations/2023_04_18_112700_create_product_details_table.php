@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('client_id')->nullable();
             $table->integer('project_id')->nullable();
             $table->integer('product_id')->nullable();
+            $table->string('factory_id')->nullable();
             $table->integer('parent_id')->nullable();
             $table->enum('type', ["CL", "CO"])->default('CL');
             $table->timestamps();

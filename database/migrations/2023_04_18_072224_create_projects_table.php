@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('project_start_date')->nullable();
             $table->string('project_end_date')->nullable();
             $table->string('client_id')->nullable();
+            $table->string('factory_id')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

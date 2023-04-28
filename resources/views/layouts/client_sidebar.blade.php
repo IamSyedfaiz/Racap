@@ -56,7 +56,7 @@
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Generate Reports</h6>
-                    <a class="collapse-item" href="{{ route('dashboard') }}">Projects Report</a>
+                    <a class="collapse-item" href="{{ route('project.report') }}">Projects Report</a>
 
                 </div>
             </div>

@@ -42,12 +42,13 @@
                             <ul>
                                 <li>Project : {{ @$products->project->project_name }}</li>
                                 <li>Product : {{ @$products->product_name }}</li>
-                                <li>No of Application : 001</li>
+                                <li>Factory : {{ $products->factory->name }}</li>
+                                {{-- <li>No of Application : 001</li> --}}
                                 <li>Brand : {{ @$products->client->name }}</li>
                                 <li>Model : {{ @$products->modal_number }}</li>
                                 <li>Start Date: {{ @$products->project->project_start_date }}</li>
-                                <li>Standard Due Date: 31-12-2020</li>
-                                <li>Expected Finishing Date: {{ @$products->project->project_end_date }}</li>
+                                <li>Standard Due Date: {{ @$products->project->project_end_date }}</li>
+                                {{-- <li>Expected Finishing Date: {{ @$products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>
                     </div>
@@ -175,9 +176,13 @@
                                                     @if (@$upload_file->section == 'IB')
                                                         <tr>
                                                             <td>{{ @$upload_file->file_subject }}</td>
-                                                            <td>Xls</td>
-                                                                  <td><a href="#" target="_blank"
-                                                                    class="btn btn-primary btn-sm">View</a></td>
+                                                            <td>{{ @$upload_file->getMedia('post_image')->first()->file_name }}
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ @$upload_file->getMedia('post_image')->first()->getUrl() }}"
+                                                                    target="_blank"
+                                                                    class="btn btn-primary btn-sm">View</a>
+                                                            </td>
                                                             <td>{{ @$upload_file->created_at }}</td>
                                                             <td>
                                                                 @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
@@ -194,13 +199,13 @@
                                                                 {{ @$upload_file->user->name }}
                                                             </td>
                                                             <td>{{ @$upload_file->remark }}</td>
-                                                            
+
                                                             <td>
-                                                                <a href="{{ route('fileDelete', $products->id) }}"
+                                                                <a href="{{ route('fileDelete', @$upload_file->id) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
 
-                                                            
+
                                                         </tr>
                                                     @endif
                                                 @endforeach
@@ -258,7 +263,7 @@
                                                                 {{ @$upload_file->user->name }}
                                                             </td>
                                                             <td>{{ $upload_file->remark }}</td>
-                                                            <td><a href="{{ route('fileDelete', ['id' => $products->id]) }}"
+                                                            <td><a href="{{ route('fileDelete', @$upload_file->id) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
@@ -317,7 +322,11 @@
                                                                 {{ $upload_file->user->name }}
                                                             </td>
                                                             <td>{{ $upload_file->remark }}</td>
+<<<<<<< HEAD
                                                             <td><a href="{{ route('fileDelete', ['id' => $products->id]) }}"
+=======
+                                                            <td><a href="{{ route('fileDelete', @$upload_file->id) }}"
+>>>>>>> fe5a7983042e4a143deafb2fa7a4b4bf7b521b20
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
@@ -377,7 +386,11 @@
                                                                 {{ $upload_file->user->name }}
                                                             </td>
                                                             <td>{{ $upload_file->remark }}</td>
+<<<<<<< HEAD
                                                             <td><a href="{{ route('fileDelete', ['id' => $products->id]) }}"
+=======
+                                                            <td><a href="{{ route('fileDelete', @$upload_file->id) }}"
+>>>>>>> fe5a7983042e4a143deafb2fa7a4b4bf7b521b20
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
