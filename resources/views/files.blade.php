@@ -222,7 +222,7 @@
                         <div class="tab-pane fade" id="pills-docs" role="tabpanel" aria-labelledby="pills-docs-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Docs</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Project Docs</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -245,9 +245,13 @@
                                                     @if (@$upload_file->section == 'D')
                                                         <tr>
                                                             <td>{{ @$upload_file->file_subject }}</td>
-                                                            <td>Xls</td>
-                                                            <td><a href="#" target="_blank"
-                                                                    class="btn btn-primary btn-sm">View</a></td>
+                                                            <td>{{ @$upload_file->getMedia('post_image')->first()->mime_type }}
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ @$upload_file->getMedia('post_image')->first()->getUrl() }}"
+                                                                    target="_blank"
+                                                                    class="btn btn-primary btn-sm">View</a>
+                                                            </td>
                                                             <td>{{ @$upload_file->created_at }}</td>
                                                             <td>
                                                                 @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
@@ -304,9 +308,13 @@
                                                     @if ($upload_file->section == 'TR')
                                                         <tr>
                                                             <td>{{ $upload_file->file_subject }}</td>
-                                                            <td>Xls</td>
-                                                            <td><a href="#" target="_blank"
-                                                                    class="btn btn-primary btn-sm">View</a></td>
+                                                            <td>{{ @$upload_file->getMedia('post_image')->first()->mime_type }}
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ @$upload_file->getMedia('post_image')->first()->getUrl() }}"
+                                                                    target="_blank"
+                                                                    class="btn btn-primary btn-sm">View</a>
+                                                            </td>
                                                             <td>{{ $upload_file->created_at }}</td>
                                                             <td>
                                                                 @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
