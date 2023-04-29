@@ -76,6 +76,8 @@
                             <a href="{{ route('view.trash', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">View
                                 Trash</a>
+                            <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Status</a>
                         </div>
                     </div>
 

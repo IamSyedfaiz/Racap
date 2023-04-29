@@ -47,9 +47,13 @@
                             </div>
                             <div class="col">
                                 <label for="formGroupExampleInput">Project</label>
-                                <select class="form-control">
-                                    <option>All</option>
-                                    <option>Ad-0001-001</option>
+                                <select class="form-control" name="project_id">
+                                    <option value="all">All</option>
+                                    @foreach ($projects as $project)
+                                        {{ $project }}
+                                        <option value="{{ $project->id }}">{{ $project->project_name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col">
@@ -108,7 +112,6 @@
                                 <table class="table table-bordered" id="dataTable3" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            {{-- <th>Date</th> --}}
                                             <th>Project Name</th>
                                             <th>Product Name</th>
                                             <th>Model Number</th>
@@ -122,41 +125,46 @@
                                     </thead>
 
                                     <tbody>
+                                        @if (@$products)
+                                            @foreach (@$products as $product)
+                                                <tr>
+                                                    <td>{{ @$product->project->project_name }}</td>
 
-                                        {{-- @foreach (@$products as $product) --}}
-                                        {{-- <tr>
-                                            <td>{{ @$products->client->name }}</td>
+                                                    <td>{{ @$product->product_name }}</td>
 
-                                            <td>{{ @$products->project->project_name }}</td>
+                                                    <td>{{ @$product->modal_number }}</td>
+                                                    {{-- <td>{{ @$product->factory->name }}</td> --}}
+                                                    <td>-</td>
+                                                    <td>
+                                                        @if (@$product->account)
+                                                            @foreach (@$product->account as $detail)
+                                                                @if ($loop->last)
+                                                                    {{ @$detail->available_balance }}
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                    </td>
+                                                    {{-- <td>{{ @$product->account->available_balance }}</td> --}}
+                                                    <td>{{ @$product->project->project_start_date }}</td>
+                                                    <td>{{ @$product->project->project_end_date }}</td>
+                                                    <td>
+                                                        @foreach (@$product->productdetail as $detail)
+                                                            @if (@$detail->type == 'CL')
+                                                                {{ @$detail->user->name }},
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                        @foreach (@$product->productdetail as $detail)
+                                                            @if ($detail->type == 'CO')
+                                                                {{ $detail->user->name }},
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
 
-                                            <td>{{ @$products->product_name }}</td>
-                                            <td>{{ @$products->factory->name }}</td>
-                                            <td>
-                                                @foreach (@$products->productdetail as $detail)
-                                                    @if (@$detail->type == 'CL')
-                                                        {{ @$detail->user->name }},
-                                                    @endif
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                @foreach (@$products->productdetail as $detail)
-                                                    @if ($detail->type == 'CO')
-                                                        {{ $detail->user->name }},
-                                                    @endif
-                                                @endforeach
-                                            </td>
-
-                                        </tr> --}}
-                                        {{-- @endforeach --}}
-                                        {{-- <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td> --}}
+                                                </tr>
+                                            @endforeach
+                                        @endif
 
                                     </tbody>
                                 </table>

@@ -114,7 +114,7 @@ class ManagementController extends Controller
         $product_detail->save();
 
 
-        return redirect()->back()->with('success', 'Add Product Successfully');
+        return redirect()->back()->with('success', 'Add Client Successfully');
     }
     public function add_consultant_project(Request $request)
     {
@@ -138,6 +138,6 @@ class ManagementController extends Controller
 
         $product_detail->save();
 
-        return redirect()->back()->with('success', 'Add Product Successfully');
+        return redirect()->back()->with('success', 'Add Consultant Successfully');
     }
 }

@@ -38,6 +38,9 @@ Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard
 // Project-Report
 Route::get('/project-report', [ReportController::class, 'project_report'])->name('project.report');
 Route::get('/filter-project', [ReportController::class, 'filter_project'])->name('filter.project');
+Route::get('/project-status/{id}', [ReportController::class, 'project_status'])->name('project.status');
+Route::post('/project-status', [ReportController::class, 'post_status'])->name('post.status');
+Route::get('/change-status/{id}', [ReportController::class, 'change_status'])->name('change.status');
 
 Route::post('/add_client', [ManagementController::class, 'add_client'])->name('add_client');
 Route::post('/add_factory', [ManagementController::class, 'add_factory'])->name('add.factory');
