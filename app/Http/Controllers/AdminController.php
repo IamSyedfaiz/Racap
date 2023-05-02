@@ -173,10 +173,12 @@ class AdminController extends Controller
     public function view_trash($id)
     {
         // $products = Product::find($id);
+
         $user = auth()->user();
         $roles = $user->getRoleNames()->first();
         $products = Product::find($id);
-        $trashs = Trash::all();
+        // $trashs = Trash::all();
+        $trashs = UploadFile::onlyTrashed()->get();
         $progressreports = ProgressReport::where('product_id', $id)->get();
         $filteredPercentage = $progressreports->where('is_completed', 'N');
         $filteredName = $progressreports->where('is_completed', 'N')->last();
@@ -229,35 +231,40 @@ class AdminController extends Controller
 
         // Delete the product
         $uploadFile->delete();
-        $data = new Trash;
-        $data->file_subject = $uploadFile->file_subject;
-        $data->remark = $uploadFile->remark;
-        $data->section = $uploadFile->section;
-        $data->product_id = $uploadFile->product_id;
-        $data->user_id = $uploadFile->user_id;
-        $data->save();
+        // $data = new Trash;
+        // $data->file_subject = $uploadFile->file_subject;
+        // $data->remark = $uploadFile->remark;
+        // $data->section = $uploadFile->section;
+        // $data->product_id = $uploadFile->product_id;
+        // $data->user_id = $uploadFile->user_id;
+        // $data->save();
         return redirect()->back()->with('success', 'Move to Trash');
     }
 
     public function restore_file($id)
     {
-        $trashs = Trash::findOrFail($id);
-        $trashs->delete();
+        // $trashs = Trash::findOrFail($id);
+        // $trashs->delete();
 
-        $data = new UploadFile;
-        $data->file_subject = $trashs->file_subject;
-        $data->remark = $trashs->remark;
-        $data->section = $trashs->section;
-        $data->product_id = $trashs->product_id;
-        $data->user_id = $trashs->user_id;
-        $data->save();
+        // $data = new UploadFile;
+        UploadFile::withTrashed()->find($id)->restore();
+        // $data->file_subject = $trashs->file_subject;
+        // $data->remark = $trashs->remark;
+        // $data->section = $trashs->section;
+        // $data->product_id = $trashs->product_id;
+        // $data->user_id = $trashs->user_id;
+        // $data->save();
 
         return redirect()->back()->with('success', 'Restore Form Trash');
     }
     public function final_delete($id)
     {
-        $trash_delete = Trash::find($id);
-        $trash_delete->delete();
+
+
+        $trash_delete = UploadFile::withTrashed()->find($id);
+        // return $trash_delete;
+        // $trash_delete = Trash::find($id);
+        $trash_delete->forceDelete();
 
         return redirect()->back()->with('danger', 'Deleted Form Trash');
     }

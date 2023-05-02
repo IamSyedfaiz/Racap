@@ -193,17 +193,10 @@
                     var conversations = response;
                     var html = '';
                     $.each(conversations, function(index, conversation) {
-<<<<<<< HEAD
-                 
-                        if (user_id == conversation.sender_id) {
-                            
-                            
-=======
 
                         if (user_id == conversation.sender_id) {
 
 
->>>>>>> fe5a7983042e4a143deafb2fa7a4b4bf7b521b20
                             const created_at = conversation
                                 .created_at; // example timestamp string
                             const date = new Date(created_at);
