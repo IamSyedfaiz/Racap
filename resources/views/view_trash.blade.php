@@ -182,15 +182,15 @@
                                                     @if ($trash->section == 'IB')
                                                         <tr>
                                                             <td>{{ $trash->file_subject }}</td>
-                                                            <td> Xls
+                                                            <td>
                                                                 {{-- {{ pathinfo(@$trash->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }} --}}
                                                             </td>
-                                                            <td><a href="#" target="_blank"
+                                                            <td><a href="" target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
@@ -287,13 +287,16 @@
                                                     @if ($trash->section == 'D')
                                                         <tr>
                                                             <td>{{ $trash->file_subject }}</td>
-                                                            <td>Xls</td>
+                                                            <td>
+                                                                {{-- {{ pathinfo(@$upload_file->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }} --}}
+
+                                                            </td>
                                                             <td><a href="#" target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
@@ -388,13 +391,16 @@
                                                     @if ($trash->section == 'TR')
                                                         <tr>
                                                             <td>{{ $trash->file_subject }}</td>
-                                                            <td>Xls</td>
+                                                            <td>
+                                                                {{-- {{ pathinfo(@$upload_file->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }} --}}
+
+                                                            </td>
                                                             <td><a href="#" target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
@@ -491,13 +497,15 @@
                                                     @if ($trash->section == 'FC')
                                                         <tr>
                                                             <td>{{ $trash->file_subject }}</td>
-                                                            <td>Xls</td>
+                                                            <td>
+                                                            </td>
                                                             <td><a href="#" target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
                                                             <td>{{ $trash->created_at }}</td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="/img/client.jpg" class="rounded mr-0"
+                                                                    {{ pathinfo(@$upload_file->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }}
+                                                                    <img src="/img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
                                                                     <img src="/img/client.jpg" class="rounded mr-0"
