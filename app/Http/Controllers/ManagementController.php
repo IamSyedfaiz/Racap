@@ -93,10 +93,10 @@ class ManagementController extends Controller
     public function add_client_project(Request $request)
     {
         $request->validate(
-            ['user_mobile_number' => 'numeric|max:10',],
-            ['user_mobile_number.max' => ' Please Enter Valid Mobile Number',],
-            ['user_landline_number' => 'numeric|max:10',],
-            ['user_landline_number.max' => ' Please Enter Valid Mobile Number',],
+            ['user_mobile_number' => 'nullable|digits:10',],
+            ['user_mobile_number.max' => 'Please enter a valid 10-digit mobile number',],
+            ['user_landline_number' => 'nullable|digits:10',],
+            ['user_landline_number.max' => 'Please enter a valid 10-digit mobile number',],
         );
 
 
@@ -127,10 +127,10 @@ class ManagementController extends Controller
     public function add_consultant_project(Request $request)
     {
         $request->validate(
-            ['user_mobile_number' => 'numeric|max:10',],
-            ['user_mobile_number.max' => ' Please Enter Valid Mobile Number',],
-            ['user_landline_number' => 'numeric|max:10',],
-            ['user_landline_number.max' => ' Please Enter Valid Mobile Number',],
+            ['user_mobile_number' => 'nullable|digits:10',],
+            ['user_mobile_number.max' => 'Please enter a valid 10-digit mobile number',],
+            ['user_landline_number' => 'nullable|digits:10',],
+            ['user_landline_number.max' => 'Please enter a valid 10-digit mobile number',],
         );
         $data = new User;
         $data->name = $request->user_name;
