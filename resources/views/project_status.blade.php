@@ -44,10 +44,10 @@
                                 <li>Product : {{ @$products->product_name }}</li>
                                 <li>Factory : {{ $products->factory->name }}</li>
                                 {{-- <li>No of Application : 001</li> --}}
-                                <li>Brand : {{ @$products->client->name }}</li>
+                                <li>Client : {{ @$products->client->name }}</li>
                                 <li>Model : {{ @$products->modal_number }}</li>
                                 <li>Start Date: {{ @$products->project->project_start_date }}</li>
-                                <li>Standard Due Date: {{ @$products->project->project_end_date }}</li>
+                                <li>End Date: {{ @$products->project->project_end_date }}</li>
                                 {{-- <li>Expected Finishing Date: {{ @$products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>
@@ -55,8 +55,8 @@
 
                 </div>
                 <div class="col-md-6">
-                    <h2>Client Name</h2>
-                    <h4 class="small font-weight-bold">Test Reports
+                    <h2>{{ $products->client->name }}</h2>
+                    <h4 class="small font-weight-bold">{{ @$filteredName->phase_name }}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
                     </h4>
                     <div class="progress mb-4">
@@ -118,7 +118,7 @@
                     <div class="col-md-6">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Add Name</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Add Phase Name</h6>
                             </div>
                             <div class="card-body" id="inputFields">
                             </div>
@@ -131,8 +131,10 @@
             </form>
             <div class="">
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Project Docs</h6>
+                    <div class="card-header py-3 d-flex justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Phase Updates</h6>
+                        <a href="{{ route('delete.status', ['id' => $products->id]) }}" class="btn btn-primary">Reset
+                            All</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -140,7 +142,10 @@
                                 <thead>
                                     <tr>
                                         <th>Phase Name</th>
-                                        <th>stutas</th>
+                                        @if ($roles === 'Consultant' || $roles === 'Sub Admin')
+                                            <th>Status</th>
+                                        @endif
+
                                         <th>In Complete</th>
                                         <th>Completed</th>
                                     </tr>
@@ -152,23 +157,27 @@
                                             <tr>
                                                 <td>{{ $progressreport->phase_name }}
                                                 </td>
-                                                <td>
-                                                    @if ($progressreport->is_completed == 'Y')
-                                                        <a href="{{ route('change.status', ['id' => $progressreport->id]) }}"
-                                                            class="btn btn-success text-white mr-2">Done</a>
-                                                    @endif
-                                                </td>
+                                                @if ($roles === 'Consultant' || $roles === 'Sub Admin')
+                                                    <td>
+                                                        @if ($progressreport->is_completed == 'Y')
+                                                            <a href="{{ route('change.status', ['id' => $progressreport->id]) }}"
+                                                                class="btn btn-success text-white mr-2">Done</a>
+                                                        @endif
+
+                                                    </td>
+                                                @endif
                                                 @if ($progressreport->is_completed == 'Y')
                                                     <td>
                                                         <button class="btn btn-danger">
-                                                            <svg fill="#000000" viewBox="0 0 200 200"
+                                                            <svg fill="#fff" width="30px" viewBox="0 0 200 200"
                                                                 data-name="Layer 1" id="Layer_1"
                                                                 xmlns="http://www.w3.org/2000/svg">
-                                                                <title></title>
                                                                 <path
-                                                                    d="M114,100l49-49a9.9,9.9,0,0,0-14-14L100,86,51,37A9.9,9.9,0,0,0,37,51l49,49L37,149a9.9,9.9,0,0,0,14,14l49-49,49,49a9.9,9.9,0,0,0,14-14Z">
+                                                                    d="M100,15a85,85,0,1,0,85,85A84.93,84.93,0,0,0,100,15Zm0,150a65,65,0,1,1,65-65A64.87,64.87,0,0,1,100,165Z">
                                                                 </path>
-
+                                                                <path
+                                                                    d="M128.5,74a9.67,9.67,0,0,0-14,0L100,88.5l-14-14a9.9,9.9,0,0,0-14,14l14,14-14,14a9.9,9.9,0,0,0,14,14l14-14,14,14a9.9,9.9,0,0,0,14-14l-14-14,14-14A10.77,10.77,0,0,0,128.5,74Z">
+                                                                </path>
                                                             </svg>
                                                         </button>
                                                     </td>
@@ -179,13 +188,14 @@
                                                     <td>-</td>
 
                                                     <td><button class="btn btn-success"><svg viewBox="0 0 24 24"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                fill="none" width="30px"
+                                                                xmlns="http://www.w3.org/2000/svg">
                                                                 <path opacity="0.4"
                                                                     d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2Z"
-                                                                    fill="#292D32"></path>
+                                                                    fill="#fff"></path>
                                                                 <path
                                                                     d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z"
-                                                                    fill="#292D32"></path>
+                                                                    fill="#fff"></path>
 
                                                             </svg></button></td>
                                                 @endif

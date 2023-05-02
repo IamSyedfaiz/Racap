@@ -36,8 +36,8 @@
                         <div class="form-row">
                             <div class="col">
                                 <label for="formGroupExampleInput">Client</label>
-                                <select class="form-control" name="client_id">
-                                    <option value="all">All</option>
+                                <select class="form-control" id="client_name" name="client_id">
+                                    <option value="">All</option>
                                     @foreach ($clients as $client)
                                         {{ $client }}
                                         <option value="{{ $client->id }}">{{ $client->name }}
@@ -47,8 +47,8 @@
                             </div>
                             <div class="col">
                                 <label for="formGroupExampleInput">Project</label>
-                                <select class="form-control" name="project_id">
-                                    <option value="all">All</option>
+                                <select class="form-control" id="project_name" name="project_id">
+                                    <option value="">All</option>
                                     @foreach ($projects as $project)
                                         {{ $project }}
                                         <option value="{{ $project->id }}">{{ $project->project_name }}
@@ -58,33 +58,31 @@
                             </div>
                             <div class="col">
                                 <label for="formGroupExampleInput">Status</label>
-                                <select class="form-control">
-                                    <option>All</option>
-                                    <option>Info Bank</option>
-                                    <option>Docs</option>
-                                    <option>Test Report</option>
-                                    <option>Final Certification</option>
-                                    <option>Complete</option>
-                                    <option>Upcoming</option>
+                                <select class="form-control" name="status">
+                                    <option value="">All</option>
+                                    <option value="25">Less Than 25 %</option>
+                                    <option value="50">Less Than 50 %</option>
+                                    <option value="75">Less Than 75 %</option>
+                                    <option value="100">Less Than 100 %</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col">
                                 <label for="formGroupExampleInput">Finance</label>
-                                <select class="form-control">
-                                    <option>All</option>
-                                    <option>Balance Due</option>
-                                    <option>Fully Paid</option>
+                                <select class="form-control" name="finance">
+                                    <option value="">All</option>
+                                    <option value="B">Balance Due</option>
+                                    <option value="F">Fully Paid</option>
                                 </select>
                             </div>
                             <div class="col">
                                 <label for="formGroupExampleInput">Start Date</label>
-                                <input type="date" name="" class="form-control">
+                                <input type="date" name="start_date" class="form-control">
                             </div>
                             <div class="col">
                                 <label for="formGroupExampleInput">End Date</label>
-                                <input type="date" name="" class="form-control">
+                                <input type="date" name="end_date" class="form-control">
                             </div>
 
 
@@ -92,8 +90,8 @@
                         </div>
                         <div class="form-row mt-3">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <button type="submit" class="btn btn-secondary">Filter</button>
-                                <button type="button" class="btn btn-secondary">Download</button>
+                                <button type="submit" class="btn btn-secondary">Search</button>
+                                {{-- <button type="button" class="btn btn-secondary">Download</button> --}}
                             </div>
                         </div>
                     </form>
@@ -116,53 +114,71 @@
                                             <th>Product Name</th>
                                             <th>Model Number</th>
                                             <th>Complete %</th>
-                                            <th>balance</th>
+                                            <th>Balance Due</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
-                                            <th>Client Name</th>
-                                            <th>Consultant Name</th>
+                                            <th>Client (Team) Name</th>
+                                            <th>Consultant (Team) Name</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         @if (@$products)
                                             @foreach (@$products as $product)
-                                                <tr>
-                                                    <td>{{ @$product->project->project_name }}</td>
+                                                @php
+                                                    $sum = @$product->project_report->where('is_completed', 'N')->count();
+                                                    $count = count(@$product->project_report);
+                                                    $percent = $count > 0 ? intval(($sum / $count) * 100) : 0;
+                                                    $availableBalance = @$product->account->last()->available_balance;
+                                                    $finance = request()->get('finance') == 'B' ? $availableBalance > 0 : (request()->get('finance') == 'F' ? $availableBalance <= 0 : true);
+                                                    $available = $availableBalance ? $finance : true;
+                                                    $availablePercent = request()->get('status') ? $percent <= request()->get('status') : true;
+                                                    
+                                                    // echo $percent == request()->get('status');
+                                                    
+                                                @endphp
+                                                @if ($available && $availablePercent)
+                                                    <tr>
+                                                        <td>{{ @$product->project->project_name }}</td>
 
-                                                    <td>{{ @$product->product_name }}</td>
+                                                        <td>{{ @$product->product_name }}</td>
 
-                                                    <td>{{ @$product->modal_number }}</td>
-                                                    {{-- <td>{{ @$product->factory->name }}</td> --}}
-                                                    <td>-</td>
-                                                    <td>
-                                                        @if (@$product->account)
-                                                            @foreach (@$product->account as $detail)
-                                                                @if ($loop->last)
-                                                                    {{ @$detail->available_balance }}
+                                                        <td>{{ @$product->modal_number }}</td>
+                                                        {{-- <td>{{ @$product->factory->name }}</td> --}}
+                                                        <td>
+                                                            @php
+                                                                $sum = @$product->project_report->where('is_completed', 'N')->count();
+                                                                $count = count(@$product->project_report);
+                                                            @endphp
+                                                            @if ($sum)
+                                                                {{ intval(($sum / $count) * 100) }} %
+                                                            @else
+                                                                0 %
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ @$product->account->last()->available_balance }}
+                                                        </td>
+                                                        {{-- <td>{{ @$product->account->available_balance }}</td> --}}
+                                                        <td>{{ @$product->project->project_start_date }}</td>
+                                                        <td>{{ @$product->project->project_end_date }}</td>
+                                                        <td>
+                                                            @foreach (@$product->productdetail as $detail)
+                                                                @if (@$detail->type == 'CL')
+                                                                    {{ @$detail->user->name }},
                                                                 @endif
                                                             @endforeach
-                                                        @endif
-                                                    </td>
-                                                    {{-- <td>{{ @$product->account->available_balance }}</td> --}}
-                                                    <td>{{ @$product->project->project_start_date }}</td>
-                                                    <td>{{ @$product->project->project_end_date }}</td>
-                                                    <td>
-                                                        @foreach (@$product->productdetail as $detail)
-                                                            @if (@$detail->type == 'CL')
-                                                                {{ @$detail->user->name }},
-                                                            @endif
-                                                        @endforeach
-                                                    </td>
-                                                    <td>
-                                                        @foreach (@$product->productdetail as $detail)
-                                                            @if ($detail->type == 'CO')
-                                                                {{ $detail->user->name }},
-                                                            @endif
-                                                        @endforeach
-                                                    </td>
+                                                        </td>
+                                                        <td>
+                                                            @foreach (@$product->productdetail as $detail)
+                                                                @if ($detail->type == 'CO')
+                                                                    {{ $detail->user->name }},
+                                                                @endif
+                                                            @endforeach
+                                                        </td>
 
-                                                </tr>
+                                                    </tr>
+                                                @endif
                                             @endforeach
                                         @endif
 
@@ -419,5 +435,30 @@
     </div>
     <!-- End of Page Wrapper -->
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script>
+        $projects = @json($projects);
+        $('#client_name').change(function(e) {
+            $oldVal = {{ old('project_name', 0) }};
+
+            $('#project_name').html(``);
+            $('#project_name').append(` <option value=""> Select an option </option>`);
+            $.each($projects, function(index, $project) {
+                if ($project.client_id == $('#client_name').val()) {
+                    if ($oldVal) {
+                        $('#project_name').append(`<option` +
+                            $oldVal == $project.id ? "selected" : "" +
+                            `value="` + $project.id + `">` + $project.project_name + `</option>`);
+                    } else {
+                        $('#project_name').append(
+                            `<option value="` + $project.id + `">` + $project.project_name + `</option>`
+                        );
+                    }
+                }
+            });
+        });
+    </script>
 
 </x-app-layout>

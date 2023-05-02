@@ -39,7 +39,7 @@
                         <div class="col-md-6">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add Client</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Add Client (Step 1)</h6>
                                 </div>
                                 <div class="card-body">
                                     <form action="{{ route('add_client') }}" method="post">
@@ -55,7 +55,7 @@
                             </div>
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Factory Name</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Factory Name (Step 2)</h6>
                                 </div>
                                 <div class="card-body">
                                     <form action="{{ route('add.factory') }}" method="post">
@@ -86,7 +86,7 @@
                         <div class="col-md-6">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add Project</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Add Project (Step 3)</h6>
                                 </div>
                                 <div class="card-body">
                                     <form action="{{ route('add_project') }}" method="post">
@@ -139,7 +139,7 @@
                         <div class="col-md-6">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add Product</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Add Product (Step 4)</h6>
                                 </div>
                                 <div class="card-body">
                                     <form action="{{ route('add_product') }}" method="post">
@@ -195,7 +195,7 @@
                         <div class="col-md-6">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add (Client) User to project</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Add (Client) User to project </h6>
                                 </div>
                                 <div class="card-body">
                                     <form action="{{ route('add_client_project') }}" method="post">
@@ -559,7 +559,7 @@
             $('#product_pname').html(``);
             $('#product_pname').append(` <option> Select an option </option>`);
             $.each($projects, function(index, $project) {
-                if ($project.client_id == $('#product_factory_cname').val()) {
+                if ($project.factory_id == $('#product_factory_cname').val()) {
                     if ($oldVal) {
                         $('#product_pname').append(`<option` +
                             $oldVal == $project.id ? "selected" : "" +

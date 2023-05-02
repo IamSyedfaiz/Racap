@@ -6,6 +6,7 @@ use App\Http\Helpers\Roles;
 use App\Models\Account;
 use App\Models\Conversation;
 use App\Models\Product;
+use App\Models\ProgressReport;
 use App\Models\Project;
 use App\Models\Subscription;
 use App\Models\Trash;
@@ -89,9 +90,21 @@ class AdminController extends Controller
         $roles = $user->getRoleNames()->first();
         $products = Product::find($id);
         $conversations = Conversation::where('product_id', $id)->get();
+        $progressreports = ProgressReport::where('product_id', $id)->get();
+        $filteredName = $progressreports->where('is_completed', 'N')->last();
+        $filteredPercentage = $progressreports->where('is_completed', 'N');
+        $allLength = count($progressreports);
+        $length = count($filteredPercentage);
+        if ($allLength > 0) {
 
-        // return $receiver;
-        return view('project-details', compact(['products', 'roles', 'conversations']));
+            $calculatedPercentage = ($length / $allLength) * 100;
+            $calculatedPercentage = intval($calculatedPercentage);
+        } else {
+            $calculatedPercentage = 0;
+            $calculatedPercentage = intval($calculatedPercentage);
+        }
+
+        return view('project-details', compact(['products', 'roles', 'conversations', 'progressreports', 'calculatedPercentage', 'filteredName']));
     }
     public function view_files($id)
     {
@@ -100,7 +113,20 @@ class AdminController extends Controller
         $user = User::find(auth()->user()->id);
         $roles = $user->getRoleNames()->first();
         $upload_files = UploadFile::where('product_id', $id)->get();
-        return view('files', compact(['products', 'upload_files', 'roles']));
+        $progressreports = ProgressReport::where('product_id', $id)->get();
+        $filteredPercentage = $progressreports->where('is_completed', 'N');
+        $filteredName = $progressreports->where('is_completed', 'N')->last();
+        $allLength = count($progressreports);
+        $length = count($filteredPercentage);
+        if ($allLength > 0) {
+
+            $calculatedPercentage = ($length / $allLength) * 100;
+            $calculatedPercentage = intval($calculatedPercentage);
+        } else {
+            $calculatedPercentage = 0;
+            $calculatedPercentage = intval($calculatedPercentage);
+        }
+        return view('files', compact(['products', 'upload_files', 'roles', 'calculatedPercentage', 'filteredName']));
     }
 
     public function upload_file(Request $request)
@@ -128,7 +154,21 @@ class AdminController extends Controller
 
         $accounts = Account::where('product_id', $id)->get();
 
-        return view('view_account', compact(['products', 'roles', 'accounts']));
+        $progressreports = ProgressReport::where('product_id', $id)->get();
+        $filteredName = $progressreports->where('is_completed', 'N')->last();
+        $filteredPercentage = $progressreports->where('is_completed', 'N');
+        $allLength = count($progressreports);
+        $length = count($filteredPercentage);
+        if ($allLength > 0) {
+
+            $calculatedPercentage = ($length / $allLength) * 100;
+            $calculatedPercentage = intval($calculatedPercentage);
+        } else {
+            $calculatedPercentage = 0;
+            $calculatedPercentage = intval($calculatedPercentage);
+        }
+
+        return view('view_account', compact(['products', 'roles', 'accounts', 'calculatedPercentage', 'filteredName']));
     }
     public function view_trash($id)
     {
@@ -137,7 +177,20 @@ class AdminController extends Controller
         $roles = $user->getRoleNames()->first();
         $products = Product::find($id);
         $trashs = Trash::all();
-        return view('view_trash', compact(['products', 'roles', 'trashs']));
+        $progressreports = ProgressReport::where('product_id', $id)->get();
+        $filteredPercentage = $progressreports->where('is_completed', 'N');
+        $filteredName = $progressreports->where('is_completed', 'N')->last();
+        $allLength = count($progressreports);
+        $length = count($filteredPercentage);
+        if ($allLength > 0) {
+
+            $calculatedPercentage = ($length / $allLength) * 100;
+            $calculatedPercentage = intval($calculatedPercentage);
+        } else {
+            $calculatedPercentage = 0;
+            $calculatedPercentage = intval($calculatedPercentage);
+        }
+        return view('view_trash', compact(['products', 'roles', 'trashs', 'calculatedPercentage', 'filteredName']));
     }
 
     public function add_account(Request $request)

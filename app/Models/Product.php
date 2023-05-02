@@ -32,4 +32,8 @@ class Product extends Model
     {
         return $this->hasMany(Account::class);
     }
+    public function project_report()
+    {
+        return $this->hasMany(ProgressReport::class);
+    }
 }
