@@ -44,10 +44,10 @@
                                 <li>Product : {{ @$products->product_name }}</li>
                                 <li>Factory : {{ $products->factory->name }}</li>
                                 {{-- <li>No of Application : 001</li> --}}
-                                <li>Brand : {{ @$products->client->name }}</li>
+                                <li>Client : {{ @$products->client->name }}</li>
                                 <li>Model : {{ @$products->modal_number }}</li>
                                 <li>Start Date: {{ @$products->project->project_start_date }}</li>
-                                <li>Standard Due Date: {{ @$products->project->project_end_date }}</li>
+                                <li>End Date: {{ @$products->project->project_end_date }}</li>
                                 {{-- <li>Expected Finishing Date: {{ @$products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>
@@ -55,11 +55,15 @@
 
                 </div>
                 <div class="col-md-6">
-                    <h2>Client Name</h2>
-                    <h4 class="small font-weight-bold">Test Reports <span class="float-right">70%</span></h4>
+                    <h2>{{ $products->client->name }}</h2>
+                    <h4 class="small font-weight-bold">
+                        {{-- {{ @$filteredName->phase_name }} --}}
+                        <span class="float-right">{{ @$calculatedPercentage }}%</span>
+                    </h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70"
-                            aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-success" role="progressbar"
+                            style="width: {{ @$calculatedPercentage }}%" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
                     </div>
 
                     <hr>
@@ -76,6 +80,8 @@
                             <a href="{{ route('view.trash', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">View
                                 Trash</a>
+                            <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Status</a>
                         </div>
                     </div>
 
@@ -176,7 +182,9 @@
                                                     @if (@$upload_file->section == 'IB')
                                                         <tr>
                                                             <td>{{ @$upload_file->file_subject }}</td>
-                                                            <td>{{ @$upload_file->getMedia('post_image')->first()->mime_type }}
+                                                            <td>
+                                                                {{-- {{ @$upload_file->getMedia('post_image')->first()->file_name }} --}}
+                                                                {{ pathinfo(@$upload_file->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }}
                                                             </td>
                                                             <td>
                                                                 <a href="{{ @$upload_file->getMedia('post_image')->first()->getUrl() }}"
@@ -245,7 +253,7 @@
                                                     @if (@$upload_file->section == 'D')
                                                         <tr>
                                                             <td>{{ @$upload_file->file_subject }}</td>
-                                                            <td>{{ @$upload_file->getMedia('post_image')->first()->mime_type }}
+                                                            <td> {{ pathinfo(@$upload_file->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }}
                                                             </td>
                                                             <td>
                                                                 <a href="{{ @$upload_file->getMedia('post_image')->first()->getUrl() }}"
@@ -285,7 +293,8 @@
                         <div class="tab-pane fade" id="pills-test" role="tabpanel" aria-labelledby="pills-test-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Test Reports</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">{{ @$filteredName->phase_name }}
+                                    </h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -308,7 +317,7 @@
                                                     @if ($upload_file->section == 'TR')
                                                         <tr>
                                                             <td>{{ $upload_file->file_subject }}</td>
-                                                            <td>{{ @$upload_file->getMedia('post_image')->first()->mime_type }}
+                                                            <td> {{ pathinfo(@$upload_file->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }}
                                                             </td>
                                                             <td>
                                                                 <a href="{{ @$upload_file->getMedia('post_image')->first()->getUrl() }}"

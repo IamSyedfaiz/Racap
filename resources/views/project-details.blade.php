@@ -40,10 +40,10 @@
                                 <li>Project : {{ $products->project->project_name }}</li>
                                 <li>Product : {{ $products->product_name }}</li>
                                 <li>Factory : {{ $products->factory->name }}</li>
-                                <li>Brand :{{ $products->client->name }}</li>
+                                <li>Client :{{ $products->client->name }}</li>
                                 <li>Model :{{ $products->modal_number }}</li>
                                 <li>Start Date: {{ $products->project->project_start_date }}</li>
-                                <li>Standard Due Date: {{ $products->project->project_end_date }}</li>
+                                <li>End Date: {{ $products->project->project_end_date }}</li>
                                 {{-- <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>
@@ -51,11 +51,15 @@
 
                 </div>
                 <div class="col-md-6">
-                    <h2>Client Name</h2>
-                    <h4 class="small font-weight-bold">Test Reports <span class="float-right">70%</span></h4>
+                    {{-- <h2>{{ Auth::user()->name }}</h2> --}}
+                    <h2>{{ $products->client->name }}</h2>
+                    <h4 class="small font-weight-bold">{{ @$filteredName->phase_name }}
+                        <span class="float-right">{{ @$calculatedPercentage }}%</span>
+                    </h4>
                     <div class="progress mb-4">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70"
-                            aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-success" role="progressbar"
+                            style="width: {{ @$calculatedPercentage }}%" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
                     </div>
 
                     <hr>
@@ -72,6 +76,8 @@
                             <a href="{{ route('view.trash', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">View
                                 Trash</a>
+                            <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Status</a>
                         </div>
                     </div>
 

@@ -28,4 +28,12 @@ class Product extends Model
     {
         return $this->belongsTo(Factory::class);
     }
+    public function account()
+    {
+        return $this->hasMany(Account::class);
+    }
+    public function project_report()
+    {
+        return $this->hasMany(ProgressReport::class);
+    }
 }
