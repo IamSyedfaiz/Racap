@@ -194,7 +194,7 @@
                                                             <td>{{ @$upload_file->created_at }}</td>
                                                             <td>
                                                                 @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif (@$upload_file->user->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
@@ -263,7 +263,7 @@
                                                             <td>{{ @$upload_file->created_at }}</td>
                                                             <td>
                                                                 @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif (@$upload_file->user->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
@@ -327,7 +327,7 @@
                                                             <td>{{ $upload_file->created_at }}</td>
                                                             <td>
                                                                 @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($upload_file->user->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
@@ -387,7 +387,7 @@
                                                             <td>{{ $upload_file->created_at }}</td>
                                                             <td>
                                                                 @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
-                                                                    <img src="../img/client.jpg" class="rounded mr-0"
+                                                                    <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
                                                                 @elseif ($upload_file->user->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
@@ -446,7 +446,7 @@
                                             <select class="form-control" name="section" id="filesection">
                                                 <option value="IB">Info Bank</option>
                                                 <option value="D">Project Docs</option>
-                                                <option value="TR">Test Report</option>
+                                                <option value="TR">Other Docs</option>
                                                 {{-- <option value="FC">Final Certificate</option> --}}
                                             </select>
                                         </div>
