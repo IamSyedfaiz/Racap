@@ -41,8 +41,9 @@
                                 {{-- <li>No of Application : 001</li> --}}
                                 <li>Client : {{ $products->client->name }}</li>
                                 <li>Model : {{ $products->modal_number }}</li>
-                                <li>Start Date: {{ $products->project->project_start_date }}</li>
-                                <li>End Date: 31-12-2020</li>
+                                <li>Start Date: {{ date('d-m-Y', strtotime(@$products->project->project_start_date)) }}
+                                </li>
+                                <li>End Date: {{ date('d-m-Y', strtotime(@$products->project->project_end_date)) }}</li>
                                 {{-- <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>

@@ -46,9 +46,9 @@
                                 {{-- <li>No of Application : 001</li> --}}
                                 <li>Client : {{ @$products->client->name }}</li>
                                 <li>Model : {{ @$products->modal_number }}</li>
-                                <li>Start Date: {{ @$products->project->project_start_date }}</li>
-                                <li>End Date: {{ @$products->project->project_end_date }}</li>
-                                {{-- <li>Expected Finishing Date: {{ @$products->project->project_end_date }}</li> --}}
+                                <li>Start Date: {{ date('d-m-Y', strtotime(@$products->project->project_start_date)) }}
+                                </li>
+                                <li>End Date: {{ date('d-m-Y', strtotime(@$products->project->project_end_date)) }}</li>
                             </ul>
                         </div>
                     </div>
@@ -293,8 +293,7 @@
                         <div class="tab-pane fade" id="pills-test" role="tabpanel" aria-labelledby="pills-test-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">{{ @$filteredName->phase_name }}
-                                    </h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Other Docs</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
