@@ -69,7 +69,7 @@
                                             <label for="cname">Select client</label>
                                             <select class="form-control" id="cname" name="client_id">
                                                 <option value="">Select An Option</option>
-                                                @foreach ($clients as $client)
+                                                @foreach (@$clients as $client)
                                                     <option value="{{ $client->id }}">{{ $client->name }}</option>
                                                 @endforeach
                                             </select>
@@ -91,6 +91,7 @@
                                 <div class="card-body">
                                     <form action="{{ route('add_project') }}" method="post">
                                         @csrf
+
                                         <div class="form-group">
                                             <label for="cname">Project name</label>
                                             <input type="text" class="form-control" required name="project_name"
@@ -113,7 +114,7 @@
                                             <label for="cname">Select client</label>
                                             <select class="form-control" id="project_cname" name="client_id">
                                                 <option value="">Select An Option</option>
-                                                @foreach ($clients as $client)
+                                                @foreach (@$clients as $client)
                                                     <option value="{{ $client->id }}">{{ $client->name }}</option>
                                                 @endforeach
                                             </select>
@@ -145,6 +146,14 @@
                                     <form action="{{ route('add_product') }}" method="post">
                                         @csrf
                                         <div class="form-group">
+                                            <label for="cname">Brand name</label>
+                                            <input type="text" class="form-control" required name="brand_name"
+                                                id="cname" aria-describedby="cname">
+                                            @error('brand_name')
+                                                <p class="small text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label for="cname">Product name</label>
                                             <input type="text" class="form-control" required name="product_name"
                                                 id="cname" aria-describedby="cname">
@@ -158,7 +167,7 @@
                                             <label for="cname">Select client</label>
                                             <select class="form-control" id="product_cname" name="client_id">
                                                 <option>Select An Option</option>
-                                                @foreach ($clients as $client)
+                                                @foreach (@$clients as $client)
                                                     <option value="{{ $client->id }}">{{ $client->name }}</option>
                                                 @endforeach
                                             </select>
@@ -201,34 +210,19 @@
                                     <form action="{{ route('add_client_project') }}" method="post">
                                         @csrf
                                         <div class="form-group">
-                                            <label for="cname">User name</label>
-                                            <input type="text" class="form-control" required name="user_name"
-                                                id="cname" aria-describedby="cname">
-                                            @error('user_name')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User email</label>
-                                            <input type="text" class="form-control" required name="user_email"
-                                                id="cname" aria-describedby="cname">
-                                            @error('user_email')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User Mobile Number</label>
-                                            <input type="number" class="form-control" name="user_mobile_number"
-                                                id="cname" aria-describedby="cname">
-                                            @error('user_mobile_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User Landline Number</label>
-                                            <input type="number" class="form-control" name="user_landline_number"
-                                                id="cname" aria-describedby="cname">
-                                            @error('user_landline_number')
+                                            <label for="cname">Select User Client</label>
+                                            <select class="form-control" id="client_user_cname" name="user_id">
+                                                <option value="">Select An Option</option>
+                                                @foreach (@$users as $user)
+                                                    @if ($user->getRoleNames()->first() == 'Client')
+                                                        <option value="{{ $user->id }}">{{ $user->name }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            {{-- <input type="text" class="form-control" required name="user_id"
+                                            id="cname" aria-describedby="cname"> --}}
+                                            @error('user_id')
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
@@ -259,6 +253,15 @@
                                                 <option value="">Select An Option</option>
                                             </select>
                                             @error('project_id')
+                                                <p class="small text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cname">Brand Name</label>
+                                            <select class="form-control" id="client_brand_name" name="brand_id">
+                                                <option value="">Select An Option</option>
+                                            </select>
+                                            @error('brand_id')
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
@@ -297,6 +300,21 @@
                                     <form action="{{ route('add_consultant_project') }}" method="post">
                                         @csrf
                                         <div class="form-group">
+                                            <label for="cname">Select User Consultant</label>
+                                            <select class="form-control" id="consultant_user_cname" name="user_id">
+                                                <option value="">Select An Option</option>
+                                                @foreach (@$users as $user)
+                                                    @if ($user->getRoleNames()->first() == 'Consultant')
+                                                        <option value="{{ $user->id }}">{{ $user->name }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            @error('user_id')
+                                                <p class="small text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        {{-- <div class="form-group">
                                             <label for="cname">User Name</label>
                                             <input type="text" class="form-control" required name="user_name"
                                                 id="cname" aria-describedby="cname">
@@ -305,6 +323,9 @@
                                             <label for="cname">User Email</label>
                                             <input type="text" class="form-control" required name="user_email"
                                                 id="cname" aria-describedby="cname">
+                                            @error('user_email')
+                                                <p class="small text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">User Mobile Number</label>
@@ -321,7 +342,7 @@
                                             @error('user_landline_number')
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group">
                                             <label for="cname">Select Client</label>
                                             <select class="form-control" id="consultant_cname" name="client_id">
@@ -352,14 +373,19 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
+                                            <label for="cname">Brand Name</label>
+                                            <select class="form-control" id="consultant_brand_name" name="brand_id">
+                                                <option value="">Select An Option</option>
+                                            </select>
+                                            @error('brand_id')
+                                                <p class="small text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label for="cname">Product name</label>
                                             <select class="form-control" id="consultant_product_name"
                                                 name="product_id">
                                                 <option>Select An Option</option>
-                                                {{-- @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}">{{ $product->product_name }}
-                                                    </option>
-                                                @endforeach --}}
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -416,9 +442,10 @@
                                                     <th>Project</th>
                                                     <th>Product</th>
                                                     <th>Factory</th>
+                                                    <th>Brand</th>
                                                     <th>Client team</th>
                                                     <th>Consultant team</th>
-                                                    <th>Action</th>
+                                                    {{-- <th>Action</th> --}}
                                                 </tr>
                                             </thead>
 
@@ -431,6 +458,7 @@
 
                                                         <td>{{ @$product->product_name }}</td>
                                                         <td>{{ @$product->factory->name }}</td>
+                                                        <td>{{ @$product->brand_name }}</td>
                                                         <td>
                                                             @foreach ($product->productdetail as $detail)
                                                                 @if (@$detail->type == 'CL')
@@ -445,10 +473,10 @@
                                                                 @endif
                                                             @endforeach
                                                         </td>
-
+                                                        {{-- 
                                                         <td><a href="{{ route('product.delete', ['id' => $product->id]) }}"
                                                                 class="btn btn-primary btn-sm">Delete</a>
-                                                        </td>
+                                                        </td> --}}
                                                     </tr>
                                                 @endforeach
 
@@ -614,12 +642,31 @@
             });
         });
         $('#client_project_name').change(function(e) {
+            $oldVal = {{ old('client_brand_name', 0) }};
+            $('#client_brand_name').html(``);
+            $('#client_brand_name').append(` <option> Select an option </option>`);
+            $.each($products, function(index, $product) {
+                console.log($product.project_id, 'pid');
+                if ($product.project_id == $('#client_project_name').val()) {
+                    if ($oldVal) {
+                        $('#client_brand_name').append(`<option` +
+                            $oldVal == $product.id ? "selected" : "" +
+                            `value="` + $product.id + `">` + $product.brand_name + `</option>`);
+                    } else {
+                        $('#client_brand_name').append(
+                            `<option value="` + $product.id + `">` + $product.brand_name +
+                            `</option>`
+                        );
+                    }
+                }
+            });
+        });
+        $('#client_brand_name').change(function(e) {
             $oldVal = {{ old('client_product_name', 0) }};
             $('#client_product_name').html(``);
             $('#client_product_name').append(` <option> Select an option </option>`);
             $.each($products, function(index, $product) {
-                console.log($product.project_id, 'pid');
-                if ($product.project_id == $('#client_project_name').val()) {
+                if ($product.id == $('#client_brand_name').val()) {
                     if ($oldVal) {
                         $('#client_product_name').append(`<option` +
                             $oldVal == $product.id ? "selected" : "" +
@@ -694,19 +741,38 @@
             });
         });
         $('#consultant_project_name').change(function(e) {
-            $oldVal = {{ old('consultant_product_name', 0) }};
+            $oldVal = {{ old('consultant_brand_name', 0) }};
 
+            $('#consultant_brand_name').html(``);
+            $('#consultant_brand_name').append(` <option> Select an option </option>`);
+            $.each($products, function(index, $product) {
+                if ($product.project_id == $('#consultant_project_name').val()) {
+                    if ($oldVal) {
+                        $('#consultant_brand_name').append(`<option` +
+                            $oldVal == $product.id ? "selected" : "" +
+                            `value="` + $product.id + `">` + $product.brand_name + `</option>`);
+                    } else {
+                        $('#consultant_brand_name').append(
+                            `<option value="` + $product.id + `">` + $product.brand_name + `</option>`
+                        );
+                    }
+                }
+            });
+        });
+        $('#consultant_brand_name').change(function(e) {
+            $oldVal = {{ old('consultant_product_name', 0) }};
             $('#consultant_product_name').html(``);
             $('#consultant_product_name').append(` <option> Select an option </option>`);
             $.each($products, function(index, $product) {
-                if ($product.project_id == $('#consultant_project_name').val()) {
+                if ($product.id == $('#consultant_brand_name').val()) {
                     if ($oldVal) {
                         $('#consultant_product_name').append(`<option` +
                             $oldVal == $product.id ? "selected" : "" +
                             `value="` + $product.id + `">` + $product.product_name + `</option>`);
                     } else {
                         $('#consultant_product_name').append(
-                            `<option value="` + $product.id + `">` + $product.product_name + `</option>`
+                            `<option value="` + $product.id + `">` + $product.product_name +
+                            `</option>`
                         );
                     }
                 }

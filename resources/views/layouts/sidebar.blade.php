@@ -69,32 +69,41 @@
             Admin Rights
         </div>
 
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>Management</span>
-            </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Provisions:</h6>
-                    <a class="collapse-item" href="{{ route('create_teams') }}">Create Teams</a>
-                    <div class="collapse-divider"></div>
-                    <!--<h6 class="collapse-header">Other Pages:</h6>
-                 <a class="collapse-item" href="404.html">404 Page</a>
-                 <a class="collapse-item" href="blank.html">Blank Page</a>-->
-                </div>
-            </div>
-        </li>
-        @if (auth()->user()->getRoleNames()->first() == 'Super Admin')
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('add.subadmin') }}">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Add Sub Admin</span>
-                </a>
-            </li>
-        @endif
+           <!-- Nav Item - Pages Collapse Menu -->
+           <li class="nav-item">
+               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                   aria-expanded="true" aria-controls="collapsePages">
+                   <i class="fas fa-fw fa-folder"></i>
+                   <span>Management</span>
+               </a>
+               <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                   <div class="bg-white py-2 collapse-inner rounded">
+                       <h6 class="collapse-header">Provisions:</h6>
+                       <a class="collapse-item" href="{{ route('create_teams') }}">Create Teams</a>
+                       <div class="collapse-divider"></div>
+                       <!--<h6 class="collapse-header">Other Pages:</h6>
+                    <a class="collapse-item" href="404.html">404 Page</a>
+                    <a class="collapse-item" href="blank.html">Blank Page</a>-->
+                   </div>
+               </div>
+           </li>
+           @if (auth()->user()->getRoleNames()->first() == 'Super Admin')
+               <li class="nav-item">
+                   <a class="nav-link collapsed" href="{{ route('add.subadmin') }}">
+                       <i class="fas fa-fw fa-folder"></i>
+                       <span>Add Sub Admin</span>
+                   </a>
+               </li>
+           @endif
+           @if (auth()->user()->getRoleNames()->first() == 'Sub Admin' ||
+                   auth()->user()->getRoleNames()->first() == 'Super Admin')
+               <li class="nav-item">
+                   <a class="nav-link collapsed" href="{{ route('create.user') }}">
+                       <i class="fas fa-fw fa-folder"></i>
+                       <span>Create User</span>
+                   </a>
+               </li>
+           @endif
 
 
 

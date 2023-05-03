@@ -16,11 +16,17 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
     public function create_teams()
     {
-        $clients = Client::where('user_id', auth()->user()->id)->get();
-        $projects = Project::where('user_id', auth()->user()->id)->get();
-        $products = Product::where('user_id', auth()->user()->id)->get();
-        $factories = Factory::where('user_id', auth()->user()->id)->get();
-        $users = User::where('id', auth()->user()->id)->get();
+        if (auth()->user()) {
+            $users = User::where('parent_id', auth()->user()->id)->get();
+            $clients = Client::where('user_id', auth()->user()->id)->get();
+            $projects = Project::where('user_id', auth()->user()->id)->get();
+            $products = Product::where('user_id', auth()->user()->id)->get();
+            $factories = Factory::where('user_id', auth()->user()->id)->get();
+            // $users = User::where('id', auth()->user()->id)->get();
+        } else {
+            return redirect('/login');
+        }
+
         return view('create_teams', compact(['clients', 'projects', 'products', 'users', 'factories']));
     }
 }
