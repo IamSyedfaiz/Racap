@@ -40,8 +40,9 @@
                                 <li>Project : {{ $products->project->project_name }}</li>
                                 <li>Product : {{ $products->product_name }}</li>
                                 <li>Factory : {{ $products->factory->name }}</li>
-                                <li>Client :{{ $products->client->name }}</li>
-                                <li>Model :{{ $products->modal_number }}</li>
+                                <li>Client : {{ $products->client->name }}</li>
+                                <li>Model : {{ $products->modal_number }}</li>
+                                <li>Brand : {{ $products->brand_name }}</li>
                                 <li>Start Date: {{ date('d-m-Y', strtotime(@$products->project->project_start_date)) }}
                                 </li>
                                 <li>End Date: {{ date('d-m-Y', strtotime(@$products->project->project_end_date)) }}</li>

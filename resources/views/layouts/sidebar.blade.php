@@ -95,6 +95,15 @@
                    </a>
                </li>
            @endif
+           @if (auth()->user()->getRoleNames()->first() == 'Sub Admin' ||
+                   auth()->user()->getRoleNames()->first() == 'Super Admin')
+               <li class="nav-item">
+                   <a class="nav-link collapsed" href="{{ route('create.user') }}">
+                       <i class="fas fa-fw fa-folder"></i>
+                       <span>Create User</span>
+                   </a>
+               </li>
+           @endif
 
 
 

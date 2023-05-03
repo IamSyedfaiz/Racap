@@ -13,6 +13,7 @@ use App\Models\Trash;
 use App\Models\UploadFile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -20,43 +21,56 @@ class AdminController extends Controller
     //
     public function dashboard()
     {
+
+
+
+
         $user = auth()->user();
-        $roles = $user->getRoleNames()->first();
-        $start_date = '';
-        $current_project = '';
-        $past_project = '';
 
-        if ($roles === Roles::SUPER_ADMIN()->getValue()) {
-            $currentDate = now();
-            $start_date = Project::where('project_start_date', '<=', $currentDate)->where('user_id', auth()->user()->id)->get();
-            $current_project = Product::whereHas('project', function ($q) use ($currentDate) {
-                $q->where('project_start_date', '<=', $currentDate)->where('project_end_date', '>=', $currentDate);
-            })->get();
-            $upcoming_project = Project::where('project_start_date', '>', $currentDate)->get();
-            $past_project = Project::where('project_end_date', '<', $currentDate)->get();
-        } elseif ($roles === Roles::SUB_ADMIN()->getValue()) {
-            $currentDate = now();
-            $start_date = Project::where('project_start_date', '<=', $currentDate)->where('user_id', auth()->user()->id)->get();
-            $current_project = Product::whereHas('project', function ($q) use ($currentDate) {
-                $q->where('project_start_date', '<=', $currentDate)->where('project_end_date', '>=', $currentDate);
-            })->get();
-            $upcoming_project = Project::where('project_start_date', '>', $currentDate)->get();
-            $past_project = Project::where('project_end_date', '<', $currentDate)->get();
+        if ($user->active == 'Y') {
+            // return 1;
+            Auth::logout();
+            return redirect()->back()->with('danger', 'Your Account has been Suspended');
         } else {
-            $currentDate = now();
-            $start_date = Project::where('project_start_date', '<=', $currentDate)->where('user_id', auth()->user()->id)->get();
-            $current_project = Product::whereHas('project', function ($q) use ($currentDate) {
-                $q->where('project_start_date', '<=', $currentDate)->where('project_end_date', '>=', $currentDate);
-            })->get();
-            $upcoming_project = Project::where('project_start_date', '>', $currentDate)->get();
-            // $upcoming_project = Product::whereHas('productdetail', function ($q) use ($currentDate) {
-            //     $q->where('project_start_date', '>', $currentDate)->where('user_id', auth()->user()->id);
-            // })->get();
-            $past_project = Project::where('project_end_date', '<', $currentDate)->get();
+
+            // $user = auth()->user();
+            $roles = $user->getRoleNames()->first();
+            $start_date = '';
+            $current_project = '';
+            $past_project = '';
+
+            if ($roles === Roles::SUPER_ADMIN()->getValue()) {
+                $currentDate = now();
+                $start_date = Project::where('project_start_date', '<=', $currentDate)->where('user_id', auth()->user()->id)->get();
+                $current_project = Product::whereHas('project', function ($q) use ($currentDate) {
+                    $q->where('project_start_date', '<=', $currentDate)->where('project_end_date', '>=', $currentDate);
+                })->get();
+                $upcoming_project = Project::where('project_start_date', '>', $currentDate)->get();
+                $past_project = Project::where('project_end_date', '<', $currentDate)->get();
+            } elseif ($roles === Roles::SUB_ADMIN()->getValue()) {
+                $currentDate = now();
+                $start_date = Project::where('project_start_date', '<=', $currentDate)->where('user_id', auth()->user()->id)->get();
+                $current_project = Product::whereHas('project', function ($q) use ($currentDate) {
+                    $q->where('project_start_date', '<=', $currentDate)->where('project_end_date', '>=', $currentDate);
+                })->get();
+                $upcoming_project = Project::where('project_start_date', '>', $currentDate)->get();
+                $past_project = Project::where('project_end_date', '<', $currentDate)->get();
+            } else {
+                $currentDate = now();
+                $start_date = Project::where('project_start_date', '<=', $currentDate)->where('user_id', auth()->user()->id)->get();
+                $current_project = Product::whereHas('project', function ($q) use ($currentDate) {
+                    $q->where('project_start_date', '<=', $currentDate)->where('project_end_date', '>=', $currentDate);
+                })->get();
+                $upcoming_project = Project::where('project_start_date', '>', $currentDate)->get();
+                // $upcoming_project = Product::whereHas('productdetail', function ($q) use ($currentDate) {
+                //     $q->where('project_start_date', '>', $currentDate)->where('user_id', auth()->user()->id);
+                // })->get();
+                $past_project = Project::where('project_end_date', '<', $currentDate)->get();
+            }
+
+
+            return view('dashboard', compact(['roles', 'past_project', 'upcoming_project', 'current_project', 'user']));
         }
-
-
-        return view('dashboard', compact(['roles', 'past_project', 'upcoming_project', 'current_project', 'user']));
     }
 
     public function currentprojects()
@@ -311,13 +325,7 @@ class AdminController extends Controller
         return view('upcoming-project', compact(['products', 'roles', 'currentDate']));
     }
 
-    public function productdelete($id)
-    {
-        $products = Product::find($id);
-        $products->delete();
 
-        return redirect()->back()->with('danger', 'Teams Deleted');
-    }
 
     public function addsubadmin()
     {
@@ -350,5 +358,27 @@ class AdminController extends Controller
         $subcription->save();
 
         return redirect()->back()->with('success', 'Create a Subadmin');
+    }
+    public function user_login(Request $request)
+    {
+        // return 1;
+        // $user = User::find(auth()->user()->id);
+        // if ($user->active == 'Y') {
+        //     return redirect()->back()->with('success', 'Your Account has been Suspended');
+        // } else {
+        //     Auth::logout();
+        //     return redirect('dashboard');
+        // }
+        // $user = User::find(Auth::user()->id);
+
+        // if ($user->active == 'Y') {
+        //     // return 1;
+        //     Auth::logout();
+        //     return redirect()->back()->with('success', 'Your Account has been Suspended');
+        // } else {
+        //     return 2;
+
+        //     return redirect('dashboard');
+        // }
     }
 }
