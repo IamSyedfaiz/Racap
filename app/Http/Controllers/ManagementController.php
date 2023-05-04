@@ -180,11 +180,9 @@ class ManagementController extends Controller
     }
     public function create_consultant_user(Request $request)
     {
-
         if (User::where('email', $request->consultant_email)->exists()) {
             $request->validate([
                 'consultant_email' => 'required|unique:users,email',
-                'consultant_password' => 'required',
             ]);
         } else {
             $request->validate([
@@ -199,13 +197,14 @@ class ManagementController extends Controller
             $data = new User;
             $data->name = $request->user_name;
             $data->email  = $request->consultant_email;
+            $data->password = bcrypt($password);
             $data->mobile_number  = $request->consultant_mobile_number;
             $data->landline_number  = $request->consultant_landline_number;
-            $data->password = Hash::make($request->consultant_password);
             // $data->password = $request->consultant_password;
             $data->parent_id = auth()->user()->id;
             $data->assignRole(Roles::CONSULTANT()->getValue());
             $data->save();
+
 
 
 
@@ -216,13 +215,15 @@ class ManagementController extends Controller
                 'link'      => url('/') . '/login'
             ];
 
+
             Mail::send('email.email_info', @$data, function ($msg) use ($data, $request) {
                 $msg->from('racap@omegawebdemo.com.au');
-                $msg->to($request->client_email, 'RACAP');
+                $msg->to($request->consultant_email, 'RACAP');
                 $msg->subject('Title');
             });
         }
         // return $request;
+        // return 1;
 
         return redirect()->back()->with('success', 'Add consultant Successfully');
     }
