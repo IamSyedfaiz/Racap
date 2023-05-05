@@ -210,7 +210,7 @@
                                     <form action="{{ route('add_client_project') }}" method="post">
                                         @csrf
                                         <div class="form-group">
-                                            <label for="cname">Select User Client</label>
+                                            <label for="cname">Select User</label>
                                             <select class="form-control" id="client_user_cname" name="user_id">
                                                 <option value="">Select An Option</option>
                                                 @foreach (@$users as $user)
@@ -300,7 +300,7 @@
                                     <form action="{{ route('add_consultant_project') }}" method="post">
                                         @csrf
                                         <div class="form-group">
-                                            <label for="cname">Select User Consultant</label>
+                                            <label for="cname">Select User</label>
                                             <select class="form-control" id="consultant_user_cname" name="user_id">
                                                 <option value="">Select An Option</option>
                                                 @foreach (@$users as $user)
