@@ -44,13 +44,12 @@
                         </div>
                         <div class="card-body">
                             <ul>
-                                <li>Project : {{ $products->project->project_name }}</li>
-                                <li>Product : {{ $products->product_name }}</li>
+                                <li>Client : {{ @$products->client->name }}</li>
                                 <li>Factory : {{ $products->factory->name }}</li>
-                                {{-- <li>No of Application : 001</li> --}}
-                                <li>Client : {{ $products->client->name }}</li>
-                                <li>Model : {{ $products->modal_number }}</li>
                                 <li>Brand : {{ $products->brand_name }}</li>
+                                <li>Project : {{ @$products->project->project_name }}</li>
+                                <li>Product : {{ @$products->product_name }}</li>
+                                <li>Model : {{ @$products->modal_number }}</li>
                                 <li>Start Date: {{ date('d-m-Y', strtotime(@$products->project->project_start_date)) }}
                                 </li>
                                 <li>End Date: {{ date('d-m-Y', strtotime(@$products->project->project_end_date)) }}</li>
@@ -189,7 +188,9 @@
                                                             </td>
                                                             <td><a href="" target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
-                                                            <td>{{ $trash->created_at }}</td>
+                                                            <td>{{ date('d-m-Y H:i:s', strtotime($trash->created_at)) }}
+                                                            </td>
+                                                            {{-- <td>{{ $trash->created_at }}</td> --}}
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
@@ -295,7 +296,8 @@
                                                             </td>
                                                             <td><a href="#" target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
-                                                            <td>{{ $trash->created_at }}</td>
+                                                            <td>{{ date('d-m-Y H:i:s', strtotime($trash->created_at)) }}
+                                                            </td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
@@ -399,7 +401,8 @@
                                                             </td>
                                                             <td><a href="#" target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
-                                                            <td>{{ $trash->created_at }}</td>
+                                                            <td>{{ date('d-m-Y H:i:s', strtotime($trash->created_at)) }}
+                                                            </td>
                                                             <td>
                                                                 @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
