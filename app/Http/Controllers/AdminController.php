@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\Roles;
 use App\Models\Account;
 use App\Models\Conversation;
+use App\Models\HistoryGetting;
 use App\Models\Product;
 use App\Models\ProgressReport;
 use App\Models\Project;
@@ -14,17 +15,14 @@ use App\Models\UploadFile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 
 class AdminController extends Controller
 {
     //
     public function dashboard()
     {
-
-
-
-
         $user = auth()->user();
 
         if ($user->active == 'Y') {
@@ -145,7 +143,6 @@ class AdminController extends Controller
 
     public function upload_file(Request $request)
     {
-
         $data = new UploadFile;
         $data->addMediaFromRequest('file')->toMediaCollection('post_image');
         $data->file_subject = $request->file_subject;
@@ -154,8 +151,39 @@ class AdminController extends Controller
         $data->product_id = $request->product_id;
         $data->user_id = auth()->user()->id;
         $data->save();
+
+        $product = Product::find($request->product_id);
+
+        $productdetailClients = $product->productdetailClient;
+
+
+        $productdetailConss = $product->productdetailCons;
+
+
+        // return $users;
+
+        $dataWith = [
+            'text1' => $request->user_name,
+            'text2' => $product->user->email,
+            'text3' => 'Add One File',
+        ];
+
+        Mail::send('email.email_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss) {
+            $msg->from('racap@omegawebdemo.com.au');
+            foreach ($productdetailConss as $productdetailCons) {
+                $users = $productdetailCons->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            foreach ($productdetailClients as $productdetailClient) {
+                $users = $productdetailClient->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            $msg->to($product->user->email, 'RACAP');
+
+            $msg->subject('Title');
+        });
+
         return redirect()->back();
-        // return view('files')->with('success', 'Upload File Successfully');
     }
 
 
@@ -335,8 +363,6 @@ class AdminController extends Controller
         $one_year = $currentDate->copy()->addYear();
         $two_year = $currentDate->copy()->addYears(2);
         $five_year = $currentDate->copy()->addYears(5);
-        // $five_year = $currentDate->addYear()->addYear();
-        // return $two_year;
         return view('add_subadmin', compact(['roles', 'one_year', 'two_year', 'five_year']));
     }
 
@@ -380,5 +406,39 @@ class AdminController extends Controller
 
         //     return redirect('dashboard');
         // }
+    }
+    public function historyGetting($id)
+    {
+        $progressreports = ProgressReport::where('product_id', $id)->get();
+        $filteredName = $progressreports->where('is_completed', 'N')->last();
+        $filteredPercentage = $progressreports->where('is_completed', 'N');
+        $allLength = count($progressreports);
+        $length = count($filteredPercentage);
+        if ($allLength > 0) {
+
+            $calculatedPercentage = ($length / $allLength) * 100;
+            $calculatedPercentage = intval($calculatedPercentage);
+        } else {
+            $calculatedPercentage = 0;
+            $calculatedPercentage = intval($calculatedPercentage);
+        }
+        $user = User::find(auth()->user()->id);
+        $roles = $user->getRoleNames()->first();
+        $products = Product::find($id);
+        $history_gettings = HistoryGetting::all();
+        return view('history_getting', compact('roles', 'products', 'history_gettings', 'calculatedPercentage'));
+    }
+
+    public function storeHistoryGetting(Request $request)
+    {
+
+        $data = new HistoryGetting;
+        $data->product_id = $request->product_id;
+        $data->user_id = auth()->user()->id;
+        $data->getting_value = $request->getting_value;
+        $data->reason = $request->reason;
+        $data->save();
+
+        return redirect()->back();
     }
 }

@@ -29,4 +29,12 @@ class MessageController extends Controller
         $conversations = Conversation::with('sender')->where('product_id', $id)->get();
         return Response($conversations);
     }
+    public function message_search(Request $request)
+    {
+        // return $request->search;
+
+        $conversations = Conversation::with('sender')->where('messages', 'LIKE', '%' . $request->searchText . '%')->orWhere('title', 'LIKE', '%' . $request->searchText . '%')->get();
+        // DD($conversations);
+        return Response($conversations);
+    }
 }

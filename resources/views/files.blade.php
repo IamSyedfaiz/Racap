@@ -82,6 +82,8 @@
                                 Trash</a>
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
+                            <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">History Getting</a>
                         </div>
                     </div>
 
@@ -149,8 +151,8 @@
                         </li> --}}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link bg-gradient-secondary" id="pills-upload-tab" data-toggle="pill"
-                                data-target="#pills-upload" type="button" role="tab" aria-controls="pills-upload"
-                                aria-selected="false">UPLOAD NEW</button>
+                                data-target="#pills-upload" type="button" role="tab"
+                                aria-controls="pills-upload" aria-selected="false">UPLOAD NEW</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">

@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Product;
 use App\Models\ProgressReport;
 use App\Models\Project;
+use App\Models\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -181,5 +182,37 @@ class ReportController extends Controller
 
         // return response()->json($progressreport);
         return redirect()->back()->with('success', 'Delete Successfully');
+    }
+    public function response_status(Request $request)
+    {
+
+
+        $res = Response::where('product_id', $request->product_id)->first();
+        // return $res->id;
+        if ($res) {
+            $editRes = Response::find($res->id);
+            $editRes->reply_under_process = $request->processyes ?? 'N';
+            $editRes->awaited_reply_under_process = $request->awaited ?? 'N';
+            $editRes->docs_verification_under_process = $request->docsverification ?? 'N';
+            $editRes->info_awaited = $request->infoawaited ?? 'N';
+            $editRes->save();
+        } else {
+            $data = new Response();
+            $data->reply_under_process = $request->processyes ?? 'N';
+            $data->awaited_reply_under_process = $request->awaited ?? 'N';
+            $data->docs_verification_under_process = $request->docsverification ?? 'N';
+            $data->info_awaited = $request->infoawaited ?? 'N';
+            $data->product_id = $request->product_id;
+            $data->save();
+        }
+        // $data = new Response();
+
+        // $data->reply_under_process = $request->processyes;
+        // $data->awaited_reply_under_process = $request->awaited;
+        // $data->docs_verification_under_process = $request->docsverification;
+        // $data->info_awaited = $request->infoawaited;
+        // $data->product_id = $request->product_id;
+        // $data->save();
+        return redirect()->back()->with('success', 'Add Successfully');
     }
 }

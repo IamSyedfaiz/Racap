@@ -77,6 +77,8 @@
                                 Trash</a>
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
+                            <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">History Getting</a>
                         </div>
                     </div>
                 </div>
