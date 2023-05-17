@@ -59,8 +59,11 @@
                                                     <td>{{ $product->client->name }}</td>
                                                     <td>{{ $product->product_name }}</td>
 
-                                                    <td>{{ $product->project->project_start_date }}</td>
-                                                    <td>{{ $product->project->project_end_date }}</td>
+                                                    <td>{{ date('d-m-Y', strtotime($product->project->project_start_date)) }}
+                                                    </td>
+                                                    <td>{{ date('d-m-Y', strtotime($product->project->project_end_date)) }}
+                                                    </td>
+                                                    {{-- <td>{{ $product->project->project_end_date }}</td> --}}
 
 
                                                     <td><a href="{{ route('project.details', ['id' => $product->id]) }}"

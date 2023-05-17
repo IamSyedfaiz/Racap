@@ -40,13 +40,12 @@
                         </div>
                         <div class="card-body">
                             <ul>
+                                <li>Client : {{ @$products->client->name }}</li>
+                                <li>Factory : {{ $products->factory->name }}</li>
+                                <li>Brand : {{ $products->brand_name }}</li>
                                 <li>Project : {{ @$products->project->project_name }}</li>
                                 <li>Product : {{ @$products->product_name }}</li>
-                                <li>Factory : {{ $products->factory->name }}</li>
-                                {{-- <li>No of Application : 001</li> --}}
-                                <li>Client : {{ @$products->client->name }}</li>
                                 <li>Model : {{ @$products->modal_number }}</li>
-                                <li>Brand : {{ $products->brand_name }}</li>
                                 <li>Start Date: {{ date('d-m-Y', strtotime(@$products->project->project_start_date)) }}
                                 </li>
                                 <li>End Date: {{ date('d-m-Y', strtotime(@$products->project->project_end_date)) }}</li>
@@ -192,7 +191,9 @@
                                                                     target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a>
                                                             </td>
-                                                            <td>{{ @$upload_file->created_at }}</td>
+                                                            <td>{{ date('d-m-Y H:i:s', strtotime($upload_file->created_at)) }}
+                                                            </td>
+                                                            {{-- <td>{{ @$upload_file->created_at }}</td> --}}
                                                             <td>
                                                                 @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
@@ -261,7 +262,8 @@
                                                                     target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a>
                                                             </td>
-                                                            <td>{{ @$upload_file->created_at }}</td>
+                                                            <td>{{ date('d-m-Y H:i:s', strtotime($upload_file->created_at)) }}
+                                                            </td>
                                                             <td>
                                                                 @if (@$upload_file->user->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
@@ -324,7 +326,8 @@
                                                                     target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a>
                                                             </td>
-                                                            <td>{{ $upload_file->created_at }}</td>
+                                                            <td>{{ date('d-m-Y H:i:s', strtotime($upload_file->created_at)) }}
+                                                            </td>
                                                             <td>
                                                                 @if ($upload_file->user->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
