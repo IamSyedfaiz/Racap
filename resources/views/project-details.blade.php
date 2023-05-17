@@ -80,6 +80,8 @@
                                 Trash</a>
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
+                            <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">History Getting</a>
                         </div>
                     </div>
 
@@ -92,9 +94,21 @@
             @endif
             <!-- Content Row -->
             <div class="row">
-                <div class="col-12">
+                <div class="col-8">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Message Center</h1>
+                        <div>
+                            <div class="form-group">
+                                <label for="search">Search</label>
+                                <input type="text" class="form-control" id="search" name="search">
+                            </div>
+                            <button type="button" onclick="search()" class="btn btn-primary">Submit</button>
+                        </div>
+                        {{-- <form action="{{ route('message.search') }}" method="GET" >
+                            <input type="text" name="search" id="search" onclick="search()" placeholder="Enter your search text">
+                            <button type="submit">Search</button>
+                        </form> --}}
+
                     </div>
                 </div>
             </div>
@@ -185,12 +199,174 @@
         var user_id = @json(auth()->user()->id);
         var chat_name = @json(auth()->user()->name);
 
-        setInterval(() => {
+        var isSearching = false;
+
+        if (!isSearching) {
+            setInterval(() => {
+
+                $.ajax({
+                    // url: '/conversation/' + product_id,   
+                    url: "{{ route('conversation', ':id') }}".replace(':id', product_id),
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var conversations = response;
+                        var html = '';
+                        $.each(conversations, function(index, conversation) {
+
+                            if (user_id == conversation.sender_id) {
+
+
+                                const created_at = conversation
+                                    .created_at; // example timestamp string
+                                const date = new Date(created_at);
+                                const formatted_date = date.toLocaleTimeString('es-CL', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit'
+                                }).replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+                                html += '<div class="col-12">';
+                                html +=
+                                    '<div class="float-right card text-white bg-gradient-primary mb-3" style="width: 60%;">'
+                                html += '<div class="card-header text-white bg-primary">' +
+                                    conversation.sender.name +
+                                    '<small class="float-right text-white">' +
+                                    formatted_date +
+                                    '</small>'
+                                '</div>'
+                                html += '<div class="card-body">'
+                                html += '<h5 class="card-title">' + conversation.title + '</h5>'
+                                html += '   <p class="card-text">' + conversation.messages +
+                                    '</p>'
+                                html += '</div>'
+                                html += '</div>'
+                                html += '</div>'
+                                html += '</div>'
+                            } else {
+
+                                const created_at = conversation
+                                    .created_at; // example timestamp string
+                                const date = new Date(created_at);
+                                const formatted_date = date.toLocaleTimeString('es-CL', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit'
+                                }).replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+                                html += '<div class="col-12">';
+                                html +=
+                                    '<div class="float-left card  text-white bg-gradient-success mb-3" style="width: 60%;">'
+                                html += '<div class="card-header text-white bg-success">' +
+                                    conversation.sender.name +
+                                    '<small class="float-right text-white">' +
+                                    formatted_date + '</small>'
+                                '</div>'
+                                html += '<div class="card-body">'
+                                html += '<h5 classmonth="card-title">' + conversation.title +
+                                    '</h5>'
+                                html += '<p class="card-text">' + conversation.messages + '</p>'
+                                html += '</div>'
+                                html += '</div>'
+                                html += '</div>'
+                                html += '</div>'
+                            }
+                        });
+                        $('#message-center').html(html);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                })
+            }, 2000);
+        }
+
+        // search
+    </script>
+
+    <script>
+        function search() {
+
+            isSearching = true; // Set the flag to indicate search is in progress
+
+
+            var searchText = $('#search').val();
+            console.log(searchText);
             $.ajax({
-                // url: '/conversation/' + product_id,   
-                url: "{{ route('conversation', ':id') }}".replace(':id', product_id),
+                url: "{{ route('message.search') }}",
                 method: 'GET',
                 dataType: 'json',
+                data: {
+                    searchText: searchText,
+                },
+                success: function(response) {
+                    console.log(response);
+                    var conversations = response;
+                    var html = '';
+                    $.each(conversations, function(index, conversation) {
+                        if (user_id == conversation.sender_id) {
+                            const created_at = conversation.created_at; // example timestamp string
+                            const date = new Date(created_at);
+                            const formatted_date = date.toLocaleTimeString('es-CL', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            }).replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+                            html += '<div class="col-12">';
+                            html +=
+                                '<div class="float-right card text-white bg-gradient-primary mb-3" style="width: 60%;">';
+                            html += '<div class="card-header text-white bg-primary">' + conversation
+                                .sender.name + '<small class="float-right text-white">' +
+                                formatted_date + '</small></div>';
+                            html += '<div class="card-body">';
+                            html += '<h5 class="card-title">' + conversation.title + '</h5>';
+                            html += '<p class="card-text">' + conversation.messages + '</p>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                        } else {
+                            const created_at = conversation.created_at; // example timestamp string
+                            const date = new Date(created_at);
+                            const formatted_date = date.toLocaleTimeString('es-CL', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            }).replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+                            html += '<div class="col-12">';
+                            html +=
+                                '<div class="float-left card  text-white bg-gradient-success mb-3" style="width: 60%;">';
+                            html += '<div class="card-header text-white bg-success">' + conversation
+                                .sender.name + '<small class="float-right text-white">' +
+                                formatted_date + '</small></div>';
+                            html += '<div class="card-body">';
+                            html += '<h5 classmonth="card-title">' + conversation.title + '</h5>';
+                            html += '<p class="card-text">' + conversation.messages + '</p>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                        }
+                    });
+                    $('#message-center').html(html);
+
+                    isSearching = true; // Reset the flag after search is completed
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    isSearching = true; // Reset the flag in case of an error
+                }
+            });
+        }
+    </script>
+    {{-- <script>
+        function search() {
+            var searchText = $('#search').val();
+            console.log(searchText);
+            $.ajax({
+                // url: '/conversation/' + product_id,   
+                url: "{{ route('message.search') }}",
+                method: 'GET',
+                dataType: 'json',
+                data: {
+                    searchText: searchText,
+                }
                 success: function(response) {
                     var conversations = response;
                     var html = '';
@@ -257,7 +433,7 @@
                     console.log(textStatus, errorThrown);
                 }
             })
-        }, 2000);
-    </script>
+        }
+    </script> --}}
 
 </x-app-layout>

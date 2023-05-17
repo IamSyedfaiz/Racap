@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/project-status', [ReportController::class, 'post_status'])->name('post.status');
     Route::get('/change-status/{id}', [ReportController::class, 'change_status'])->name('change.status');
     Route::get('/delete-status/{id}', [ReportController::class, 'delete_status'])->name('delete.status');
+    Route::post('/response-status', [ReportController::class, 'response_status'])->name('response.status');
 
     Route::post('/add_client', [ManagementController::class, 'add_client'])->name('add_client');
     Route::post('/add_factory', [ManagementController::class, 'add_factory'])->name('add.factory');
@@ -81,6 +82,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/message-send', [MessageController::class, 'message_send'])->name('message.send');
     Route::get('/conversation/{id}', [MessageController::class, 'conversation'])->name('conversation');
+    Route::get('/message/search', [MessageController::class, 'message_search'])->name('message.search');
+
+    // 
+    Route::get('/history-getting/{id}', [AdminController::class, 'historyGetting'])->name('history.getting');
+    Route::post('/history_getting', [AdminController::class, 'storeHistoryGetting'])->name('store.history.getting');
 });
 
 

@@ -44,6 +44,8 @@
                                             <th>Project id</th>
                                             <th>Client</th>
                                             <th>Product</th>
+                                            <th>Last Communication</th>
+                                            <th>Response Status</th>
                                             <th>Start date</th>
                                             <th>End date</th>
                                             <th>Action</th>
@@ -58,14 +60,44 @@
                                                     <td>{{ $product->project->id }} </td>
                                                     <td>{{ $product->client->name }}</td>
                                                     <td>{{ $product->product_name }}</td>
+                                                    <td>
+                                                        @if ($product->conversation->last()->user->getRoleNames()->first() == 'Sub Admin')
+                                                            <img src="{{ asset('img/admin.jpg') }}" class="rounded mr-0"
+                                                                alt="...">
+                                                        @elseif ($product->conversation->last()->user->getRoleNames()->first() == 'Consultant')
+                                                            <img src="{{ asset('img/client.jpg') }}"
+                                                                class="rounded mr-0" alt="...">
+                                                        @elseif ($product->conversation->last()->user->getRoleNames()->first() == 'Client')
+                                                            <img src="{{ asset('img/vendor.jpg') }}"
+                                                                class="rounded mr-0" alt="...">
+                                                        @endif
+                                                        {{ $product->conversation->last()->sender->name }}
+                                                        {{-- {{ $product->conversation->last()->user->getRoleNames()->first() }} --}}
+                                                    </td>
+                                                    <td>
+                                                        {{-- {{ $product->response->id }} --}}
+                                                        @foreach ($product->response as $response)
+                                                            @if ($response->reply_under_process == 'Y')
+                                                                <div class="btn btn-success"> R</div>
+                                                            @endif
+
+                                                            @if ($response->awaited_reply_under_process == 'Y')
+                                                                <div class="btn btn-success">D</div>
+                                                            @endif
+                                                            @if ($response->docs_verification_under_process == 'Y')
+                                                                <div class="btn btn-success">P</div>
+                                                            @endif
+                                                            @if ($response->info_awaited == 'Y')
+                                                                <div class="btn btn-success">I</div>
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    </td>
 
                                                     <td>{{ date('d-m-Y', strtotime($product->project->project_start_date)) }}
                                                     </td>
                                                     <td>{{ date('d-m-Y', strtotime($product->project->project_end_date)) }}
                                                     </td>
-                                                    {{-- <td>{{ $product->project->project_end_date }}</td> --}}
-
-
                                                     <td><a href="{{ route('project.details', ['id' => $product->id]) }}"
                                                             class="btn btn-primary btn-sm">View</a>
                                                     </td>

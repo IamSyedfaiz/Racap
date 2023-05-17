@@ -31,6 +31,8 @@
             @endif
             <!-- Content Row -->
             <div class="row">
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-md-6">
@@ -82,6 +84,8 @@
                                 Trash</a>
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
+                            <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">History Getting</a>
                         </div>
                     </div>
 
@@ -210,8 +214,91 @@
                     </div>
                 </div>
             </div>
-        </div>
 
+            @if ($roles === 'Consultant')
+                <form action="{{ route('response.status') }}" method="post">
+                    @csrf
+                    <div class="row ">
+
+                        <div class="col-md-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Response Status</h6>
+                                </div>
+                                <div class="d-flex ">
+                                    <div class="card-body col-6">
+                                        <div class="form-group d-flex">
+                                            <label for="exampleFormControlSelect1">Reply Under Process</label>
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="radio" name="processyes"
+                                                    id="processyes1" value="Y">
+                                                <label class="form-check-label" for="processyes1">Yes</label>
+                                            </div>
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="radio" name="processyes"
+                                                    id="processyes2" value="N">
+                                                <label class="form-check-label" for="processyes2">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body col-6">
+                                        <div class="form-group d-flex">Awaited
+                                            <label for="exampleFormControlSelect1">Reply Under Process</label>
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="radio" name="awaited"
+                                                    id="awaited1" value="Y">
+                                                <label class="form-check-label" for="awaited1">Yes</label>
+                                            </div>
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="radio" name="awaited"
+                                                    id="awaited2" value="N">
+                                                <label class="form-check-label" for="awaited2">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex ">
+                                    <div class="card-body col-6">
+                                        <div class="form-group d-flex">
+                                            <label for="exampleFormControlSelect1">Docs verification Under
+                                                Process</label>
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="radio"
+                                                    name="docsverification" id="docsverification1" value="Y">
+                                                <label class="form-check-label" for="docsverification1">Yes</label>
+                                            </div>
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="radio"
+                                                    name="docsverification" id="docsverification2" value="N">
+                                                <label class="form-check-label" for="docsverification2">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body col-6">
+                                        <div class="form-group d-flex">
+                                            <label for="exampleFormControlSelect1">Info Awaited</label>
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="radio" name="infoawaited"
+                                                    id="infoawaited1" value="Y">
+                                                <label class="form-check-label" for="infoawaited1">Yes</label>
+                                            </div>
+                                            <div class="form-check ml-2">
+                                                <input class="form-check-input" type="radio" name="infoawaited"
+                                                    id="infoawaited2" value="N">
+                                                <label class="form-check-label" for="infoawaited2">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="text" name="product_id" value="{{ $products->id }}" hidden>
+                                <button class="btn btn-primary">Submit</button>
+                            </div>
+                        </div><!-- Earnings (Monthly) Card Example -->
+                    </div>
+                </form>
+            @endif
+
+        </div>
     </div>
     <!-- /.container-fluid -->
 
