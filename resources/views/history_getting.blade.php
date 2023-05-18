@@ -56,6 +56,11 @@
                 </div>
                 <div class="col-md-6">
                     <h2>{{ @$products->client->name }}</h2>
+                    @if (@$latestEntry->getting_value == 'gp')
+                        <p class="text-danger">Getting Pause</p>
+                    @elseif (@$latestEntry->getting_value == 'gu')
+                        <p class="text-success">Getting Unpause</p>
+                    @endif
                     <h4 class="small font-weight-bold">
                         {{-- {{ @$filteredName->phase_name }} --}}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
@@ -179,7 +184,8 @@
                                                 <div class="form-group col-md-12 d-flex flex-column ">
                                                     <label for="reason"
                                                         class="font-weight-bold text-primary">Reason</label>
-                                                    <textarea name="reason" id="" cols="60" rows="5" placeholder="Enter Comments"></textarea>
+                                                    <textarea name="reason" id="" required cols="60" rows="5" class="p-2"
+                                                        placeholder="Enter Comments"></textarea>
 
                                                 </div>
                                             </div>

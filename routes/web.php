@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/view-account/{id}', [AdminController::class, 'view_account'])->name('view.account');
     Route::get('/view-trash/{id}', [AdminController::class, 'view_trash'])->name('view.trash');
     Route::post('/add_account', [AdminController::class, 'add_account'])->name('add.account');
-    Route::get('/file-Delete/{id}', [AdminController::class, 'fileDelete'])->name('fileDelete');
+    Route::get('/file-Delete/{id}/{product_id}', [AdminController::class, 'fileDelete'])->name('fileDelete');
     Route::get('/restore_file/{id}', [AdminController::class, 'restore_file'])->name('restore.file');
     Route::get('/final_delete/{id}', [AdminController::class, 'final_delete'])->name('final.delete');
     Route::get('/past_projects', [AdminController::class, 'pastprojects'])->name('past.projects');
@@ -82,11 +82,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/message-send', [MessageController::class, 'message_send'])->name('message.send');
     Route::get('/conversation/{id}', [MessageController::class, 'conversation'])->name('conversation');
-    Route::get('/message/search', [MessageController::class, 'message_search'])->name('message.search');
+    Route::get('/message/search/{id}', [MessageController::class, 'message_search'])->name('message.search');
 
     // 
     Route::get('/history-getting/{id}', [AdminController::class, 'historyGetting'])->name('history.getting');
     Route::post('/history_getting', [AdminController::class, 'storeHistoryGetting'])->name('store.history.getting');
+    Route::get('/past-edit/{id}', [ReportController::class, 'past_edit'])->name('past.edit');
+    Route::post('/past-edit', [ReportController::class, 'past_edit_change'])->name('past.edit.change');
 });
 
 

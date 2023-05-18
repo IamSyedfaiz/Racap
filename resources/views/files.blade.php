@@ -56,8 +56,13 @@
                 </div>
                 <div class="col-md-6">
                     <h2>{{ $products->client->name }}</h2>
+                    @if (@$latestEntry->getting_value == 'gp')
+                        <p class="text-danger">Getting Pause</p>
+                    @elseif (@$latestEntry->getting_value == 'gu')
+                        <p class="text-success">Getting Unpause</p>
+                    @endif
                     <h4 class="small font-weight-bold">
-                        {{-- {{ @$filteredName->phase_name }} --}}
+                        {{ @$filteredName->phase_name }}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
                     </h4>
                     <div class="progress mb-4">
@@ -197,7 +202,7 @@
                                                             <td>{{ @$upload_file->remark }}</td>
 
                                                             <td>
-                                                                <a href="{{ route('fileDelete', @$upload_file->id) }}"
+                                                                <a href="{{ route('fileDelete', ['id' => $upload_file->id, 'product_id' => $products->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
 

@@ -29,12 +29,18 @@ class MessageController extends Controller
         $conversations = Conversation::with('sender')->where('product_id', $id)->get();
         return Response($conversations);
     }
-    public function message_search(Request $request)
+    public function message_search(Request $request, $id)
     {
-        // return $request->search;
 
-        $conversations = Conversation::with('sender')->where('messages', 'LIKE', '%' . $request->searchText . '%')->orWhere('title', 'LIKE', '%' . $request->searchText . '%')->get();
-        // DD($conversations);
+
+        $conversations = Conversation::with('sender')
+            ->where(function ($query) use ($request, $id) {
+                $query->where('messages', 'LIKE', '%' . $request->searchText . '%')
+                    ->orWhere('title', 'LIKE', '%' . $request->searchText . '%');
+            })
+            ->where('product_id', $id)
+            ->get();
+
         return Response($conversations);
     }
 }
