@@ -168,7 +168,7 @@ class AdminController extends Controller
             'text3' => 'Add One File',
         ];
 
-        Mail::send('email.email_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss) {
+        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss) {
             $msg->from('racap@omegawebdemo.com.au');
             foreach ($productdetailConss as $productdetailCons) {
                 $users = $productdetailCons->user->email;
