@@ -61,16 +61,19 @@
                                                     <td>{{ $product->client->name }}</td>
                                                     <td>{{ $product->product_name }}</td>
                                                     <td>
-                                                        @if (@$product->conversation->last()->user->getRoleNames()->first() == 'Sub Admin')
-                                                            <img src="{{ asset('img/admin.jpg') }}" class="rounded mr-0"
-                                                                alt="...">
-                                                        @elseif (@$product->conversation->last()->user->getRoleNames()->first() == 'Consultant')
-                                                            <img src="{{ asset('img/client.jpg') }}"
-                                                                class="rounded mr-0" alt="...">
-                                                        @elseif (@$product->conversation->last()->user->getRoleNames()->first() == 'Client')
-                                                            <img src="{{ asset('img/vendor.jpg') }}"
-                                                                class="rounded mr-0" alt="...">
+                                                        @if (@$product->conversation->last()->sender->name)
+                                                            @if (@$product->conversation->last()->user->getRoleNames()->first() == 'Sub Admin')
+                                                                <img src="{{ asset('img/admin.jpg') }}"
+                                                                    class="rounded mr-0" alt="...">
+                                                            @elseif (@$product->conversation->last()->user->getRoleNames()->first() == 'Consultant')
+                                                                <img src="{{ asset('img/client.jpg') }}"
+                                                                    class="rounded mr-0" alt="...">
+                                                            @elseif (@$product->conversation->last()->user->getRoleNames()->first() == 'Client')
+                                                                <img src="{{ asset('img/vendor.jpg') }}"
+                                                                    class="rounded mr-0" alt="...">
+                                                            @endif
                                                         @endif
+
                                                         {{ @$product->conversation->last()->sender->name }}
                                                     </td>
                                                     <td>
