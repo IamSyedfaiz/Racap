@@ -62,7 +62,7 @@
                         <p class="text-success">Getting Unpause</p>
                     @endif
                     <h4 class="small font-weight-bold">
-                        {{-- {{ @$filteredName->phase_name }} --}}
+                        {{ @$filteredName->phase_name }}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
                     </h4>
                     <div class="progress mb-4">

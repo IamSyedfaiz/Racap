@@ -379,7 +379,8 @@
                                                 hidden>
                                             <label for="exampleFormControlSelect1">Reply Under Process</label>
                                             <label class="switch">
-                                                <input type="checkbox" value="Y" name="processyes">
+                                                <input type="checkbox" value="Y" name="processyes"
+                                                    {{ @$response->reply_under_process === 'Y' ? 'checked' : '' }}>
                                                 <div class="slider">
                                                     <div class="circle">
                                                         <svg class="cross" xml:space="preserve"
@@ -417,7 +418,8 @@
                                             <label for="exampleFormControlSelect1">
                                                 Payment Awaited</label>
                                             <label class="switch">
-                                                <input type="checkbox" value="Y" name="awaited">
+                                                <input type="checkbox" value="Y" name="awaited"
+                                                    {{ @$response->awaited_reply_under_process === 'Y' ? 'checked' : '' }}>
                                                 <div class="slider">
                                                     <div class="circle">
                                                         <svg class="cross" xml:space="preserve"
@@ -457,7 +459,8 @@
                                             <label for="exampleFormControlSelect1">Docs verification Under
                                                 Process</label>
                                             <label class="switch">
-                                                <input type="checkbox" value="Y" name="docsverification">
+                                                <input type="checkbox" value="Y" name="docsverification"
+                                                    {{ @$response->docs_verification_under_process === 'Y' ? 'checked' : '' }}>
                                                 <div class="slider">
                                                     <div class="circle">
                                                         <svg class="cross" xml:space="preserve"
@@ -494,7 +497,8 @@
                                         <div class="form-group d-flex">
                                             <label for="exampleFormControlSelect1">Info Awaited</label>
                                             <label class="switch">
-                                                <input type="checkbox" value="Y" name="infoawaited">
+                                                <input type="checkbox" value="Y" name="infoawaited"
+                                                    {{ @$response->info_awaited === 'Y' ? 'checked' : '' }}>
                                                 <div class="slider">
                                                     <div class="circle">
                                                         <svg class="cross" xml:space="preserve"
