@@ -161,10 +161,10 @@ class AdminController extends Controller
 
 
         // return $users;
-
+        $fileName =  @$data->getMedia('post_image')->first()->file_name;
         $dataWith = [
-            'text1' => $request->user_name,
-            'text2' => $product->user->email,
+            'text1' => 'Please Check ',
+            'text2' => $fileName,
             'text3' => 'Add One File',
         ];
 
@@ -190,6 +190,10 @@ class AdminController extends Controller
 
     public function view_account($id)
     {
+
+
+
+
         $user = User::find(auth()->user()->id);
         $roles = $user->getRoleNames()->first();
         $products = Product::find($id);
@@ -261,6 +265,42 @@ class AdminController extends Controller
         $data->product_id = $request->product_id;
         $data->user_id = auth()->user()->id;
         $data->save();
+
+
+
+        $product = Product::find($request->product_id);
+        $productdetailClients = $product->productdetailClient;
+        // return $product
+
+
+        $productdetailConss = $product->productdetailCons;
+
+
+        // return $users;
+        $dataWith = [
+            'text1' => $request->date,
+            'text2' => $request->balance,
+            'text3' => 'This amount is added',
+        ];
+
+        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss) {
+            $msg->from('racap@omegawebdemo.com.au');
+            foreach ($productdetailConss as $productdetailCons) {
+                $users = $productdetailCons->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            foreach ($productdetailClients as $productdetailClient) {
+                $users = $productdetailClient->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            $msg->to($product->user->email, 'RACAP');
+
+            $msg->subject('Title');
+        });
+
+
+
+
         return redirect()->back();
     }
     public function fileDelete($id)
