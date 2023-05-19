@@ -200,16 +200,16 @@
                                                             </td>
                                                             {{-- <td>{{ $trash->created_at }}</td> --}}
                                                             <td>
-                                                                @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
+                                                                @if ($trash->deleBY->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
+                                                                @elseif ($trash->deleBY->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($trash->user->getRoleNames()->first() == 'Client')
+                                                                @elseif ($trash->deleBY->getRoleNames()->first() == 'Client')
                                                                     <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @endif {{ $trash->user->name }}
+                                                                @endif {{ $trash->deleBY->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
                                                             <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
@@ -307,16 +307,16 @@
                                                             <td>{{ date('d-m-Y H:i:s', strtotime($trash->created_at)) }}
                                                             </td>
                                                             <td>
-                                                                @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
+                                                                @if ($trash->deleBY->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
+                                                                @elseif ($trash->deleBY->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($trash->user->getRoleNames()->first() == 'Client')
+                                                                @elseif ($trash->deleBY->getRoleNames()->first() == 'Client')
                                                                     <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @endif {{ $trash->user->name }}
+                                                                @endif {{ $trash->deleBY->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
                                                             <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
@@ -412,16 +412,16 @@
                                                             <td>{{ date('d-m-Y H:i:s', strtotime($trash->created_at)) }}
                                                             </td>
                                                             <td>
-                                                                @if ($trash->user->getRoleNames()->first() == 'Sub Admin')
+                                                                @if ($trash->deleBY->getRoleNames()->first() == 'Sub Admin')
                                                                     <img src="../img/admin.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($trash->user->getRoleNames()->first() == 'Consultant')
+                                                                @elseif ($trash->deleBY->getRoleNames()->first() == 'Consultant')
                                                                     <img src="../img/client.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @elseif ($trash->user->getRoleNames()->first() == 'Client')
+                                                                @elseif ($trash->deleBY->getRoleNames()->first() == 'Client')
                                                                     <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                         alt="...">
-                                                                @endif {{ $trash->user->name }}
+                                                                @endif {{ $trash->deleBY->name }}
                                                             </td>
                                                             <td>{{ $trash->remark }}</td>
                                                             <td><a href="{{ route('restore.file', ['id' => $trash->id]) }}"
