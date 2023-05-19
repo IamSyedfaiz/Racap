@@ -17,6 +17,10 @@ class UploadFile extends Model implements HasMedia
     {
         return $this->belongsTo(User::class);
     }
+    public function deleBY()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
     public function product()
     {
         return $this->belongsTo(Product::class);

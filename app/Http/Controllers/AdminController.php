@@ -342,6 +342,8 @@ class AdminController extends Controller
         // Get the product with the specified ID
         $uploadFile = UploadFile::where('id', $id)->first();
 
+        $uploadFile->deleted_by = auth()->user()->id;
+        $uploadFile->save();
         // Delete the product
         $uploadFile->delete();
         // $data = new Trash;

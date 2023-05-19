@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('section')->nullable();
             $table->integer('user_id')->nullable();
             $table->integer('product_id')->nullable();
+            $table->integer('deleted_by')->nullable();
             $table->timestamps();
         });
     }
