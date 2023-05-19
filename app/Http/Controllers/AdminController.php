@@ -231,7 +231,10 @@ class AdminController extends Controller
         $roles = $user->getRoleNames()->first();
         $products = Product::find($id);
         // $trashs = Trash::all();
-        $trashs = UploadFile::onlyTrashed()->get();
+        // $trashs = UploadFile::onlyTrashed()->get();
+        $trashs = UploadFile::onlyTrashed()->where('product_id', $id)->get();
+
+        // $trashs = UploadFile::where('product_id', $id)->get();
         $progressreports = ProgressReport::where('product_id', $id)->get();
         $filteredPercentage = $progressreports->where('is_completed', 'N');
         $filteredName = $progressreports->where('is_completed', 'N')->last();
@@ -498,7 +501,7 @@ class AdminController extends Controller
             ->orderBy('created_at', 'desc')
             ->first();
         // return $latestEntry;
-        return view('history_getting', compact('roles', 'products', 'history_gettings', 'calculatedPercentage', 'latestEntry'));
+        return view('history_getting', compact('roles', 'products', 'filteredName', 'history_gettings', 'calculatedPercentage', 'latestEntry'));
     }
 
     public function storeHistoryGetting(Request $request)

@@ -191,9 +191,10 @@
                                                         <tr>
                                                             <td>{{ $trash->file_subject }}</td>
                                                             <td>
-                                                                {{-- {{ pathinfo(@$trash->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }} --}}
+                                                                {{ pathinfo(@$trash->getMedia('post_image')->first()->file_name, PATHINFO_EXTENSION) }}
                                                             </td>
-                                                            <td><a href="" target="_blank"
+                                                            <td><a href="{{ @$trash->getMedia('post_image')->first()->getUrl() }}"
+                                                                    target="_blank"
                                                                     class="btn btn-primary btn-sm">View</a></td>
                                                             <td>{{ date('d-m-Y H:i:s', strtotime($trash->created_at)) }}
                                                             </td>

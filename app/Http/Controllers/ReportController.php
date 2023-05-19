@@ -142,8 +142,11 @@ class ReportController extends Controller
         $latestEntry = HistoryGetting::where('product_id', $id)
             ->orderBy('created_at', 'desc')
             ->first();
+        $response = Response::where('product_id', $id)->first();
+
+
         // return  $calculatedPercentage;
-        return view('project_status', compact(['products', 'roles', 'progressreports', 'calculatedPercentage', 'filteredName', 'latestEntry']));
+        return view('project_status', compact(['products', 'roles', 'progressreports', 'calculatedPercentage', 'filteredName', 'latestEntry', 'response']));
     }
     public function post_status(Request $request)
     {
@@ -221,6 +224,10 @@ class ReportController extends Controller
             $editRes->awaited_reply_under_process = $activeAwaited;
             $editRes->docs_verification_under_process = $activeDocsverification;
             $editRes->info_awaited = $activeInfoAwaited;
+            // $editRes->reply_under_process = $active ? 'Y' : 'N';
+            // $editRes->awaited_reply_under_process = $activeAwaited ? 'Y' : 'N';
+            // $editRes->docs_verification_under_process = $activeDocsverification ? 'Y' : 'N';
+            // $editRes->info_awaited = $activeInfoAwaited ? 'Y' : 'N';
             $editRes->save();
         } else {
             $data = new Response();
