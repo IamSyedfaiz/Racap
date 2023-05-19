@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\Roles;
 use App\Models\Client;
+use App\Models\HistoryGetting;
 use App\Models\Product;
 use App\Models\ProgressReport;
 use App\Models\Project;
 use App\Models\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 
 class ReportController extends Controller
 {
@@ -136,8 +139,11 @@ class ReportController extends Controller
             $calculatedPercentage = 0;
             $calculatedPercentage = intval($calculatedPercentage);
         }
+        $latestEntry = HistoryGetting::where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
         // return  $calculatedPercentage;
-        return view('project_status', compact(['products', 'roles', 'progressreports', 'calculatedPercentage', 'filteredName']));
+        return view('project_status', compact(['products', 'roles', 'progressreports', 'calculatedPercentage', 'filteredName', 'latestEntry']));
     }
     public function post_status(Request $request)
     {
@@ -185,34 +191,91 @@ class ReportController extends Controller
     }
     public function response_status(Request $request)
     {
+        if ($request->processyes == 'Y') {
+            $active = "Y";
+        } else {
+            $active = "N";
+        }
 
+        if ($request->awaited == 'Y') {
+            $activeAwaited = "Y";
+        } else {
+            $activeAwaited = "N";
+        }
+        if ($request->docsverification == 'Y') {
+            $activeDocsverification = "Y";
+        } else {
+            $activeDocsverification = "N";
+        }
+        if ($request->infoawaited == 'Y') {
+            $activeInfoAwaited = "Y";
+        } else {
+            $activeInfoAwaited = "N";
+        }
 
         $res = Response::where('product_id', $request->product_id)->first();
         // return $res->id;
         if ($res) {
             $editRes = Response::find($res->id);
-            $editRes->reply_under_process = $request->processyes ?? 'N';
-            $editRes->awaited_reply_under_process = $request->awaited ?? 'N';
-            $editRes->docs_verification_under_process = $request->docsverification ?? 'N';
-            $editRes->info_awaited = $request->infoawaited ?? 'N';
+            $editRes->reply_under_process = $active;
+            $editRes->awaited_reply_under_process = $activeAwaited;
+            $editRes->docs_verification_under_process = $activeDocsverification;
+            $editRes->info_awaited = $activeInfoAwaited;
             $editRes->save();
         } else {
             $data = new Response();
-            $data->reply_under_process = $request->processyes ?? 'N';
-            $data->awaited_reply_under_process = $request->awaited ?? 'N';
-            $data->docs_verification_under_process = $request->docsverification ?? 'N';
-            $data->info_awaited = $request->infoawaited ?? 'N';
+            $data->reply_under_process = $active;
+            $data->awaited_reply_under_process = $activeAwaited;
+            $data->docs_verification_under_process = $activeDocsverification;
+            $data->info_awaited = $activeInfoAwaited;
             $data->product_id = $request->product_id;
             $data->save();
         }
-        // $data = new Response();
 
-        // $data->reply_under_process = $request->processyes;
-        // $data->awaited_reply_under_process = $request->awaited;
-        // $data->docs_verification_under_process = $request->docsverification;
-        // $data->info_awaited = $request->infoawaited;
-        // $data->product_id = $request->product_id;
-        // $data->save();
+        $product = Product::find($request->product_id);
+        $proejctName = $product->project->project_name;
+        $productdetailClients = $product->productdetailClient;
+        $productdetailConss = $product->productdetailCons;
+
+        $dataWith = [
+            'text1' => 'Response Status Changes, kindly do the needful.',
+            // 'text2' => '' . $request->invoice_payment . ' Raised  ' . $request->balance . ',' . $request->remark,
+            // 'text3' => 'This amount is added',
+            'link'      => url('/') . '/login'
+        ];
+
+        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+            $msg->from('racap@omegawebdemo.com.au');
+            foreach ($productdetailConss as $productdetailCons) {
+                $users = $productdetailCons->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            foreach ($productdetailClients as $productdetailClient) {
+                $users = $productdetailClient->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            $msg->to($product->user->email, 'RACAP');
+
+            $msg->subject('Response Status Update - ' . $proejctName);
+        });
+
+
+        return redirect()->back()->with('success', 'Add Successfully');
+    }
+    public function past_edit($id)
+    {
+        $project = Project::find($id);
+        $user = auth()->user();
+        $roles = $user->getRoleNames()->first();
+
+        // return $project;
+        return view('past_edit', compact('roles', 'project'));
+    }
+    public function past_edit_change(Request $request)
+    {
+        $project = Project::find($request->project_id);
+        $project->project_end_date = $request->project_end_date;
+        $project->save();
         return redirect()->back()->with('success', 'Add Successfully');
     }
 }

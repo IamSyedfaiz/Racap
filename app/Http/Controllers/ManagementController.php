@@ -171,7 +171,7 @@ class ManagementController extends Controller
             Mail::send('email.email_info', @$data, function ($msg) use ($data, $request) {
                 $msg->from('racap@omegawebdemo.com.au');
                 $msg->to($request->client_email, 'RACAP');
-                $msg->subject('Title');
+                $msg->subject('User Registration');
             });
         }
         // return $request;
@@ -229,18 +229,6 @@ class ManagementController extends Controller
     }
     public function add_client_project(Request $request)
     {
-
-
-
-        // $data = new User;
-        // $data->name = $request->user_name;
-        // $data->email  = $request->user_email;
-        // $data->mobile_number  = $request->user_mobile_number;
-        // $data->landline_number  = $request->user_landline_number;
-        // $data->password = bcrypt('12345678');
-        // $data->parent_id = auth()->user()->id;
-        // $data->assignRole(Roles::CLIENT()->getValue());
-        // $data->save();
         $product_detail = new ProductDetail();
         $product_detail->user_id = $request->user_id;
         $product_detail->brand_id = $request->brand_id;
@@ -253,6 +241,34 @@ class ManagementController extends Controller
         $product_detail->type = 'CL';
 
         $product_detail->save();
+
+        $product = Product::find($request->product_id);
+        $user = User::find($request->user_id);
+        $proejctName = $product->project->project_name;
+        $productdetailClients = $product->productdetailClient;
+        $productdetailConss = $product->productdetailCons;
+
+        $data = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'type' => 'Client',
+            'link'      => url('/') . '/login'
+        ];
+
+        Mail::send('email.email_info', @$data, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+            $msg->from('racap@omegawebdemo.com.au');
+            foreach ($productdetailConss as $productdetailCons) {
+                $users = $productdetailCons->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            foreach ($productdetailClients as $productdetailClient) {
+                $users = $productdetailClient->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            $msg->to($product->user->email, 'RACAP');
+
+            $msg->subject('Project Allocation');
+        });
 
 
         return redirect()->back()->with('success', 'Add Client Successfully');
@@ -281,6 +297,36 @@ class ManagementController extends Controller
         $product_detail->type = 'CO';
 
         $product_detail->save();
+
+
+        $product = Product::find($request->product_id);
+        $user = User::find($request->user_id);
+        $proejctName = $product->project->project_name;
+        $productdetailClients = $product->productdetailClient;
+        $productdetailConss = $product->productdetailCons;
+
+        $data = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'type' => 'Consultant',
+            'link'      => url('/') . '/login'
+        ];
+
+        Mail::send('email.email_info', @$data, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+            $msg->from('racap@omegawebdemo.com.au');
+            foreach ($productdetailConss as $productdetailCons) {
+                $users = $productdetailCons->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            foreach ($productdetailClients as $productdetailClient) {
+                $users = $productdetailClient->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            $msg->to($product->user->email, 'RACAP');
+
+            $msg->subject('Project Allocation');
+        });
+
         return redirect()->back()->with('success', 'Add Consultant Successfully');
     }
     public function user_delete($id)

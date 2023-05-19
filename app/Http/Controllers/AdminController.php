@@ -115,8 +115,11 @@ class AdminController extends Controller
             $calculatedPercentage = 0;
             $calculatedPercentage = intval($calculatedPercentage);
         }
+        $latestEntry = HistoryGetting::where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-        return view('project-details', compact(['products', 'roles', 'conversations', 'progressreports', 'calculatedPercentage', 'filteredName']));
+        return view('project-details', compact(['products', 'roles', 'conversations', 'progressreports', 'calculatedPercentage', 'filteredName', 'latestEntry']));
     }
     public function view_files($id)
     {
@@ -138,7 +141,10 @@ class AdminController extends Controller
             $calculatedPercentage = 0;
             $calculatedPercentage = intval($calculatedPercentage);
         }
-        return view('files', compact(['products', 'upload_files', 'roles', 'calculatedPercentage', 'filteredName']));
+        $latestEntry = HistoryGetting::where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        return view('files', compact(['products', 'upload_files', 'roles', 'calculatedPercentage', 'filteredName', 'latestEntry']));
     }
 
     public function upload_file(Request $request)
@@ -154,21 +160,23 @@ class AdminController extends Controller
 
         $product = Product::find($request->product_id);
 
+        $proejctName = $product->project->project_name;
+        $modalNumber = $product->modal_number;
+
         $productdetailClients = $product->productdetailClient;
 
 
         $productdetailConss = $product->productdetailCons;
 
-
-        // return $users;
         $fileName =  @$data->getMedia('post_image')->first()->file_name;
         $dataWith = [
-            'text1' => 'Please Check ',
-            'text2' => $fileName,
-            'text3' => 'Add One File',
+            // 'text1' => 'Subject: Ledger Update - ' . $proejctName,
+            'text2' => 'File Name: ' . $fileName . ', uploaded for project: ' . $proejctName . ', Model:' . $modalNumber,
+            'text3' => 'Kindly login to view the file.',
+            'link'      => url('/') . '/login'
         ];
 
-        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss) {
+        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
             $msg->from('racap@omegawebdemo.com.au');
             foreach ($productdetailConss as $productdetailCons) {
                 $users = $productdetailCons->user->email;
@@ -180,14 +188,11 @@ class AdminController extends Controller
             }
             $msg->to($product->user->email, 'RACAP');
 
-            $msg->subject('Title');
+            $msg->subject('Subject: File Upload - ' . $proejctName);
         });
 
         return redirect()->back();
     }
-
-
-
     public function view_account($id)
     {
 
@@ -213,8 +218,10 @@ class AdminController extends Controller
             $calculatedPercentage = 0;
             $calculatedPercentage = intval($calculatedPercentage);
         }
-
-        return view('view_account', compact(['products', 'roles', 'accounts', 'calculatedPercentage', 'filteredName']));
+        $latestEntry = HistoryGetting::where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        return view('view_account', compact(['products', 'roles', 'accounts', 'calculatedPercentage', 'filteredName', 'latestEntry']));
     }
     public function view_trash($id)
     {
@@ -238,7 +245,10 @@ class AdminController extends Controller
             $calculatedPercentage = 0;
             $calculatedPercentage = intval($calculatedPercentage);
         }
-        return view('view_trash', compact(['products', 'roles', 'trashs', 'calculatedPercentage', 'filteredName']));
+        $latestEntry = HistoryGetting::where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        return view('view_trash', compact(['products', 'roles', 'trashs', 'calculatedPercentage', 'filteredName', 'latestEntry']));
     }
 
     public function add_account(Request $request)
@@ -266,24 +276,19 @@ class AdminController extends Controller
         $data->user_id = auth()->user()->id;
         $data->save();
 
-
-
         $product = Product::find($request->product_id);
+        $proejctName = $product->project->project_name;
         $productdetailClients = $product->productdetailClient;
-        // return $product
-
-
         $productdetailConss = $product->productdetailCons;
-
-
-        // return $users;
+        // return $proejctName;
         $dataWith = [
-            'text1' => $request->date,
-            'text2' => $request->balance,
-            'text3' => 'This amount is added',
+            'text1' => 'Message: ' . auth()->user()->name . ' has updated ledger,',
+            'text2' => '' . $request->invoice_payment . ' Raised  ' . $request->balance . ',' . $request->remark,
+            // 'text3' => 'This amount is added',
+            'link'      => url('/') . '/login'
         ];
 
-        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss) {
+        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
             $msg->from('racap@omegawebdemo.com.au');
             foreach ($productdetailConss as $productdetailCons) {
                 $users = $productdetailCons->user->email;
@@ -295,18 +300,41 @@ class AdminController extends Controller
             }
             $msg->to($product->user->email, 'RACAP');
 
-            $msg->subject('Title');
+            $msg->subject('Subject: Ledger Update - ' . $proejctName);
         });
-
-
 
 
         return redirect()->back();
     }
-    public function fileDelete($id)
+    public function fileDelete($id, $product_id)
     {
 
-        // DD($id);
+        // DD($product_id);
+
+        $product = Product::find($product_id);
+        $proejctName = $product->project->project_name;
+        $productdetailClients = $product->productdetailClient;
+        $productdetailConss = $product->productdetailCons;
+        // return $proejctName;
+        $dataWith = [
+            'text1' => 'A file has been moved to trash under ' . $proejctName,
+            'link'      => url('/') . '/login'
+        ];
+
+        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+            $msg->from('racap@omegawebdemo.com.au');
+            foreach ($productdetailConss as $productdetailCons) {
+                $users = $productdetailCons->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            foreach ($productdetailClients as $productdetailClient) {
+                $users = $productdetailClient->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            $msg->to($product->user->email, 'RACAP');
+
+            $msg->subject('File moved to trash - ' . $proejctName);
+        });
         // die;
         // Get the product with the specified ID
         $uploadFile = UploadFile::where('id', $id)->first();
@@ -465,8 +493,12 @@ class AdminController extends Controller
         $user = User::find(auth()->user()->id);
         $roles = $user->getRoleNames()->first();
         $products = Product::find($id);
-        $history_gettings = HistoryGetting::all();
-        return view('history_getting', compact('roles', 'products', 'history_gettings', 'calculatedPercentage'));
+        $history_gettings = HistoryGetting::where('product_id', $id)->latest('created_at')->get();
+        $latestEntry = HistoryGetting::where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        // return $latestEntry;
+        return view('history_getting', compact('roles', 'products', 'history_gettings', 'calculatedPercentage', 'latestEntry'));
     }
 
     public function storeHistoryGetting(Request $request)

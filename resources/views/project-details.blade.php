@@ -53,8 +53,13 @@
 
                 </div>
                 <div class="col-md-6">
-                    {{-- <h2>{{ Auth::user()->name }}</h2> --}}
+
                     <h2>{{ $products->client->name }}</h2>
+                    @if (@$latestEntry->getting_value == 'gp')
+                        <p class="text-danger">Getting Pause</p>
+                    @elseif (@$latestEntry->getting_value == 'gu')
+                        <p class="text-success">Getting Unpause</p>
+                    @endif
                     <h4 class="small font-weight-bold">{{ @$filteredName->phase_name }}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
                     </h4>
@@ -102,7 +107,11 @@
                                 <label for="search">Search</label>
                                 <input type="text" class="form-control" id="search" name="search">
                             </div>
-                            <button type="button" onclick="search()" class="btn btn-primary">Submit</button>
+                            <div class="">
+                                <button type="button" onclick="search()" class="btn btn-primary">Submit</button>
+                                <button type="button" onclick="refresh()" class="btn btn-primary">Refresh</button>
+
+                            </div>
                         </div>
                         {{-- <form action="{{ route('message.search') }}" method="GET" >
                             <input type="text" name="search" id="search" onclick="search()" placeholder="Enter your search text">
@@ -201,9 +210,8 @@
 
         var isSearching = false;
 
-        if (!isSearching) {
-            setInterval(() => {
-
+        setInterval(() => {
+            if (!isSearching) {
                 $.ajax({
                     // url: '/conversation/' + product_id,   
                     url: "{{ route('conversation', ':id') }}".replace(':id', product_id),
@@ -276,8 +284,8 @@
                         console.log(textStatus, errorThrown);
                     }
                 })
-            }, 2000);
-        }
+            }
+        }, 2000);
 
         // search
     </script>
@@ -285,13 +293,12 @@
     <script>
         function search() {
 
-            isSearching = true; // Set the flag to indicate search is in progress
-
+            // isSearching = true; // Set the flag to indicate search is in progress
 
             var searchText = $('#search').val();
             console.log(searchText);
             $.ajax({
-                url: "{{ route('message.search') }}",
+                url: "{{ route('message.search', ':id') }}".replace(':id', product_id),
                 method: 'GET',
                 dataType: 'json',
                 data: {
@@ -353,6 +360,13 @@
                     isSearching = true; // Reset the flag in case of an error
                 }
             });
+            isSearching = true; // Reset the flag after search is completed
+
+        }
+    </script>
+    <script>
+        function refresh() {
+            isSearching = false; // Reset the flag after search is completed
         }
     </script>
     {{-- <script>
