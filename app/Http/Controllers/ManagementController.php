@@ -219,7 +219,7 @@ class ManagementController extends Controller
             Mail::send('email.email_info', @$data, function ($msg) use ($data, $request) {
                 $msg->from('racap@omegawebdemo.com.au');
                 $msg->to($request->consultant_email, 'RACAP');
-                $msg->subject('Title');
+                $msg->subject('User Registration');
             });
         }
         // return $request;
