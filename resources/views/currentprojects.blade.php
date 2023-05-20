@@ -46,6 +46,7 @@
                                             <th>Product</th>
                                             <th>Last Communication</th>
                                             <th>Response Status</th>
+                                            <th>Progress Status</th>
                                             <th>Start date</th>
                                             <th>End date</th>
                                             <th>Action</th>
@@ -80,21 +81,65 @@
                                                         {{-- {{ $product->response->id }} --}}
                                                         @foreach ($product->response as $response)
                                                             @if ($response->reply_under_process == 'Y')
-                                                                <div class="btn btn-success"> R</div>
+                                                                <div class="btn "
+                                                                    style="color:#fff; background:blue;"> R</div>
                                                             @endif
 
                                                             @if ($response->awaited_reply_under_process == 'Y')
-                                                                <div class="btn btn-success">D</div>
+                                                                <div class="btn"
+                                                                    style="color:#fff; background:blue;">D</div>
                                                             @endif
                                                             @if ($response->docs_verification_under_process == 'Y')
-                                                                <div class="btn btn-success">P</div>
+                                                                <div class="btn"
+                                                                    style="color:#fff; background:green;">P</div>
                                                             @endif
                                                             @if ($response->info_awaited == 'Y')
-                                                                <div class="btn btn-success">I</div>
+                                                                <div class="btn"
+                                                                    style="color:#fff; background:green;">I</div>
                                                             @endif
                                                         @endforeach
                                                     </td>
+                                                    <td>
+                                                        @php
+                                                            $progressreports = \App\Models\ProgressReport::where('product_id', $product->id)->get();
+                                                            $filteredPercentage = $progressreports->where('is_completed', 'N');
+                                                            $filteredName = $progressreports->where('is_completed', 'N')->last();
+                                                            $allLength = count($progressreports);
+                                                            $length = count($filteredPercentage);
+                                                            if ($allLength > 0) {
+                                                                $calculatedPercentage = ($length / $allLength) * 100;
+                                                                $calculatedPercentage = intval($calculatedPercentage);
+                                                            } else {
+                                                                $calculatedPercentage = 0;
+                                                                $calculatedPercentage = intval($calculatedPercentage);
+                                                            }
+                                                            $latestEntry = \App\Models\HistoryGetting::where('product_id', $product->id)
+                                                                ->orderBy('created_at', 'desc')
+                                                                ->first();
+                                                        @endphp
+
+                                                        {{-- Display the product information here --}}
+                                                        {{-- <p>Product Name: {{ $product->name }}</p>
+                                                    <p>Calculated Percentage: {{ $calculatedPercentage }}</p>
+                                                    <p>Latest Entry: {{ $latestEntry->created_at }}</p> --}}
+                                                        @if (@$latestEntry->getting_value == 'gp')
+                                                            <p class="text-danger">Getting Pause</p>
+                                                        @elseif (@$latestEntry->getting_value == 'gu')
+                                                            <p class="text-success">Getting Unpause</p>
+                                                        @endif
+                                                        <h4 class="small font-weight-bold">
+                                                            {{ @$filteredName->phase_name }}
+                                                            <span
+                                                                class="float-right">{{ @$calculatedPercentage }}%</span>
+                                                        </h4>
+                                                        <div class="progress mb-4">
+                                                            <div class="progress-bar bg-success" role="progressbar"
+                                                                style="width: {{ @$calculatedPercentage }}%"
+                                                                aria-valuenow="50" aria-valuemin="0"
+                                                                aria-valuemax="100"></div>
+                                                        </div>
                                                     </td>
+
 
                                                     <td>{{ date('d-m-Y', strtotime($product->project->project_start_date)) }}
                                                     </td>

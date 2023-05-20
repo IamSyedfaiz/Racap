@@ -179,7 +179,7 @@
                                                     <th>File Format</th>
                                                     <th>View/Download</th>
                                                     <th>Date & Time of Upload</th>
-                                                    <th>Uploaded By</th>
+                                                    <th>Deleted By</th>
                                                     <th>Remarks</th>
                                                     <th>Move To Trash</th>
                                                 </tr>
@@ -287,7 +287,7 @@
                                                     <th>File Format</th>
                                                     <th>View/Download</th>
                                                     <th>Date & Time of Upload</th>
-                                                    <th>Uploaded By</th>
+                                                    <th>Deleted By</th>
                                                     <th>Remarks</th>
                                                     <th>Move To Trash</th>
                                                 </tr>
@@ -392,7 +392,7 @@
                                                     <th>File Format</th>
                                                     <th>View/Download</th>
                                                     <th>Date & Time of Upload</th>
-                                                    <th>Uploaded By</th>
+                                                    <th>Deleted By</th>
                                                     <th>Remarks</th>
                                                     <th>Move To Trash</th>
                                                 </tr>
@@ -483,7 +483,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="pills-certs" role="tabpanel"
+                        {{-- <div class="tab-pane fade" id="pills-certs" role="tabpanel"
                             aria-labelledby="pills-certs-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -550,7 +550,7 @@
                                                                 @endif
 
                                                             </td>
-                                                            {{-- /final_delete/{{$trash->id}} --}}
+                                                            /final_delete/{{$trash->id}}
                                                         </tr>
                                                     @endif
 
@@ -589,7 +589,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
 

@@ -143,7 +143,18 @@
                                                         <td>----------------------------</td>
                                                     @endif
                                                     <td>{{ $history_getting->reason }}</td>
-                                                    <td>{{ $history_getting->user->name }}</td>
+                                                    <td>
+                                                        @if ($history_getting->user->getRoleNames()->first() == 'Sub Admin')
+                                                            <img src="../img/admin.jpg" class="rounded mr-0"
+                                                                alt="...">
+                                                        @elseif ($history_getting->user->getRoleNames()->first() == 'Consultant')
+                                                            <img src="../img/client.jpg" class="rounded mr-0"
+                                                                alt="...">
+                                                        @elseif ($history_getting->user->getRoleNames()->first() == 'Client')
+                                                            <img src="../img/vendor.jpg" class="rounded mr-0"
+                                                                alt="...">
+                                                        @endif {{ $history_getting->user->name }}
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                             <tbody>
