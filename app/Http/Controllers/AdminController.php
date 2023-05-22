@@ -472,6 +472,21 @@ class AdminController extends Controller
         $subcription->start_date = $currentDate;
         $subcription->end_date = $request->expire_by;
         $subcription->save();
+        $password = rand(10000000,  100000000);
+
+        $data = [
+            'name' => $request->user_name,
+            'email' => $request->user_email,
+            'password' => $password,
+            'link'      => url('/') . '/login'
+        ];
+
+      
+        Mail::send('email.email_info', @$data, function ($msg) use ($data, $request) {
+            $msg->from('racap@omegawebdemo.com.au');
+            $msg->to($request->user_email, 'RACAP');
+            $msg->subject('User Registration');
+        });
 
         return redirect()->back()->with('success', 'Create a Subadmin');
     }
@@ -493,7 +508,6 @@ class AdminController extends Controller
         //     return redirect()->back()->with('success', 'Your Account has been Suspended');
         // } else {
         //     return 2;
-
         //     return redirect('dashboard');
         // }
     }

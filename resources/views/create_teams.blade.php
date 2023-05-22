@@ -3,7 +3,17 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('layouts.sidebar')
+        <!-- Sidebar -->
+        @if ($roles === 'Super Admin')
+            @include('layouts.sidebar')
+        @elseif($roles === 'Sub Admin')
+            @include('layouts.sidebar')
+        @elseif($roles === 'Client')
+            @include('layouts.client_sidebar')
+        @elseif($roles === 'Consultant')
+            @include('layouts.consultant_sidebar')
+        @endif
+        <!-- End of Sidebar -->
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -201,120 +211,134 @@
 
                         </div>
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-md-6">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add (Client) User to project </h6>
-                                </div>
-                                <div class="card-body">
-                                    <form action="{{ route('add_client_project') }}" method="post">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="cname">Select User</label>
-                                            <select class="form-control" id="client_user_cname" name="user_id">
-                                                <option value="">Select An Option</option>
-                                                @foreach (@$users as $user)
-                                                    @if ($user->getRoleNames()->first() == 'Client')
-                                                        <option value="{{ $user->id }}">{{ $user->name }}
-                                                        </option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                            {{-- <input type="text" class="form-control" required name="user_id"
+
+                        @if ($roles === 'Client' || $roles === 'Sub Admin' || $roles === 'Super Admin')
+
+
+                            <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Add (Client) User to project
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="{{ route('add_client_project') }}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="cname">Select User</label>
+                                                <select class="form-control" id="client_user_cname" name="user_id">
+                                                    <option value="">Select An Option</option>
+                                                    @foreach (@$users as $user)
+                                                        @if ($user->getRoleNames()->first() == 'Client')
+                                                            <option value="{{ $user->id }}">{{ $user->name }}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                                {{-- <input type="text" class="form-control" required name="user_id"
                                             id="cname" aria-describedby="cname"> --}}
-                                            @error('user_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Select Client</label>
-                                            <select class="form-control" id="client_cname" name="client_id">
-                                                <option value="">Select An Option</option>
-                                                @foreach ($clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('client_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Select Factory</label>
-                                            <select class="form-control" id="client_factory_cname" name="factory_id">
-                                                <option value="">Select An Option</option>
-                                            </select>
-                                            @error('factory_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Project Name</label>
-                                            <select class="form-control" id="client_project_name" name="project_id">
-                                                <option value="">Select An Option</option>
-                                            </select>
-                                            @error('project_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Brand Name</label>
-                                            <select class="form-control" id="client_brand_name" name="brand_id">
-                                                <option value="">Select An Option</option>
-                                            </select>
-                                            @error('brand_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Product Name</label>
-                                            <select class="form-control" id="client_product_name" name="product_id">
-                                                <option value="">Select An Option</option>
-                                            </select>
-                                            @error('product_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Model Number</label>
-                                            <select class="form-control" id="client_modal_number"
-                                                name="modal_number">
-                                                <option value="">Select An Option</option>
-                                            </select>
-                                            @error('modal_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add (Consultant) User to product</h6>
-                                </div>
-                                <div class="card-body">
-                                    <form action="{{ route('add_consultant_project') }}" method="post">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="cname">Select User</label>
-                                            <select class="form-control" id="consultant_user_cname" name="user_id">
-                                                <option value="">Select An Option</option>
-                                                @foreach (@$users as $user)
-                                                    @if ($user->getRoleNames()->first() == 'Consultant')
-                                                        <option value="{{ $user->id }}">{{ $user->name }}
+                                                @error('user_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Select Client</label>
+                                                <select class="form-control" id="client_cname" name="client_id">
+                                                    <option value="">Select An Option</option>
+                                                    @foreach ($clients as $client)
+                                                        <option value="{{ $client->id }}">{{ $client->name }}
                                                         </option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                            @error('user_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        {{-- <div class="form-group">
+                                                    @endforeach
+                                                </select>
+                                                @error('client_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Select Factory</label>
+                                                <select class="form-control" id="client_factory_cname"
+                                                    name="factory_id">
+                                                    <option value="">Select An Option</option>
+                                                </select>
+                                                @error('factory_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Project Name</label>
+                                                <select class="form-control" id="client_project_name"
+                                                    name="project_id">
+                                                    <option value="">Select An Option</option>
+                                                </select>
+                                                @error('project_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Brand Name</label>
+                                                <select class="form-control" id="client_brand_name" name="brand_id">
+                                                    <option value="">Select An Option</option>
+                                                </select>
+                                                @error('brand_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Product Name</label>
+                                                <select class="form-control" id="client_product_name"
+                                                    name="product_id">
+                                                    <option value="">Select An Option</option>
+                                                </select>
+                                                @error('product_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Model Number</label>
+                                                <select class="form-control" id="client_modal_number"
+                                                    name="modal_number">
+                                                    <option value="">Select An Option</option>
+                                                </select>
+                                                @error('modal_number')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        @endif
+
+                        @if ($roles === 'Consultant' || $roles === 'Sub Admin' || $roles === 'Super Admin')
+
+                            <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Add (Consultant) User to product
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="{{ route('add_consultant_project') }}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="cname">Select User</label>
+                                                <select class="form-control" id="consultant_user_cname"
+                                                    name="user_id">
+                                                    <option value="">Select An Option</option>
+                                                    @foreach (@$users as $user)
+                                                        @if ($user->getRoleNames()->first() == 'Consultant')
+                                                            <option value="{{ $user->id }}">{{ $user->name }}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                                @error('user_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            {{-- <div class="form-group">
                                             <label for="cname">User Name</label>
                                             <input type="text" class="form-control" required name="user_name"
                                                 id="cname" aria-describedby="cname">
@@ -343,68 +367,72 @@
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
                                         </div> --}}
-                                        <div class="form-group">
-                                            <label for="cname">Select Client</label>
-                                            <select class="form-control" id="consultant_cname" name="client_id">
-                                                <option value="">Select An Option</option>
-                                                @foreach ($clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Select Factory</label>
-                                            <select class="form-control" id="consultant_factory_cname"
-                                                name="factory_id">
-                                                <option value="">Select An Option</option>
-                                                @foreach ($clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('factory_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Project name</label>
-                                            <select class="form-control" id="consultant_project_name"
-                                                name="project_id">
-                                                <option value="">Select An Option</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Brand Name</label>
-                                            <select class="form-control" id="consultant_brand_name" name="brand_id">
-                                                <option value="">Select An Option</option>
-                                            </select>
-                                            @error('brand_id')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Product name</label>
-                                            <select class="form-control" id="consultant_product_name"
-                                                name="product_id">
-                                                <option>Select An Option</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">Model Number</label>
-                                            <select class="form-control" id="consultant_modal_number"
-                                                name="modal_number">
-                                                <option value="">Select An Option</option>
-                                            </select>
-                                            @error('modal_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
+                                            <div class="form-group">
+                                                <label for="cname">Select Client</label>
+                                                <select class="form-control" id="consultant_cname" name="client_id">
+                                                    <option value="">Select An Option</option>
+                                                    @foreach ($clients as $client)
+                                                        <option value="{{ $client->id }}">{{ $client->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Select Factory</label>
+                                                <select class="form-control" id="consultant_factory_cname"
+                                                    name="factory_id">
+                                                    <option value="">Select An Option</option>
+                                                    @foreach ($clients as $client)
+                                                        <option value="{{ $client->id }}">{{ $client->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('factory_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Project name</label>
+                                                <select class="form-control" id="consultant_project_name"
+                                                    name="project_id">
+                                                    <option value="">Select An Option</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Brand Name</label>
+                                                <select class="form-control" id="consultant_brand_name"
+                                                    name="brand_id">
+                                                    <option value="">Select An Option</option>
+                                                </select>
+                                                @error('brand_id')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Product name</label>
+                                                <select class="form-control" id="consultant_product_name"
+                                                    name="product_id">
+                                                    <option>Select An Option</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">Model Number</label>
+                                                <select class="form-control" id="consultant_modal_number"
+                                                    name="modal_number">
+                                                    <option value="">Select An Option</option>
+                                                </select>
+                                                @error('modal_number')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
                                 </div>
+
                             </div>
 
-                        </div>
-
+                        @endif
 
 
 
