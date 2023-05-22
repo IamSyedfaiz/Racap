@@ -89,10 +89,27 @@ class AdminController extends Controller
             })->get();
         }
         $currentDate = now();
-        // DD($products->toArray());
-        // $current_project = Project::where('project_start_date', 'tpday')->get();
-        // return $current_project;
-        // return $currentDate;
+        // foreach ($products as $product) {
+        //     if ($product->project->project_start_date <= $currentDate && $product->project->project_end_date >= $currentDate) {
+        //         $progressreports = ProgressReport::where('product_id', $product->id)->get();
+        //         $filteredPercentage = $progressreports->where('is_completed', 'N');
+        //         $filteredName = $progressreports->where('is_completed', 'N')->last();
+        //         $allLength = count($progressreports);
+        //         $length = count($filteredPercentage);
+        //         if ($allLength > 0) {
+
+        //             $calculatedPercentage = ($length / $allLength) * 100;
+        //             $calculatedPercentage = intval($calculatedPercentage);
+        //         } else {
+        //             $calculatedPercentage = 0;
+        //             $calculatedPercentage = intval($calculatedPercentage);
+        //         }
+        //         $latestEntry = HistoryGetting::where('product_id', $product->id)
+        //             ->orderBy('created_at', 'desc')
+        //             ->first();
+        //     }
+        // }
+
 
         return view('currentprojects', compact(['products', 'roles', 'currentDate']));
     }
