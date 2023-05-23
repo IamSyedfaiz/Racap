@@ -458,7 +458,7 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Table</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">All Teams</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -490,14 +490,19 @@
                                                         <td>
                                                             @foreach ($product->productdetail as $detail)
                                                                 @if (@$detail->type == 'CL')
-                                                                    {{ @$detail->user->name }},
+                                                                    <button class="btn btn-link btn-open-modal"
+                                                                        data-toggle="modal" data-target="#deleteModal"
+                                                                        data-user-id="{{ $detail->user->id }}">
+                                                                        {{ @$detail->user->name }}</button>,
                                                                 @endif
                                                             @endforeach
                                                         </td>
                                                         <td>
                                                             @foreach ($product->productdetail as $detail)
                                                                 @if ($detail->type == 'CO')
-                                                                    {{ $detail->user->name }},
+                                                                    <button class="btn btn-link btn-open-modal"
+                                                                        data-toggle="modal" data-target="#deleteModal"
+                                                                        data-user-id="{{ $detail->user->id }}">{{ $detail->user->name }}</button>,
                                                                 @endif
                                                             @endforeach
                                                         </td>
@@ -543,26 +548,97 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="userRemove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Remove Project?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Remove User To Project .</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="#">Remove</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this entry?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger btn-delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        $(document).ready(function() {
+            var userIdToDelete;
+
+            // Handle click event on the "Open Modal" button
+            $('.btn-open-modal').on('click', function() {
+                userIdToDelete = $(this).data('user-id');
+            });
+
+            // Handle click event on the "Delete" button inside the modal
+            $('.btn-delete').on('click', function() {
+                if (userIdToDelete) {
+                    // Perform an AJAX request to delete the row from the productDetails table
+                    $.ajax({
+                        url: '{{ route('remove.project') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            user_id: userIdToDelete
+                        },
+                        success: function(response) {
+                            // Check the response and update the UI accordingly
+                            if (response.success) {
+                                // Delete the row from the table
+                                // ... your code to delete the row from the table goes here ...
+
+                                // Close the modal
+                                $('#deleteModal').modal('hide');
+                            } else {
+                                // Display an error message
+                                alert('Failed to delete the entry.');
+                            }
+                        },
+                        error: function() {
+                            // Display an error message
+                            alert('An error occurred while processing the request.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
@@ -674,7 +750,7 @@
             $('#client_brand_name').html(``);
             $('#client_brand_name').append(` <option> Select an option </option>`);
             $.each($products, function(index, $product) {
-                console.log($product.project_id, 'pid');
+                // console.log($product.project_id, 'pid');
                 if ($product.project_id == $('#client_project_name').val()) {
                     if ($oldVal) {
                         $('#client_brand_name').append(`<option` +

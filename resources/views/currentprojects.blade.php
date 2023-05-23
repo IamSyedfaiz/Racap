@@ -43,6 +43,9 @@
                                         <tr>
                                             <th>Project id</th>
                                             <th>Client</th>
+                                            <th>Brand Name</th>
+                                            <th>Modal Number</th>
+                                            <th>Factory Name</th>
                                             <th>Product</th>
                                             <th>Last Communication</th>
                                             <th>Response Status</th>
@@ -60,6 +63,9 @@
                                                 <tr>
                                                     <td>{{ $product->project->id }} </td>
                                                     <td>{{ $product->client->name }}</td>
+                                                    <td>{{ $product->brand_name }}</td>
+                                                    <td>{{ $product->modal_number }}</td>
+                                                    <td>{{ $product->factory->name }}</td>
                                                     <td>{{ $product->product_name }}</td>
                                                     <td>
                                                         @if (@$product->conversation->last()->sender->name)

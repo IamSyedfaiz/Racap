@@ -285,4 +285,8 @@ class ReportController extends Controller
         $project->save();
         return redirect()->back()->with('success', 'Add Successfully');
     }
+    public function remove_project($id)
+    {
+        return $id;
+    }
 }

@@ -474,9 +474,6 @@
                                                         </div>
                                                     </dialog>
                                                 @endforeach
-
-
-
                                             </tbody>
                                         </table>
                                     </div>

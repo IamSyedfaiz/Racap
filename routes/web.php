@@ -89,6 +89,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/history_getting', [AdminController::class, 'storeHistoryGetting'])->name('store.history.getting');
     Route::get('/past-edit/{id}', [ReportController::class, 'past_edit'])->name('past.edit');
     Route::post('/past-edit', [ReportController::class, 'past_edit_change'])->name('past.edit.change');
+
+
+    Route::post('/remove/project', [ReportController::class, 'remove_project'])->name('remove.project');
 });
 
 
