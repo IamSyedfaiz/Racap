@@ -1,5 +1,6 @@
 <x-app-layout>
     <!-- Page Wrapper -->
+
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -20,15 +21,11 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Project Details</h1>
+                <h1 class="h3 mb-0 text-gray-800">Alert Calender</h1>
                 <!--<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
+                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
             </div>
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+
             <!-- Content Row -->
             <div class="row">
 
@@ -36,33 +33,34 @@
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">{{ @$products->modal_number }}</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">{{ $products->modal_number }}</h6>
                         </div>
                         <div class="card-body">
                             <ul>
                                 <li>Client : {{ @$products->client->name }}</li>
-                                <li>Factory : {{ @$products->factory->name }}</li>
-                                <li>Brand : {{ @$products->brand_name }}</li>
+                                <li>Factory : {{ $products->factory->name }}</li>
+                                <li>Brand : {{ $products->brand_name }}</li>
                                 <li>Project : {{ @$products->project->project_name }}</li>
                                 <li>Product : {{ @$products->product_name }}</li>
                                 <li>Model : {{ @$products->modal_number }}</li>
                                 <li>Start Date: {{ date('d-m-Y', strtotime(@$products->project->project_start_date)) }}
                                 </li>
                                 <li>End Date: {{ date('d-m-Y', strtotime(@$products->project->project_end_date)) }}</li>
+                                {{-- <li>Expected Finishing Date: {{ $products->project->project_end_date }}</li> --}}
                             </ul>
                         </div>
                     </div>
 
                 </div>
                 <div class="col-md-6">
-                    <h2>{{ @$products->client->name }}</h2>
+
+                    <h2>{{ $products->client->name }}</h2>
                     @if (@$latestEntry->getting_value == 'gp')
                         <p class="text-danger">Getting Pause</p>
                     @elseif (@$latestEntry->getting_value == 'gu')
                         <p class="text-success">Getting Unpause</p>
                     @endif
-                    <h4 class="small font-weight-bold">
-                        {{ @$filteredName->phase_name }}
+                    <h4 class="small font-weight-bold">{{ @$filteredName->phase_name }}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
                     </h4>
                     <div class="progress mb-4">
@@ -93,13 +91,14 @@
                                 class="btn btn-primary">Alert Date</a>
                         </div>
                     </div>
-
                 </div>
             </div>
-
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
             <!-- Content Row -->
-
-
             <div class="row">
                 <div class="col-12">
 
@@ -110,8 +109,7 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">History of Getting Pause & Unpause
-                                    </h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Alert Calender List</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -121,44 +119,62 @@
                                                 <tr>
                                                     <th>Sr No.</th>
                                                     <th>Project ID</th>
-                                                    {{-- <th>Folder</th> --}}
-                                                    <th class="text-danger">Getting Pause</th>
-                                                    <th class="text-success">Getting Unpause</th>
-                                                    <th>Reason</th>
-                                                    <th>Updated By</th>
+                                                    <th>Particular</th>
+                                                    <th>Renew/Due Date</th>
+                                                    <th>Alert Note</th>
+                                                    <th>Alert Date</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            @foreach ($history_gettings as $history_getting)
+                                            <?php $i = 1; ?>
+                                            @foreach ($calender_alerts as $calender_alert)
                                                 <tr>
-                                                    <td>{{ $history_getting->id }}</td>
-                                                    <td>{{ $history_getting->product->modal_number }}</td>
-                                                    {{-- <td>Docs</td> --}}
-                                                    @if ($history_getting->getting_value == 'gp')
-                                                        <td class="text-danger">{{ $history_getting->created_at }}</td>
+
+                                                    <td>{{ $i++ }}</td>
+                                                    <td>{{ @$calender_alert->product->modal_number }}</td>
+                                                    <td>{{ $calender_alert->particular }}</td>
+                                                    <td>{{ $calender_alert->renew_date }}</td>
+                                                    <td>{{ $calender_alert->alert_note }}</td>
+                                                    {{-- @if ($current_date == @$alert_date1)
+                                                        <td>{{ $calender_alert->alert_date1 }}</td>
+                                                    @elseif ($current_date == @$alert_date2)
+                                                        <td>{{ $calender_alert->alert_date2 }}</td>
                                                     @else
-                                                        <td>--------------------------</td>
-                                                    @endif
-                                                    @if ($history_getting->getting_value == 'gu')
-                                                        <td class="text-success">{{ $history_getting->created_at }}
-                                                        </td>
-                                                    @else
-                                                        <td>----------------------------</td>
-                                                    @endif
-                                                    <td>{{ $history_getting->reason }}</td>
+                                                        <td>{{ $calender_alert->alert_date3 }}</td>
+                                                    @endif --}}
                                                     <td>
-                                                        @if ($history_getting->user->getRoleNames()->first() == 'Sub Admin')
+                                                        <span
+                                                            class="d-block">{{ $calender_alert->alert_date1 }},</span>
+                                                        <span
+                                                            class="d-block">{{ $calender_alert->alert_date2 }},</span>
+                                                        <span class="d-block">{{ $calender_alert->alert_date3 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        @if ($calender_alert->user->getRoleNames()->first() == 'Sub Admin')
                                                             <img src="../img/admin.jpg" class="rounded mr-0"
                                                                 alt="...">
-                                                        @elseif ($history_getting->user->getRoleNames()->first() == 'Consultant')
+                                                        @elseif ($calender_alert->user->getRoleNames()->first() == 'Consultant')
                                                             <img src="../img/client.jpg" class="rounded mr-0"
                                                                 alt="...">
-                                                        @elseif ($history_getting->user->getRoleNames()->first() == 'Client')
+                                                        @elseif ($calender_alert->user->getRoleNames()->first() == 'Client')
                                                             <img src="../img/vendor.jpg" class="rounded mr-0"
                                                                 alt="...">
-                                                        @endif {{ $history_getting->user->name }}
+                                                        @endif{{ $calender_alert->user->name }}
+                                                    </td>
+                                                    <td>
+                                                        <a
+                                                            href="{{ route('delete.alert.calender', ['id' => $calender_alert->id]) }}"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor" class="text-white"
+                                                                viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                                            </svg></a>
                                                     </td>
                                                 </tr>
                                             @endforeach
+
                                             <tbody>
 
 
@@ -170,89 +186,68 @@
                                 </div>
                             </div>
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
+                                {{-- <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Update the Getting Pause & Unpause
                                     </h6>
-                                </div>
+                                </div> --}}
                                 <div class="card-body p-4">
                                     <div class="mb-5">
-                                        <form action="{{ route('store.history.getting') }}" method="post">
+                                        <form action="{{ route('store.alert.calender') }}" method="post">
                                             @csrf
-                                            <div class="orm-group mb-10 d-flex flex-row">
-                                                <div class="">
-                                                    <input type="radio" name="getting_value" value="gp"
-                                                        id="" class="mx-2">
-                                                    <label class="font-weight-bold text-primary">Getting
-                                                        Pause</label>
-                                                </div>
-                                                <div class="mr-4">
-                                                    <input type="radio" name="getting_value" value="gu"
-                                                        id="" class="mx-2">
-                                                    <label class="font-weight-bold text-primary">Getting
-                                                        Unpause</label>
-                                                </div>
-                                            </div>
+                                            <div class="">
+                                                <div class="form-group col-md-12 d-flex ">
+                                                    <div class="col-md-6 d-flex flex-column ">
+                                                        <label for="reason"
+                                                            class="font-weight-bold text-primary">Particular</label>
+                                                        <input type="text" name="particular">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button class="btn border border-primary">Send
+                                                            Alert</button>
+                                                        <button class="btn border border-danger">Alert History</button>
+                                                    </div>
 
-                                            <div class="form-row">
-                                                <div class="form-group col-md-12 d-flex flex-column ">
-                                                    <label for="reason"
-                                                        class="font-weight-bold text-primary">Reason</label>
-                                                    <textarea name="reason" id="" required cols="60" rows="5" class="p-2"
-                                                        placeholder="Enter Comments"></textarea>
 
                                                 </div>
+                                                <div class="form-group col-md-6 d-flex flex-column ">
+                                                    <label for="reason" class="font-weight-bold text-primary">Renew
+                                                        Date</label>
+                                                    <input type="date" name="renew_date">
+
+                                                </div>
+                                                <div class="form-group col-md-6 d-flex flex-column ">
+                                                    <label for="reason" class="font-weight-bold text-primary">Alert
+                                                        Date</label>
+                                                    <input type="date" name="alert_date1">
+                                                    <input class="my-2" type="date" name="alert_date2">
+                                                    <input type="date" name="alert_date3">
+
+                                                </div>
+                                                <div class="form-group col-md-6 d-flex flex-column ">
+                                                    <label for="reason" class="font-weight-bold text-primary">Alert
+                                                        Note</label>
+                                                    <input type="text" name="alert_note">
+
+                                                </div>
+                                                <input type="text" name="product_id" hidden
+                                                    value="{{ $products->id }}">
                                             </div>
-                                            <input type="text" name="product_id" hidden
-                                                value="{{ $products->id }}">
+
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- <div class="row">
-                                <div class="col-12">
-                                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                        <h1 class="h3 mb-0 text-gray-800">Update the Getting Pause & Unpause</h1>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-5">
-                                <form action="{{ route('store.history.getting') }}" method="post">
-                                    @csrf
-                                    <div class="orm-group mb-10 d-flex flex-row">
-                                        <div class="">
-                                            <label for="">Getting Pause</label>
-                                            <input type="radio" name="getting_value" value="gp"
-                                                id="">
-                                        </div>
-                                        <div class="mr-4">
-                                            <label for="">Getting Unpause</label>
-                                            <input type="radio" name="getting_value" value="gu"
-                                                id="">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="form-group col-md-12 d-flex flex-column ">
-                                            <label for="reason">Reason</label>
-                                            <textarea name="reason" id="" cols="60" rows="5" placeholder="Enter Comments"></textarea>
-
-                                        </div>
-                                    </div>
-                                    <input type="text" name="product_id" hidden value="{{ $products->id }}">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
         <!-- /.container-fluid -->
 
     </div>
     <!-- End of Page Wrapper -->
+
 
 </x-app-layout>

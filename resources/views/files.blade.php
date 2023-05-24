@@ -89,21 +89,11 @@
                                 class="btn btn-primary">Status</a>
                             <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">History Getting</a>
+                            <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Alert Date</a>
                         </div>
                     </div>
-
                 </div>
-
-
-
-
-
-                <!-- Earnings (Monthly) Card Example -->
-
-                <!-- Earnings (Monthly) Card Example -->
-
-
-                <!-- Pending Requests Card Example -->
             </div>
 
             <!-- Content Row -->
@@ -117,7 +107,6 @@
 
             <div class="row">
                 <div class="col-12">
-
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="pills-infobank-tab" data-toggle="pill"
@@ -453,13 +442,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
-
                 </div>
             </div>
 

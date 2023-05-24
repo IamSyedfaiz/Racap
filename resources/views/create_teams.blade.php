@@ -490,30 +490,51 @@
                                                         <td>
                                                             @foreach ($product->productdetail as $detail)
                                                                 @if (@$detail->type == 'CL')
-                                                                    <button class="btn btn-link btn-open-modal"
-                                                                        data-toggle="modal" data-target="#deleteModal"
-                                                                        data-user-id="{{ $detail->user->id }}">
-                                                                        {{ @$detail->user->name }}</button>,
+                                                                    <a class=""
+                                                                        onclick="document.getElementById('myModalOD{{ $detail->user->id }}').showModal()"
+                                                                        id="btn"
+                                                                        style="border-radius: 5px; color:black; font-weight: bold; cursor: pointer;">
+                                                                        {{ @$detail->user->name }}
+                                                                    </a>,
                                                                 @endif
                                                             @endforeach
                                                         </td>
                                                         <td>
                                                             @foreach ($product->productdetail as $detail)
                                                                 @if ($detail->type == 'CO')
-                                                                    <button class="btn btn-link btn-open-modal"
-                                                                        data-toggle="modal" data-target="#deleteModal"
-                                                                        data-user-id="{{ $detail->user->id }}">{{ $detail->user->name }}</button>,
+                                                                    <a class=""
+                                                                        onclick="document.getElementById('myModalOD{{ $detail->user->id }}').showModal()"
+                                                                        id="btn"
+                                                                        style="border-radius: 5px; color:black; font-weight: bold; cursor: pointer;">
+                                                                        {{ @$detail->user->name }}
+                                                                    </a>,
                                                                 @endif
+                                                                <dialog id="myModalOD{{ $detail->user->id }}">
+                                                                    <div class="flex flex-col w-full h-auto ">
+                                                                        <div
+                                                                            class="flex w-full h-auto mb-20 px-4 rounded text-center ">
+                                                                            Are You Sure Delete From Trash
+                                                                        </div>
+                                                                        <div class=" d-flex justify-content-end mt-4 ">
+                                                                            <button
+                                                                                onclick="document.getElementById('myModalOD{{ $detail->user->id }}').close()"
+                                                                                class="mr-2 px-2 py-1 rounded-lg "
+                                                                                data-modal-toggle="default-modal">Cancel</button>
+                                                                            <a
+                                                                                href="{{ route('remove.project', ['id' => $detail->user->id]) }}">
+                                                                                <button
+                                                                                    onclick="document.getElementById('myModalOD').close();"
+                                                                                    class=" px-2 py-1 rounded-lg   hover:bg-opacity-50">OK</button>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </dialog>
                                                             @endforeach
                                                         </td>
-                                                        {{-- 
-                                                        <td><a href="{{ route('product.delete', ['id' => $product->id]) }}"
-                                                                class="btn btn-primary btn-sm">Delete</a>
-                                                        </td> --}}
+
+
                                                     </tr>
                                                 @endforeach
-
-
 
                                             </tbody>
                                         </table>
@@ -589,54 +610,6 @@
             </div>
         </div>
     </div>
-
-    <!-- JavaScript -->
-    <script>
-        $(document).ready(function() {
-            var userIdToDelete;
-
-            // Handle click event on the "Open Modal" button
-            $('.btn-open-modal').on('click', function() {
-                userIdToDelete = $(this).data('user-id');
-            });
-
-            // Handle click event on the "Delete" button inside the modal
-            $('.btn-delete').on('click', function() {
-                if (userIdToDelete) {
-                    // Perform an AJAX request to delete the row from the productDetails table
-                    $.ajax({
-                        url: '{{ route('remove.project') }}',
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            user_id: userIdToDelete
-                        },
-                        success: function(response) {
-                            // Check the response and update the UI accordingly
-                            if (response.success) {
-                                // Delete the row from the table
-                                // ... your code to delete the row from the table goes here ...
-
-                                // Close the modal
-                                $('#deleteModal').modal('hide');
-                            } else {
-                                // Display an error message
-                                alert('Failed to delete the entry.');
-                            }
-                        },
-                        error: function() {
-                            // Display an error message
-                            alert('An error occurred while processing the request.');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
-
-
-
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

@@ -104,6 +104,15 @@
                    </a>
                </li>
            @endif
+           @if (auth()->user()->getRoleNames()->first() == 'Sub Admin' ||
+                   auth()->user()->getRoleNames()->first() == 'Super Admin')
+               <li class="nav-item">
+                   <a class="nav-link collapsed" href="{{ route('new.enquiry') }}">
+                       <i class="fas fa-fw fa-folder"></i>
+                       <span>New Enquiry</span>
+                   </a>
+               </li>
+           @endif
 
 
 
