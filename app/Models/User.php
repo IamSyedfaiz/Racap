@@ -47,4 +47,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Trash::class);
     }
+    public function calenderalert()
+    {
+        return $this->hasMany(CalenderAlert::class);
+    }
+    public function messages()
+    {
+        return $this->hasMany(Enquiry::class, 'receiver_id');
+    }
+
+    public function getLastMessage()
+    {
+        return $this->messages()->latest()->first();
+    }
 }

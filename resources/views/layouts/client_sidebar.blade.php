@@ -84,6 +84,12 @@
                 <span>Create User</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('new.enquiry') }}">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>New Enquiry</span>
+            </a>
+        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">

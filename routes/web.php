@@ -83,12 +83,37 @@ Route::middleware('auth')->group(function () {
     Route::post('/message-send', [MessageController::class, 'message_send'])->name('message.send');
     Route::get('/conversation/{id}', [MessageController::class, 'conversation'])->name('conversation');
     Route::get('/message/search/{id}', [MessageController::class, 'message_search'])->name('message.search');
+    Route::get('newEnquiry', [MessageController::class, 'new_enquiry'])->name('new.enquiry');
+    Route::post('/enquiry-send', [MessageController::class, 'enquiry_send'])->name('enquiry.send');
+    Route::get('/enquiry/{id}', [MessageController::class, 'enquiry'])->name('enquiry');
+    Route::get('/enquiry/search/{id}', [MessageController::class, 'enquiry_search'])->name('enquiry.search');
+
 
     // 
     Route::get('/history-getting/{id}', [AdminController::class, 'historyGetting'])->name('history.getting');
     Route::post('/history_getting', [AdminController::class, 'storeHistoryGetting'])->name('store.history.getting');
     Route::get('/past-edit/{id}', [ReportController::class, 'past_edit'])->name('past.edit');
     Route::post('/past-edit', [ReportController::class, 'past_edit_change'])->name('past.edit.change');
+
+
+
+    // Display the chat list view
+    Route::get('/chat', [MessageController::class, 'chat_index'])->name('chat.index');
+
+    // Display the chat thread between the logged-in user and the selected user
+    Route::get('/chat/{receiver_id}', [MessageController::class, 'chat_show'])->name('chat.show');
+
+    // Send a chat message
+    Route::post('/chat/send', [MessageController::class, 'chat_send'])->name('chat.send');
+
+
+
+
+    Route::get('/remove-project/{id}', [ReportController::class, 'remove_project'])->name('remove.project');
+
+    Route::get('/alert_calender/{id}', [AdminController::class, 'alert_calender'])->name('alert.calender');
+    Route::post('/alert_calender', [AdminController::class, 'store_alert_calender'])->name('store.alert.calender');
+    Route::get('/delete_alert_calender/{id}', [AdminController::class, 'delete_alert_calender'])->name('delete.alert.calender');
 });
 
 

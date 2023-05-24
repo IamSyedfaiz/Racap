@@ -87,9 +87,10 @@
                                 class="btn btn-primary">Status</a>
                             <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">History Getting</a>
+                            <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Alert Date</a>
                         </div>
                     </div>
-
                 </div>
             </div>
             @if (session('success'))
@@ -188,14 +189,6 @@
 
                 </div>
             </div>
-
-
-
-
-
-
-
-
         </div>
         <!-- /.container-fluid -->
 
@@ -213,7 +206,6 @@
         setInterval(() => {
             if (!isSearching) {
                 $.ajax({
-                    // url: '/conversation/' + product_id,   
                     url: "{{ route('conversation', ':id') }}".replace(':id', product_id),
                     method: 'GET',
                     dataType: 'json',
@@ -223,8 +215,6 @@
                         $.each(conversations, function(index, conversation) {
 
                             if (user_id == conversation.sender_id) {
-
-
                                 const created_at = conversation
                                     .created_at; // example timestamp string
                                 const date = new Date(created_at);
@@ -369,85 +359,5 @@
             isSearching = false; // Reset the flag after search is completed
         }
     </script>
-    {{-- <script>
-        function search() {
-            var searchText = $('#search').val();
-            console.log(searchText);
-            $.ajax({
-                // url: '/conversation/' + product_id,   
-                url: "{{ route('message.search') }}",
-                method: 'GET',
-                dataType: 'json',
-                data: {
-                    searchText: searchText,
-                }
-                success: function(response) {
-                    var conversations = response;
-                    var html = '';
-                    $.each(conversations, function(index, conversation) {
-
-                        if (user_id == conversation.sender_id) {
-
-
-                            const created_at = conversation
-                                .created_at; // example timestamp string
-                            const date = new Date(created_at);
-                            const formatted_date = date.toLocaleTimeString('es-CL', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit'
-                            }).replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-                            html += '<div class="col-12">';
-                            html +=
-                                '<div class="float-right card text-white bg-gradient-primary mb-3" style="width: 60%;">'
-                            html += '<div class="card-header text-white bg-primary">' +
-                                conversation.sender.name +
-                                '<small class="float-right text-white">' +
-                                formatted_date +
-                                '</small>'
-                            '</div>'
-                            html += '<div class="card-body">'
-                            html += '<h5 class="card-title">' + conversation.title + '</h5>'
-                            html += '   <p class="card-text">' + conversation.messages + '</p>'
-                            html += '</div>'
-                            html += '</div>'
-                            html += '</div>'
-                            html += '</div>'
-                        } else {
-
-                            const created_at = conversation
-                                .created_at; // example timestamp string
-                            const date = new Date(created_at);
-                            const formatted_date = date.toLocaleTimeString('es-CL', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit'
-                            }).replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-                            html += '<div class="col-12">';
-                            html +=
-                                '<div class="float-left card  text-white bg-gradient-success mb-3" style="width: 60%;">'
-                            html += '<div class="card-header text-white bg-success">' +
-                                conversation.sender.name +
-                                '<small class="float-right text-white">' +
-                                formatted_date + '</small>'
-                            '</div>'
-                            html += '<div class="card-body">'
-                            html += '<h5 classmonth="card-title">' + conversation.title +
-                                '</h5>'
-                            html += '<p class="card-text">' + conversation.messages + '</p>'
-                            html += '</div>'
-                            html += '</div>'
-                            html += '</div>'
-                            html += '</div>'
-                        }
-                    });
-                    $('#message-center').html(html);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            })
-        }
-    </script> --}}
 
 </x-app-layout>

@@ -458,7 +458,7 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Table</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">All Teams</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -490,25 +490,51 @@
                                                         <td>
                                                             @foreach ($product->productdetail as $detail)
                                                                 @if (@$detail->type == 'CL')
-                                                                    {{ @$detail->user->name }},
+                                                                    <a class=""
+                                                                        onclick="document.getElementById('myModalOD{{ $detail->user->id }}').showModal()"
+                                                                        id="btn"
+                                                                        style="border-radius: 5px; color:black; font-weight: bold; cursor: pointer;">
+                                                                        {{ @$detail->user->name }}
+                                                                    </a>,
                                                                 @endif
                                                             @endforeach
                                                         </td>
                                                         <td>
                                                             @foreach ($product->productdetail as $detail)
                                                                 @if ($detail->type == 'CO')
-                                                                    {{ $detail->user->name }},
+                                                                    <a class=""
+                                                                        onclick="document.getElementById('myModalOD{{ $detail->user->id }}').showModal()"
+                                                                        id="btn"
+                                                                        style="border-radius: 5px; color:black; font-weight: bold; cursor: pointer;">
+                                                                        {{ @$detail->user->name }}
+                                                                    </a>,
                                                                 @endif
+                                                                <dialog id="myModalOD{{ $detail->user->id }}">
+                                                                    <div class="flex flex-col w-full h-auto ">
+                                                                        <div
+                                                                            class="flex w-full h-auto mb-20 px-4 rounded text-center ">
+                                                                            Are You Sure Delete From Trash
+                                                                        </div>
+                                                                        <div class=" d-flex justify-content-end mt-4 ">
+                                                                            <button
+                                                                                onclick="document.getElementById('myModalOD{{ $detail->user->id }}').close()"
+                                                                                class="mr-2 px-2 py-1 rounded-lg "
+                                                                                data-modal-toggle="default-modal">Cancel</button>
+                                                                            <a
+                                                                                href="{{ route('remove.project', ['id' => $detail->user->id]) }}">
+                                                                                <button
+                                                                                    onclick="document.getElementById('myModalOD').close();"
+                                                                                    class=" px-2 py-1 rounded-lg   hover:bg-opacity-50">OK</button>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </dialog>
                                                             @endforeach
                                                         </td>
-                                                        {{-- 
-                                                        <td><a href="{{ route('product.delete', ['id' => $product->id]) }}"
-                                                                class="btn btn-primary btn-sm">Delete</a>
-                                                        </td> --}}
+
+
                                                     </tr>
                                                 @endforeach
-
-
 
                                             </tbody>
                                         </table>
@@ -543,26 +569,49 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="userRemove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Remove Project?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Remove User To Project .</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="#">Remove</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this entry?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger btn-delete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
@@ -674,7 +723,7 @@
             $('#client_brand_name').html(``);
             $('#client_brand_name').append(` <option> Select an option </option>`);
             $.each($products, function(index, $product) {
-                console.log($product.project_id, 'pid');
+                // console.log($product.project_id, 'pid');
                 if ($product.project_id == $('#client_project_name').val()) {
                     if ($oldVal) {
                         $('#client_brand_name').append(`<option` +

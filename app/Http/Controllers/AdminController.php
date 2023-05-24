@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\Roles;
 use App\Models\Account;
+use App\Models\CalenderAlert;
 use App\Models\Conversation;
 use App\Models\HistoryGetting;
 use App\Models\Product;
@@ -13,6 +14,7 @@ use App\Models\Subscription;
 use App\Models\Trash;
 use App\Models\UploadFile;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -481,7 +483,7 @@ class AdminController extends Controller
             'link'      => url('/') . '/login'
         ];
 
-      
+
         Mail::send('email.email_info', @$data, function ($msg) use ($data, $request) {
             $msg->from('racap@omegawebdemo.com.au');
             $msg->to($request->user_email, 'RACAP');
@@ -547,6 +549,110 @@ class AdminController extends Controller
         $data->reason = $request->reason;
         $data->save();
 
+        return redirect()->back();
+    }
+    public function alert_calender($id)
+    {
+        $user = User::find(auth()->user()->id);
+        $roles = $user->getRoleNames()->first();
+
+
+
+        $progressreports = ProgressReport::where('product_id', $id)->get();
+        $filteredName = $progressreports->where('is_completed', 'N')->last();
+        $filteredPercentage = $progressreports->where('is_completed', 'N');
+        $allLength = count($progressreports);
+        $length = count($filteredPercentage);
+        if ($allLength > 0) {
+
+            $calculatedPercentage = ($length / $allLength) * 100;
+            $calculatedPercentage = intval($calculatedPercentage);
+        } else {
+            $calculatedPercentage = 0;
+            $calculatedPercentage = intval($calculatedPercentage);
+        }
+        $user = User::find(auth()->user()->id);
+        $roles = $user->getRoleNames()->first();
+        $products = Product::find($id);
+        $history_gettings = HistoryGetting::where('product_id', $id)->latest('created_at')->get();
+        $latestEntry = HistoryGetting::where('product_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $calender_alerts = CalenderAlert::all();
+        $products = Product::find($id);
+        $current_date = now()->format('d-m-Y');
+        $alert_date1 = '';
+        $alert_date2 = '';
+        $alert_date3 = '';
+        foreach ($calender_alerts as $calender_alert) {
+            $alert_date1 = Carbon::parse($calender_alert->alert_date1)->format('d-m-Y');
+            $alert_date2 = Carbon::parse($calender_alert->alert_date2)->format('d-m-Y');
+            $alert_date3 = Carbon::parse($calender_alert->alert_date3)->format('d-m-Y');
+        }
+
+        $data['name'] = 'Test';
+
+
+        $product = Product::find($id);
+        $proejctName = $product->project->project_name;
+        $productdetailClients = $product->productdetailClient;
+        $productdetailConss = $product->productdetailCons;
+        // return $proejctName;
+        $dataWith = [
+            'text1' => 'Message: ' . auth()->user()->name . ' has updated ledger,',
+            'text2' => 'hello',
+            // 'text3' => 'This amount is added',
+            'link'      => url('/') . '/login'
+        ];
+
+        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+            $msg->from('racap@omegawebdemo.com.au');
+            foreach ($productdetailConss as $productdetailCons) {
+                $users = $productdetailCons->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            foreach ($productdetailClients as $productdetailClient) {
+                $users = $productdetailClient->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            $msg->to($product->user->email, 'RACAP');
+
+            $msg->subject('Subject: Ledger Update - ' . $proejctName);
+        });
+        // return $alert_date1;
+
+        // if ($current_date == $alert_date1 || $current_date == $alert_date2 || $current_date == $alert_date3) {
+        //     Mail::send('email.alert_email_info', @$data, function ($msg) use ($data) {
+
+        //         $msg->from('racap@omegawebdemo.com.au');
+        //         $msg->to('faizmiya110@gmail.com', 'RACAP');
+        //         $msg->subject('Subject: Ledger Update - ');
+        //     });
+        // }
+
+        // return $alert_date1; 
+        return view('alert_calender', compact('roles', 'calender_alerts', 'products', 'current_date', 'alert_date1', 'alert_date2', 'filteredName', 'history_gettings', 'calculatedPercentage', 'latestEntry'));
+    }
+    public function store_alert_calender(Request $request)
+    {
+        $data = new CalenderAlert();
+        $data->user_id = auth()->user()->id;
+        $data->product_id = $request->product_id;
+        $data->particular = $request->particular;
+        $data->renew_date = $request->renew_date;
+        $data->alert_date1 = $request->alert_date1;
+        $data->alert_date2 = $request->alert_date2;
+        $data->alert_date3 = $request->alert_date3;
+        $data->alert_note = $request->alert_note;
+        $data->save();
+        return redirect()->back();
+    }
+
+    public function delete_alert_calender($id)
+    {
+        $alert_calender = CalenderAlert::find($id);
+        $alert_calender->delete();
         return redirect()->back();
     }
 }

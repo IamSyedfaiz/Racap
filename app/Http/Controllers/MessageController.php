@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation;
+use App\Models\Enquiry;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -31,8 +33,6 @@ class MessageController extends Controller
     }
     public function message_search(Request $request, $id)
     {
-
-
         $conversations = Conversation::with('sender')
             ->where(function ($query) use ($request, $id) {
                 $query->where('messages', 'LIKE', '%' . $request->searchText . '%')
@@ -42,5 +42,74 @@ class MessageController extends Controller
             ->get();
 
         return Response($conversations);
+    }
+    public function new_enquiry()
+    {
+        $user = auth()->user();
+        $roles = $user->getRoleNames()->first();
+        // $users = User::all();
+        $users = User::where('id', '!=', auth()->user()->id)->get();
+
+        return view('new_enquiry', compact('roles', 'users'));
+    }
+    public function enquiry_send(Request $request)
+    {
+        $enquiry = new Enquiry();
+        $enquiry->title = $request->title;
+        $enquiry->messages = $request->messages;
+        $enquiry->sender_id = auth()->user()->id;
+        $enquiry->receiver_id = $request->receiver_id;
+        $enquiry->user_id = auth()->user()->id;
+
+        $enquiry->save();
+
+        return redirect()->back()->with('success', 'Message Send successfully ');
+    }
+    public function enquiry($receiverId)
+    {
+        $messages = Enquiry::all();
+        // $messages = Enquiry::where(function ($query) use ($receiverId) {
+        //     $query->where('sender_id', auth()->user()->id)
+        //         ->where('receiver_id', $receiverId);
+        // })->orWhere(function ($query) use ($receiverId) {
+        //     $query->where('sender_id', $receiverId)
+        //         ->where('receiver_id', auth()->user()->id);
+        // })->get();
+        // DD($messages);
+        return Response($messages);
+        // return redirect()->back()->with('success', 'Message Send successfully ');
+    }
+    public function enquiry_search(Request $request, $id)
+    {
+        $messages = Enquiry::with('sender')
+            ->where(function ($query) use ($request, $id) {
+                $query->where('messages', 'LIKE', '%' . $request->searchText . '%')
+                    ->orWhere('title', 'LIKE', '%' . $request->searchText . '%');
+            })
+            ->where('user_id', auth()->user()->id)
+            ->get();
+
+        return Response($messages);
+    }
+
+    public function chat_show($receiverId)
+    {
+        // Logic to fetch the chat messages between the logged-in user and the selected user
+
+        $user = auth()->user();
+        $roles = $user->getRoleNames()->first();
+        // $users = User::all();
+        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $receiver = User::findOrFail($receiverId);
+        $messages = Enquiry::where(function ($query) use ($receiverId) {
+            $query->where('sender_id', auth()->user()->id)
+                ->where('receiver_id', $receiverId);
+        })->orWhere(function ($query) use ($receiverId) {
+            $query->where('sender_id', $receiverId)
+                ->where('receiver_id', auth()->user()->id);
+        })->get();
+        return view('new_enquiry', compact('receiver', 'messages', 'roles', 'users'));
+        // return response()->view('new_enquiry', compact('receiver', 'messages', 'roles', 'users'));
+        // return Response($messages);
     }
 }

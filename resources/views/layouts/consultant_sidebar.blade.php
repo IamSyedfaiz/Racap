@@ -90,15 +90,18 @@
              <span>Create User</span>
          </a>
      </li>
+     <li class="nav-item">
+         <a class="nav-link collapsed" href="{{ route('new.enquiry') }}">
+             <i class="fas fa-fw fa-folder"></i>
+             <span>New Enquiry</span>
+         </a>
+     </li>
 
      <!-- Divider -->
      <hr class="sidebar-divider">
 
-     <!-- Heading -->
-     <!--<div class="sidebar-heading">
-        Addons
-    </div>-->
 
+<<<<<<< HEAD
      <!-- Nav Item - Pages Collapse Menu -->
      <!--<li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -133,6 +136,8 @@
             </div>
         </div>
     </li>
+=======
+>>>>>>> 764006c05a3ec66ed6a6cf202fda49468388a9cc
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -142,6 +147,7 @@
        Addons
    </div>-->
 
+<<<<<<< HEAD
     <!-- Nav Item - Pages Collapse Menu -->
     <!--<li class="nav-item">
        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -194,3 +200,7 @@
 
 </ul>
 <!-- End of Sidebar -->
+=======
+ </ul>
+ <!-- End of Sidebar -->
+>>>>>>> 764006c05a3ec66ed6a6cf202fda49468388a9cc

@@ -84,6 +84,8 @@
                                 class="btn btn-primary">Status</a>
                             <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">History Getting</a>
+                            <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Alert Date</a>
                         </div>
                     </div>
                 </div>

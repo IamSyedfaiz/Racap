@@ -6,6 +6,7 @@ use App\Http\Helpers\Roles;
 use App\Models\Client;
 use App\Models\HistoryGetting;
 use App\Models\Product;
+use App\Models\ProductDetail;
 use App\Models\ProgressReport;
 use App\Models\Project;
 use App\Models\Response;
@@ -284,5 +285,12 @@ class ReportController extends Controller
         $project->project_end_date = $request->project_end_date;
         $project->save();
         return redirect()->back()->with('success', 'Add Successfully');
+    }
+    public function remove_project($id)
+    {
+        $details = ProductDetail::where('user_id', $id)->first();
+        $details->delete();
+
+        return redirect()->back()->with('success', 'Remove Successfully');
     }
 }
