@@ -98,9 +98,11 @@ class ManagementController extends Controller
 
     public function create_user()
     {
+        $user = auth()->user();
+        $roles = $user->getRoleNames()->first();
         // if (auth()->user()) {
         $users = User::where('parent_id', auth()->user()->id)->get();
-        return view('create_user', compact('users'));
+        return view('create_user', compact('users', 'roles'));
         // }
         // return redirect('login');
     }

@@ -90,28 +90,16 @@
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
-
-
-
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
-
             </div>
-
-
-
         </div>
         <!-- /.container-fluid -->
-
     </div>
     <!-- End of Page Wrapper -->
 

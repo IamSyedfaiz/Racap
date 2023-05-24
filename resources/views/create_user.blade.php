@@ -3,7 +3,15 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('layouts.sidebar')
+        @if ($roles === 'Super Admin')
+            @include('layouts.sidebar')
+        @elseif($roles === 'Sub Admin')
+            @include('layouts.sidebar')
+        @elseif($roles === 'Client')
+            @include('layouts.client_sidebar')
+        @elseif($roles === 'Consultant')
+            @include('layouts.consultant_sidebar')
+        @endif
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -35,31 +43,32 @@
                     <!-- Content Row -->
                     <div class="row">
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-md-6">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add (Client) User to project </h6>
-                                </div>
-                                <div class="card-body">
-                                    <form action="{{ route('create.client.user') }}" method="post">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="cname">User name</label>
-                                            <input type="text" class="form-control" required name="user_name"
-                                                id="cname" aria-describedby="cname">
-                                            @error('user_name')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User email</label>
-                                            <input type="text" class="form-control" required name="client_email"
-                                                id="cname" aria-describedby="cname">
-                                            @error('client_email')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        {{-- <div class="form-group">
+                        @if ($roles === 'Client' || $roles === 'Sub Admin' || $roles === 'Super Admin')
+                            <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Add (Client) User to project </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="{{ route('create.client.user') }}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="cname">User name</label>
+                                                <input type="text" class="form-control" required name="user_name"
+                                                    id="cname" aria-describedby="cname">
+                                                @error('user_name')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">User email</label>
+                                                <input type="text" class="form-control" required name="client_email"
+                                                    id="cname" aria-describedby="cname">
+                                                @error('client_email')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            {{-- <div class="form-group">
                                             <label for="cname">User Password</label>
                                             <input type="password" class="form-control" required name="client_password"
                                                 id="cname" aria-describedby="cname">
@@ -67,52 +76,55 @@
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
                                         </div> --}}
-                                        <div class="form-group">
-                                            <label for="cname">User Mobile Number</label>
-                                            <input type="number" class="form-control" name="client_mobile_number"
-                                                id="cname" aria-describedby="cname">
-                                            @error('client_mobile_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User Landline Number</label>
-                                            <input type="number" class="form-control" name="client_landline_number"
-                                                id="cname" aria-describedby="cname">
-                                            @error('client_landline_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="cname">User Mobile Number</label>
+                                                <input type="number" class="form-control" name="client_mobile_number"
+                                                    id="cname" aria-describedby="cname">
+                                                @error('client_mobile_number')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">User Landline Number</label>
+                                                <input type="number" class="form-control" name="client_landline_number"
+                                                    id="cname" aria-describedby="cname">
+                                                @error('client_landline_number')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
 
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
                                 </div>
+
                             </div>
+                        @endif
 
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Add (Consultant) User to product</h6>
-                                </div>
-                                <div class="card-body">
-                                    <form action="{{ route('create.consultant.user') }}" method="post">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="cname">User Name</label>
-                                            <input type="text" class="form-control" required name="user_name"
-                                                id="cname" aria-describedby="cname">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User Email</label>
-                                            <input type="text" class="form-control" required name="consultant_email"
-                                                id="cname" aria-describedby="cname">
-                                            @error('consultant_email')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        {{-- <div class="form-group">
+                        @if ($roles === 'Consultant' || $roles === 'Sub Admin' || $roles === 'Super Admin')
+                            <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Add (Consultant) User to product
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="{{ route('create.consultant.user') }}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="cname">User Name</label>
+                                                <input type="text" class="form-control" required name="user_name"
+                                                    id="cname" aria-describedby="cname">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">User Email</label>
+                                                <input type="text" class="form-control" required
+                                                    name="consultant_email" id="cname" aria-describedby="cname">
+                                                @error('consultant_email')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            {{-- <div class="form-group">
                                             <label for="cname">User Password</label>
                                             <input type="password" class="form-control" required
                                                 name="consultant_password" id="cname" aria-describedby="cname">
@@ -120,31 +132,32 @@
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
                                         </div> --}}
-                                        <div class="form-group">
-                                            <label for="cname">User Mobile Number</label>
-                                            <input type="number" class="form-control" name="consultant_mobile_number"
-                                                id="cname" aria-describedby="cname">
-                                            @error('consultant_mobile_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User Landline Number</label>
-                                            <input type="number" class="form-control" name="consultant_landline_number"
-                                                id="cname" aria-describedby="cname">
-                                            @error('consultant_landline_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="cname">User Mobile Number</label>
+                                                <input type="number" class="form-control"
+                                                    name="consultant_mobile_number" id="cname"
+                                                    aria-describedby="cname">
+                                                @error('consultant_mobile_number')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cname">User Landline Number</label>
+                                                <input type="number" class="form-control"
+                                                    name="consultant_landline_number" id="cname"
+                                                    aria-describedby="cname">
+                                                @error('consultant_landline_number')
+                                                    <p class="small text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
 
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
                                 </div>
+
                             </div>
-
-                        </div>
-
-
+                        @endif
 
 
 
@@ -165,136 +178,142 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Clients</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%"
-                                            cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    {{-- <th>Password</th> --}}
-                                                    <th>Moblie Number</th>
-                                                    <th>Landline Number</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
+                            @if ($roles === 'Client' || $roles === 'Sub Admin' || $roles === 'Super Admin')
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Clients</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%"
+                                                cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        {{-- <th>Password</th> --}}
+                                                        <th>Moblie Number</th>
+                                                        <th>Landline Number</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
 
-                                            <tbody>
-                                                @foreach (@$users as $user)
-                                                    @if ($user->getRoleNames()->first() == 'Client')
-                                                        <tr>
-                                                            <td>{{ $user->name }}</td>
-                                                            <td>{{ $user->email }}</td>
-                                                            {{-- <td>{{ $user->password }}</td> --}}
-                                                            <td>{{ $user->mobile_number }}</td>
-                                                            <td>{{ $user->landline_number }}</td>
-                                                            <td>
-                                                                @if (@$user->active !== 'N')
-                                                                    <form
-                                                                        action="{{ route('change.active', ['id' => $user->id, 'status' => 'N']) }}"
-                                                                        method="post" class="inline-block">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-danger">
-                                                                            <span>Suspend</span>
-                                                                            <i class="fas fa-user-slash "></i>
-                                                                        </button>
-                                                                    </form>
-                                                                @endif
-                                                                @if (@$user->active !== 'Y')
-                                                                    <form
-                                                                        action="{{ route('change.active', ['id' => $user->id, 'status' => 'Y']) }}"
-                                                                        method="post" class="inline-block">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">
-                                                                            <span>Active</span>
-                                                                            <i class="fas fa-user-check"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                @endif
-                                                            </td>
-                                                            {{-- <td><a href="{{ route('user.delete', ['id' => $user->id]) }}"
+                                                <tbody>
+                                                    @foreach (@$users as $user)
+                                                        @if ($user->getRoleNames()->first() == 'Client')
+                                                            <tr>
+                                                                <td>{{ $user->name }}</td>
+                                                                <td>{{ $user->email }}</td>
+                                                                {{-- <td>{{ $user->password }}</td> --}}
+                                                                <td>{{ $user->mobile_number }}</td>
+                                                                <td>{{ $user->landline_number }}</td>
+                                                                <td>
+                                                                    @if (@$user->active !== 'N')
+                                                                        <form
+                                                                            action="{{ route('change.active', ['id' => $user->id, 'status' => 'N']) }}"
+                                                                            method="post" class="inline-block">
+                                                                            @csrf
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger">
+                                                                                <span>Suspend</span>
+                                                                                <i class="fas fa-user-slash "></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    @endif
+                                                                    @if (@$user->active !== 'Y')
+                                                                        <form
+                                                                            action="{{ route('change.active', ['id' => $user->id, 'status' => 'Y']) }}"
+                                                                            method="post" class="inline-block">
+                                                                            @csrf
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">
+                                                                                <span>Active</span>
+                                                                                <i class="fas fa-user-check"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    @endif
+                                                                </td>
+                                                                {{-- <td><a href="{{ route('user.delete', ['id' => $user->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td> --}}
-                                                        </tr>
-                                                    @endif
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Consultants</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%"
-                                            cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    {{-- <th>Password</th> --}}
-                                                    <th>Moblie Number</th>
-                                                    <th>Landline Number</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
+                            @endif
+                            @if ($roles === 'Consultant' || $roles === 'Sub Admin' || $roles === 'Super Admin')
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Consultants</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%"
+                                                cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        {{-- <th>Password</th> --}}
+                                                        <th>Moblie Number</th>
+                                                        <th>Landline Number</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
 
-                                            <tbody>
-                                                @foreach (@$users as $user)
-                                                    @if ($user->getRoleNames()->first() == 'Consultant')
-                                                        <tr>
-                                                            <td>{{ $user->name }}</td>
-                                                            <td>{{ $user->email }}</td>
-                                                            {{-- <td>{{ $user->password }}</td> --}}
+                                                <tbody>
+                                                    @foreach (@$users as $user)
+                                                        @if ($user->getRoleNames()->first() == 'Consultant')
+                                                            <tr>
+                                                                <td>{{ $user->name }}</td>
+                                                                <td>{{ $user->email }}</td>
+                                                                {{-- <td>{{ $user->password }}</td> --}}
 
-                                                            <td>{{ $user->mobile_number }}</td>
-                                                            <td>{{ $user->landline_number }}</td>
-                                                            <td>
-                                                                @if (@$user->active !== 'N')
-                                                                    <form
-                                                                        action="{{ route('change.active', ['id' => $user->id, 'status' => 'N']) }}"
-                                                                        method="post" class="inline-block">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-danger">
-                                                                            <span>Suspend</span>
-                                                                            <i class="fas fa-user-slash "></i>
+                                                                <td>{{ $user->mobile_number }}</td>
+                                                                <td>{{ $user->landline_number }}</td>
+                                                                <td>
+                                                                    @if (@$user->active !== 'N')
+                                                                        <form
+                                                                            action="{{ route('change.active', ['id' => $user->id, 'status' => 'N']) }}"
+                                                                            method="post" class="inline-block">
+                                                                            @csrf
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger">
+                                                                                <span>Suspend</span>
+                                                                                <i class="fas fa-user-slash "></i>
 
-                                                                        </button>
-                                                                    </form>
-                                                                @endif
-                                                                @if (@$user->active !== 'Y')
-                                                                    <form
-                                                                        action="{{ route('change.active', ['id' => $user->id, 'status' => 'Y']) }}"
-                                                                        method="post" class="inline-block">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">
-                                                                            <span>Active</span>
-                                                                            <i class="fas fa-user-check"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                @endif
-                                                            </td>
-                                                            {{-- <td><a href="{{ route('user.delete', ['id' => $user->id]) }}"
+                                                                            </button>
+                                                                        </form>
+                                                                    @endif
+                                                                    @if (@$user->active !== 'Y')
+                                                                        <form
+                                                                            action="{{ route('change.active', ['id' => $user->id, 'status' => 'Y']) }}"
+                                                                            method="post" class="inline-block">
+                                                                            @csrf
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">
+                                                                                <span>Active</span>
+                                                                                <i class="fas fa-user-check"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    @endif
+                                                                </td>
+                                                                {{-- <td><a href="{{ route('user.delete', ['id' => $user->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td> --}}
-                                                        </tr>
-                                                    @endif
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

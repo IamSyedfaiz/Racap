@@ -16,8 +16,11 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
     public function create_teams()
     {
+        $user = auth()->user();
+        $roles = $user->getRoleNames()->first();
         if (auth()->user()) {
-            $users = User::where('parent_id', auth()->user()->id)->get();
+            // $users = User::where('parent_id', auth()->user()->id)->get();
+            $users = User::all();
             $clients = Client::where('user_id', auth()->user()->id)->get();
             $projects = Project::where('user_id', auth()->user()->id)->get();
             $products = Product::where('user_id', auth()->user()->id)->get();
@@ -27,6 +30,6 @@ class Controller extends BaseController
             return redirect('/login');
         }
 
-        return view('create_teams', compact(['clients', 'projects', 'products', 'users', 'factories']));
+        return view('create_teams', compact(['clients', 'projects', 'products', 'users', 'factories', 'roles']));
     }
 }
