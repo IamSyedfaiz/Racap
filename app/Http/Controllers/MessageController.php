@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Conversation;
 use App\Models\Enquiry;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -55,11 +56,14 @@ class MessageController extends Controller
     public function enquiry_send(Request $request)
     {
         $enquiry = new Enquiry();
+        $createdAt = Carbon::parse($enquiry->created_at)->setTimezone('Asia/Kolkata');
+        $formattedCreatedAt = $createdAt->format('Y-m-d H:i:s');
         $enquiry->title = $request->title;
         $enquiry->messages = $request->messages;
         $enquiry->sender_id = auth()->user()->id;
         $enquiry->receiver_id = $request->receiver_id;
         $enquiry->user_id = auth()->user()->id;
+        $enquiry->created_at = $formattedCreatedAt;
 
         $enquiry->save();
 
