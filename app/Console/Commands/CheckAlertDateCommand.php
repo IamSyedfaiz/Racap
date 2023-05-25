@@ -33,51 +33,49 @@ class CheckAlertDateCommand extends Command
 
         // Current date ka object banaein
         $currentDate = now();
-        if ($alerts) {
-            foreach ($alerts as $alert) {
-                $date1 = $alert->alert_date1;
-                $date2 = $alert->alert_date2;
-                $date3 = $alert->alert_date3;
-                $productId = $alert->product_id;
-                $particular = $alert->particular;
-                $alertNote = $alert->alert_note;
-                $renewDate = $alert->renew_date;
+        foreach ($alerts as $alert) {
+            $date1 = $alert->alert_date1;
+            $date2 = $alert->alert_date2;
+            $date3 = $alert->alert_date3;
+            $productId = $alert->product_id;
+            $particular = $alert->particular;
+            $alertNote = $alert->alert_note;
+            $renewDate = $alert->renew_date;
 
-                // Date ke basis par schedule create karein
-                if (
-                    $date1 === $currentDate->format('Y-m-d') ||
-                    $date2 === $currentDate->format('Y-m-d') ||
-                    $date3 === $currentDate->format('Y-m-d')
-                ) {
-                    $product = Product::find($productId);
-                    $projectName = $product->project->project_name;
-                    $productdetailClients = $product->productdetailClient;
-                    $productdetailConss = $product->productdetailCons;
+            // Date ke basis par schedule create karein
+            if (
+                $date1 === $currentDate->format('Y-m-d') ||
+                $date2 === $currentDate->format('Y-m-d') ||
+                $date3 === $currentDate->format('Y-m-d')
+            ) {
+                $product = Product::find($productId);
+                $projectName = $product->project->project_name;
+                $productdetailClients = $product->productdetailClient;
+                $productdetailConss = $product->productdetailCons;
 
-                    $dataWith = [
-                        'text1' => $alertNote,
-                        'text2' => 'Renew Date: ' . $renewDate,
-                        'link'  => url('/') . '/login'
-                    ];
+                $dataWith = [
+                    'text1' => $alertNote,
+                    'text2' => 'Renew Date: ' . $renewDate,
+                    'link'  => url('/') . '/login'
+                ];
 
-                    Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $particular) {
-                        $msg->from('racap@omegawebdemo.com.au');
-                        foreach ($productdetailConss as $productdetailCons) {
-                            $users = $productdetailCons->user->email;
-                            $msg->to($users, 'RACAP');
-                        }
-                        foreach ($productdetailClients as $productdetailClient) {
-                            $users = $productdetailClient->user->email;
-                            $msg->to($users, 'RACAP');
-                        }
+                Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $particular) {
+                    $msg->from('racap@omegawebdemo.com.au');
+                    foreach ($productdetailConss as $productdetailCons) {
+                        $users = $productdetailCons->user->email;
+                        $msg->to($users, 'RACAP');
+                    }
+                    foreach ($productdetailClients as $productdetailClient) {
+                        $users = $productdetailClient->user->email;
+                        $msg->to($users, 'RACAP');
+                    }
 
-                        $msg->to($product->user->email, 'RACAP');
+                    $msg->to($product->user->email, 'RACAP');
 
-                        $msg->subject($particular);
-                    });
+                    $msg->subject($particular);
+                });
 
-                    $this->info('Email notifications sent successfully for alert with ID: ' . $alert->id);
-                }
+                $this->info('Email notifications sent successfully for alert with ID: ' . $alert->id);
             }
         }
     }
