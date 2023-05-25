@@ -16,4 +16,16 @@ class Project extends Model
     {
         return $this->hasMany(ProductDetail::class);
     }
+    public function productdetailCons()
+    {
+        return $this->hasMany(ProductDetail::class)->where('type', 'CO');
+    }
+    public function productdetailClient()
+    {
+        return $this->hasMany(ProductDetail::class)->where('type', 'CL');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
