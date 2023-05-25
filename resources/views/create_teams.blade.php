@@ -513,7 +513,8 @@
                                                                     <div class="flex flex-col w-full h-auto ">
                                                                         <div
                                                                             class="flex w-full h-auto mb-20 px-4 rounded text-center ">
-                                                                            Are You Sure Delete From Trash
+                                                                            Remove {{ $detail->user->name }} from
+                                                                            Project
                                                                         </div>
                                                                         <div class=" d-flex justify-content-end mt-4 ">
                                                                             <button

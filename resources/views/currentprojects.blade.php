@@ -44,7 +44,7 @@
                                             <th>Project id</th>
                                             <th>Client</th>
                                             <th>Brand Name</th>
-                                            <th>Modal Number</th>
+                                            <th>Model Number</th>
                                             <th>Factory Name</th>
                                             <th>Product</th>
                                             <th>Last Communication</th>
