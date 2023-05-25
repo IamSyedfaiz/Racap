@@ -87,7 +87,7 @@
                                 <button class="btn btn-primary" onclick="refreshPage()">Refresh</button>
                             </div>
 
-                            <div class="px-4 py-5 chat-box bg-white" style="overflow-y: auto; height: 80vh;">
+                            <div class="px-4 py-5 chat-box bg-white" style="overflow-y: auto; height: 80vh; ">
                                 @if (@$messages)
 
                                     @foreach (@$messages as $message)
@@ -132,7 +132,7 @@
                             </div>
                             <!-- Typing area -->
                             <form action="{{ route('enquiry.send') }}" method="POST" class="bg-light"
-                                style="position: relative">
+                                style="position: relative; margin-top: 200px;">
                                 @csrf
 
                                 <div class="input-group" style="position: absolute; bottom: 0; left: 0;">
