@@ -103,7 +103,7 @@ class MessageController extends Controller
         $user = auth()->user();
         $roles = $user->getRoleNames()->first();
         // $users = User::all();
-        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $users = User::where('id', '!=', auth()->user()->id)->where('id', '!=', 1)->get();
         $receiver = User::findOrFail($receiverId);
         $messages = Enquiry::where(function ($query) use ($receiverId) {
             $query->where('sender_id', auth()->user()->id)
