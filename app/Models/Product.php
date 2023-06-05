@@ -56,4 +56,8 @@ class Product extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function historygetting()
+    {
+        return $this->hasMany(HistoryGetting::class);
+    }
 }

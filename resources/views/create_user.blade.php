@@ -1,7 +1,6 @@
 <x-app-layout>
     <!-- Page Wrapper -->
     <div id="wrapper">
-
         <!-- Sidebar -->
         @if ($roles === 'Super Admin')
             @include('layouts.sidebar')
@@ -185,7 +184,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered" id="dataTable" width="100%"
+                                            <table class="table table-bordered" id="clientTable" width="100%"
                                                 cellspacing="0">
                                                 <thead>
                                                     <tr>
@@ -252,7 +251,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered" id="dataTable" width="100%"
+                                            <table class="table table-bordered " id="consultantsTable" width="100%"
                                                 cellspacing="0">
                                                 <thead>
                                                     <tr>
@@ -362,6 +361,36 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#clientTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'csv',
+                    filename: 'clientData',
+                    text: 'Download',
+                    exportOptions: {
+                        columns: ':visible' // Export all visible columns
+                    }
+                }]
+            });
+        });
+        $(document).ready(function() {
+            $('#consultantsTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'csv',
+                    filename: 'consultantsData',
+                    text: 'Download',
+                    exportOptions: {
+                        columns: ':visible' // Export all visible columns
+                    }
+                }]
+            });
+        });
+    </script>
 
 
 </x-app-layout>

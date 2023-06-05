@@ -25,27 +25,21 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
         <script src="{{ asset('js/admin.js') }}"></script>
-
-        {{-- @vite([asset('public/css/app.css'), 'public/js/app.js', 'public/css/admin.css', 'public/js/admin.js']) --}}
         @elserole('Sub Admin')
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <script src="{{ asset('js/app.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
         <script src="{{ asset('js/admin.js') }}"></script>
-        {{-- @vite([asset('public/css/app.css'), 'public/js/app.js', 'public/css/admin.css', 'public/js/admin.js']) --}}
-
         @elserole('Client')
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <script src="{{ asset('js/app.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('css/client.css') }}">
         <script src="{{ asset('js/client.js') }}"></script>
-        {{-- @vite([asset('css/app.css'), 'js/app.js', 'css/client.css', 'js/client.js']) --}}
     @else
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <script src="{{ asset('js/app.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('css/consultant.css') }}">
         <script src="{{ asset('js/consultant.js') }}"></script>
-        {{-- @vite([asset('css/app.css'), 'js/app.js', 'css/consultant.css', 'js/consultant.js']) --}}
     @endrole
 
 </head>

@@ -23,11 +23,13 @@ class ManagementController extends Controller
         $input      = $request->all();
         Validator::make($input, [
             'client_name'    => ['required'],
+            'client_category'    => ['required'],
         ])->validate();
 
         $data = new Client;
         $data->name = $request->client_name;
         $data->user_id = auth()->user()->id;
+        $data->category = $request->client_category;
         $data->save();
         return redirect()->back()->with('success', 'Add Client Successfully');
     }

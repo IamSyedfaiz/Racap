@@ -56,6 +56,7 @@
                                             @php
                                                 $lastMessage = $user->getLastMessage();
                                             @endphp
+
                                             <a href="{{ route('chat.show', $user->id) }}"
                                                 class="list-group-item list-group-item-action {{ @$receiver->id == $user->id ? 'active' : '' }} mt-2 {{ @$receiver->id == $user->id ? 'text-white' : '' }} rounded-0">
                                                 <div class="media"><img
@@ -65,14 +66,36 @@
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-1">
                                                             <h6 class="mb-0">{{ $user->name }}</h6>
-                                                            <small class="small font-weight-bold">
+                                                            {{-- <small class="small font-weight-bold">
                                                                 {{ $lastMessage ? $lastMessage->created_at->format('d M') : '' }}
-                                                            </small>
+                                                            </small> --}}
                                                         </div>
                                                         <p class="font-italic mb-0 text-small">
-                                                            {{ $lastMessage ? $lastMessage->messages : 'No messages yet' }}
+                                                            {{ $lastMessage ? $lastMessage->messages : '' }}
                                                         </p>
                                                     </div>
+                                                    @if (Auth::check())
+                                                        @if ($user->is_online === 'Y')
+                                                        <h6 >Online</h6>
+                                                            {{-- <svg class="ml-2" xmlns="http://www.w3.org/2000/svg"
+                                                                width="16" height="16" fill="#32de84"
+                                                                class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                                <circle cx="8" cy="8" r="8" />
+                                                            </svg> --}}
+                                                        @else
+                                                            <p>
+                                                                {{ $user->updated_at->diffForHumans() }}</p>
+                                                        @endif
+                                                    @endif
+                                                    @if (@$lastMessage->is_seen == 'N' && $roles == 'Sub Admin')
+                                                        <div class="ml-2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor"
+                                                                class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                                                <circle cx="8" cy="8" r="8" />
+                                                            </svg>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </a>
                                         @endforeach
@@ -91,7 +114,7 @@
                                 @if (@$messages)
 
                                     @foreach (@$messages as $message)
-                                        @if (@$message->sender_id == auth()->user()->id)
+                                        @if (@$message->receiver_id == auth()->user()->id)
                                             <!-- Sender Message -->
                                             <div class="media w-50 mb-3"><img
                                                     src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg"

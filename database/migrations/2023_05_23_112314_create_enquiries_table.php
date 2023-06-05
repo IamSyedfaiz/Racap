@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('sender_id')->nullable();
             $table->integer('receiver_id')->nullable();
             $table->integer('user_id')->nullable();
+            $table->enum('is_seen', ["Y", "N"])->default('N');
             $table->timestamps();
         });
     }

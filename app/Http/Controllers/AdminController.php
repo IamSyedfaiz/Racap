@@ -26,12 +26,15 @@ class AdminController extends Controller
     public function dashboard()
     {
         $user = auth()->user();
-
+        $user->updated_at = now();
+        $user->is_online = 'Y';
+        $user->save();
         if ($user->active == 'Y') {
             // return 1;
             Auth::logout();
             return redirect()->back()->with('danger', 'Your Account has been Suspended');
         } else {
+            // $user->is_online = true;
 
             // $user = auth()->user();
             $roles = $user->getRoleNames()->first();

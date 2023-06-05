@@ -206,11 +206,11 @@
                                                             class="font-weight-bold text-primary">Particular</label>
                                                         <input type="text" name="particular">
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    {{-- <div class="col-md-6">
                                                         <button class="btn border border-primary">Send
                                                             Alert</button>
                                                         <button class="btn border border-danger">Alert History</button>
-                                                    </div>
+                                                    </div> --}}
 
 
                                                 </div>

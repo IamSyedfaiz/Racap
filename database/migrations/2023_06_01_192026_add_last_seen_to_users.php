@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->nullable();
-            $table->foreignId('user_id')->constrained();
-            $table->enum('category', ["D", "F"])->nullable()->default(null);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('is_online', ["Y", "N"])->default('N')->after('landline_number');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

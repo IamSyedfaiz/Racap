@@ -364,7 +364,7 @@
                 </div>
             </div>
 
-            @if ($roles === 'Consultant')
+            @if ($roles === 'Consultant' || $roles === 'Sub Admin')
                 <form action="{{ route('response.status') }}" method="post">
                     @csrf
                     <div class="row ">

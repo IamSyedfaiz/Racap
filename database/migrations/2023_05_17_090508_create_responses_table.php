@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('docs_verification_under_process', ["Y", "N"])->default('N');
             $table->enum('info_awaited', ["Y", "N"])->default('N');
             $table->integer('product_id')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

@@ -58,6 +58,20 @@
                                             <label for="cname">Client name</label>
                                             <input type="text" class="form-control" required name="client_name"
                                                 id="cname" aria-describedby="cname">
+                                            @error('client_name')
+                                                <p class="small text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cname">Select Client Category </label>
+                                            <select class="form-control" id="cname" name="client_category">
+                                                <option value="">Select An Option</option>
+                                                <option value="D">Domestic </option>
+                                                <option value="F">Foreign</option>
+                                            </select>
+                                            @error('client_category')
+                                                <p class="small text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>
@@ -76,12 +90,20 @@
                                                 id="cname" aria-describedby="cname">
                                         </div>
                                         <div class="form-group">
-                                            <label for="cname">Select client</label>
-                                            <select class="form-control" id="cname" name="client_id">
+                                            <label for="cname">Select Client Category </label>
+                                            <select class="form-control" id="client_category" name="client_category">
                                                 <option value="">Select An Option</option>
-                                                @foreach (@$clients as $client)
+                                                <option value="D">Domestic </option>
+                                                <option value="F">Foreign</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cname">Select client</label>
+                                            <select class="form-control" id="client_id" name="client_id">
+                                                <option value="">Select An Option</option>
+                                                {{-- @foreach (@$clients as $client)
                                                     <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                             @error('client_id')
                                                 <p class="small text-danger">{{ $message }}</p>
@@ -121,12 +143,21 @@
                                                 id="edate" aria-describedby="edate">
                                         </div>
                                         <div class="form-group">
+                                            <label for="cname">Select Client Category </label>
+                                            <select class="form-control" id="project_client_category"
+                                                name="client_category">
+                                                <option value="">Select An Option</option>
+                                                <option value="D">Domestic </option>
+                                                <option value="F">Foreign</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="cname">Select client</label>
                                             <select class="form-control" id="project_cname" name="client_id">
                                                 <option value="">Select An Option</option>
-                                                @foreach (@$clients as $client)
+                                                {{-- @foreach (@$clients as $client)
                                                     <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                             @error('client_id')
                                                 <p class="small text-danger">{{ $message }}</p>
@@ -174,12 +205,21 @@
                                                 id="cname" aria-describedby="cname">
                                         </div>
                                         <div class="form-group">
+                                            <label for="cname">Select Client Category</label>
+                                            <select class="form-control" id="product_client_category"
+                                                name="client_category">
+                                                <option value="">Select An Option</option>
+                                                <option value="D">Domestic </option>
+                                                <option value="F">Foreign</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="cname">Select client</label>
                                             <select class="form-control" id="product_cname" name="client_id">
                                                 <option>Select An Option</option>
-                                                @foreach (@$clients as $client)
+                                                {{-- @foreach (@$clients as $client)
                                                     <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                             @error('client_id')
                                                 <p class="small text-danger">{{ $message }}</p>
@@ -235,20 +275,27 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
-                                                {{-- <input type="text" class="form-control" required name="user_id"
-                                            id="cname" aria-describedby="cname"> --}}
                                                 @error('user_id')
                                                     <p class="small text-danger">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
+                                                <label for="cname">Select Client Category </label>
+                                                <select class="form-control" id="add_client_category"
+                                                    name="client_category">
+                                                    <option value="">Select An Option</option>
+                                                    <option value="D">Domestic </option>
+                                                    <option value="F">Foreign</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="cname">Select Client</label>
                                                 <select class="form-control" id="client_cname" name="client_id">
                                                     <option value="">Select An Option</option>
-                                                    @foreach ($clients as $client)
+                                                    {{-- @foreach ($clients as $client)
                                                         <option value="{{ $client->id }}">{{ $client->name }}
                                                         </option>
-                                                    @endforeach
+                                                    @endforeach --}}
                                                 </select>
                                                 @error('client_id')
                                                     <p class="small text-danger">{{ $message }}</p>
@@ -368,13 +415,22 @@
                                             @enderror
                                         </div> --}}
                                             <div class="form-group">
+                                                <label for="cname">Select Client Category </label>
+                                                <select class="form-control" id="add_consultant_category"
+                                                    name="client_category">
+                                                    <option value="">Select An Option</option>
+                                                    <option value="D">Domestic </option>
+                                                    <option value="F">Foreign</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="cname">Select Client</label>
                                                 <select class="form-control" id="consultant_cname" name="client_id">
                                                     <option value="">Select An Option</option>
-                                                    @foreach ($clients as $client)
+                                                    {{-- @foreach ($clients as $client)
                                                         <option value="{{ $client->id }}">{{ $client->name }}
                                                         </option>
-                                                    @endforeach
+                                                    @endforeach --}}
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -462,7 +518,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%"
+                                        <table class="table table-bordered" id="createTable" width="100%"
                                             cellspacing="0">
                                             <thead>
                                                 <tr>
@@ -471,6 +527,7 @@
                                                     <th>Product</th>
                                                     <th>Factory</th>
                                                     <th>Brand</th>
+                                                    <th hidden>Email</th>
                                                     <th>Client team</th>
                                                     <th>Consultant team</th>
                                                     {{-- <th>Action</th> --}}
@@ -487,6 +544,7 @@
                                                         <td>{{ @$product->product_name }}</td>
                                                         <td>{{ @$product->factory->name }}</td>
                                                         <td>{{ @$product->brand_name }}</td>
+                                                        <td hidden>{{ @$product->user->email }}</td>
                                                         <td>
                                                             @foreach ($product->productdetail as $detail)
                                                                 @if (@$detail->type == 'CL')
@@ -532,11 +590,8 @@
                                                                 </dialog>
                                                             @endforeach
                                                         </td>
-
-
                                                     </tr>
                                                 @endforeach
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -613,14 +668,71 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    {{-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#createTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'csv',
+                    filename: 'AllTeams',
+                    text: 'Download',
+                    // exportOptions: {
+                    //     columns: ':visible' // Export all visible columns
+                    // }
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7] // Include all columns for export
+                    }
+                }]
+            });
+        });
     </script>
     <script>
         // Add Product
         $projects = @json($projects);
         $products = @json($products);
         $factories = @json($factories);
+        $clients = @json($clients);
+        $('#client_category').change(function(e) {
+            $oldVal = {{ old('client_id', 0) }};
+
+            $('#client_id').html(``);
+            $('#client_id').append(` <option value=""> Select an option </option>`);
+            $.each($clients, function(index, $client) {
+                if ($client.category == $('#client_category').val()) {
+                    if ($oldVal) {
+                        $('#client_id').append(`<option` +
+                            $oldVal == $client.id ? "selected" : "" +
+                            `value="` + $client.id + `">` + $client.name + `</option>`);
+                    } else {
+                        $('#client_id').append(
+                            `<option value="` + $client.id + `">` + $client.name + `</option>`
+                        );
+                    }
+                }
+            });
+        });
+        $('#project_client_category').change(function(e) {
+            $oldVal = {{ old('project_cname', 0) }};
+
+            $('#project_cname').html(``);
+            $('#project_cname').append(` <option value=""> Select an option </option>`);
+            $.each($clients, function(index, $client) {
+                if ($client.category == $('#project_client_category').val()) {
+                    if ($oldVal) {
+                        $('#project_cname').append(`<option` +
+                            $oldVal == $client.id ? "selected" : "" +
+                            `value="` + $client.id + `">` + $client.name + `</option>`);
+                    } else {
+                        $('#project_cname').append(
+                            `<option value="` + $client.id + `">` + $client.name + `</option>`
+                        );
+                    }
+                }
+            });
+        });
         $('#project_cname').change(function(e) {
             $oldVal = {{ old('factory_cname', 0) }};
 
@@ -635,6 +747,25 @@
                     } else {
                         $('#factory_cname').append(
                             `<option value="` + $factory.id + `">` + $factory.name + `</option>`
+                        );
+                    }
+                }
+            });
+        });
+        $('#product_client_category').change(function(e) {
+            $oldVal = {{ old('product_cname', 0) }};
+
+            $('#product_cname').html(``);
+            $('#product_cname').append(` <option value=""> Select an option </option>`);
+            $.each($clients, function(index, $client) {
+                if ($client.category == $('#product_client_category').val()) {
+                    if ($oldVal) {
+                        $('#product_cname').append(`<option` +
+                            $oldVal == $client.id ? "selected" : "" +
+                            `value="` + $client.id + `">` + $client.name + `</option>`);
+                    } else {
+                        $('#product_cname').append(
+                            `<option value="` + $client.id + `">` + $client.name + `</option>`
                         );
                     }
                 }
@@ -680,7 +811,25 @@
         });
 
         // Add (Client) User to project
+        $('#add_client_category').change(function(e) {
+            $oldVal = {{ old('client_cname', 0) }};
 
+            $('#client_cname').html(``);
+            $('#client_cname').append(` <option value=""> Select an option </option>`);
+            $.each($clients, function(index, $client) {
+                if ($client.category == $('#add_client_category').val()) {
+                    if ($oldVal) {
+                        $('#client_cname').append(`<option` +
+                            $oldVal == $client.id ? "selected" : "" +
+                            `value="` + $client.id + `">` + $client.name + `</option>`);
+                    } else {
+                        $('#client_cname').append(
+                            `<option value="` + $client.id + `">` + $client.name + `</option>`
+                        );
+                    }
+                }
+            });
+        });
         $('#client_cname').change(function(e) {
             $oldVal = {{ old('client_factory_cname', 0) }};
             $('#client_factory_cname').html(``);
@@ -780,6 +929,25 @@
         // Add (Client) User to project
 
         // Add (Consultant) User to product
+        $('#add_consultant_category').change(function(e) {
+            $oldVal = {{ old('consultant_cname', 0) }};
+
+            $('#consultant_cname').html(``);
+            $('#consultant_cname').append(` <option value=""> Select an option </option>`);
+            $.each($clients, function(index, $client) {
+                if ($client.category == $('#add_consultant_category').val()) {
+                    if ($oldVal) {
+                        $('#consultant_cname').append(`<option` +
+                            $oldVal == $client.id ? "selected" : "" +
+                            `value="` + $client.id + `">` + $client.name + `</option>`);
+                    } else {
+                        $('#consultant_cname').append(
+                            `<option value="` + $client.id + `">` + $client.name + `</option>`
+                        );
+                    }
+                }
+            });
+        });
         $('#consultant_cname').change(function(e) {
             $oldVal = {{ old('consultant_factory_cname', 0) }};
 
