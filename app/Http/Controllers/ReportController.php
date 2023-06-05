@@ -47,44 +47,21 @@ class ReportController extends Controller
     {
         $user = auth()->user();
         $roles = $user->getRoleNames()->first();
-        // $clients = Client::all();
-
-
 
         if ($roles === Roles::SUPER_ADMIN()->getValue()) {
             $clients = Client::all();
             $projects = Project::all();
         } elseif ($roles === Roles::SUB_ADMIN()->getValue()) {
-            // DD('else');
-
             $clients = Client::where('user_id', auth()->user()->id)->get();
             $projects = Project::where('user_id', auth()->user()->id)->get();
         } else {
             $clients = Client::whereHas('productdetail', function ($query) {
                 $query->where('user_id', auth()->user()->id);
             })->get();
-            // $projects = Project::all();
             $projects = Project::whereHas('productdetail', function ($query) {
                 $query->where('user_id', auth()->user()->id);
             })->get();
         }
-        // $clients = Client::whereHas('productdetail', function ($query) {
-        //     $query->where('user_id', auth()->user()->id);
-        // })->get();
-        // // $projects = Project::all();
-        // $projects = Project::whereHas('productdetail', function ($query) {
-        //     $query->where('user_id', auth()->user()->id);
-        // })->get();
-
-        // if ($request->client_id !== 'all') {
-        //     $products = Product::where('client_id', $request->client_id)->get();
-        // } elseif ($request->project_id !== 'all') {
-        //     $products = Product::where('project_id', $request->project_id)->get();
-        // } else {
-        //     $products = Product::all();
-        // }
-
-        // $products = Product::with('project_report')->get();
 
         $product = (new Product)->newQuery();
         if (!empty(request()->get('start_date'))) {
@@ -98,6 +75,16 @@ class ReportController extends Controller
             });
         }
 
+        if (!empty(request()->get('client_category'))) {
+            $product->whereHas('client', function ($query) {
+                $query->where('category', request()->get('client_category'));
+            });
+        }
+        if (!empty(request()->get('history_getting'))) {
+            $product->whereHas('historygetting', function ($query) {
+                $query->where('getting_value', request()->get('history_getting'));
+            });
+        }
         if (!empty(request()->get('client_id'))) {
             $product->where('client_id', request()->get('client_id'));
         }
@@ -109,16 +96,92 @@ class ReportController extends Controller
         if (!empty(request()->get('status'))) {
             $product->with('project_report');
         }
+        if (!empty(request()->get('project_status'))) {
+            $products = Product::whereHas('response', function ($query) {
+                $query->where('reply_under_process', request()->get('project_status'));
+            })->get();
+        }
         if ($roles === Roles::SUPER_ADMIN()->getValue()) {
             $products = $product->orderBy('id', 'ASC')->get();
+            if (!empty(request()->get('project_status'))) {
+                $status = request()->get('project_status');
+
+                if ($status === 'R') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('reply_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'D') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('awaited_reply_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'P') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('docs_verification_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'I') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('info_awaited', 'Y');
+                    })->get();
+                } else {
+                    // Handle other cases or return default results
+                    $products = Product::all();
+                }
+            }
         } elseif ($roles === Roles::SUB_ADMIN()->getValue()) {
             $products = $product->orderBy('id', 'ASC')->where('user_id', auth()->user()->id)->get();
+            if (!empty(request()->get('project_status'))) {
+                $status = request()->get('project_status');
+
+                if ($status === 'R') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('reply_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'D') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('awaited_reply_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'P') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('docs_verification_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'I') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('info_awaited', 'Y');
+                    })->get();
+                } else {
+                    // Handle other cases or return default results
+                    $products = Product::all();
+                }
+            }
         } else {
+
             $products = $product->whereHas('productdetail', function ($query) {
                 $query->where('user_id', auth()->user()->id);
             })->orderBy('id', 'ASC')->get();
-        }
+            if (!empty(request()->get('project_status'))) {
+                $status = request()->get('project_status');
 
+                if ($status === 'R') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('reply_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'D') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('awaited_reply_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'P') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('docs_verification_under_process', 'Y');
+                    })->get();
+                } elseif ($status === 'I') {
+                    $products = Product::whereHas('response', function ($query) {
+                        $query->where('info_awaited', 'Y');
+                    })->get();
+                } else {
+                    $products = Product::all();
+                }
+            }
+        }
 
         return view('project_report', compact(['roles', 'products', 'clients', 'projects']));
     }
@@ -225,6 +288,8 @@ class ReportController extends Controller
             $editRes->awaited_reply_under_process = $activeAwaited;
             $editRes->docs_verification_under_process = $activeDocsverification;
             $editRes->info_awaited = $activeInfoAwaited;
+            $editRes->user_id = auth()->user()->id;
+
             // $editRes->reply_under_process = $active ? 'Y' : 'N';
             // $editRes->awaited_reply_under_process = $activeAwaited ? 'Y' : 'N';
             // $editRes->docs_verification_under_process = $activeDocsverification ? 'Y' : 'N';
@@ -237,6 +302,7 @@ class ReportController extends Controller
             $data->docs_verification_under_process = $activeDocsverification;
             $data->info_awaited = $activeInfoAwaited;
             $data->product_id = $request->product_id;
+            $data->user_id = auth()->user()->id;
             $data->save();
         }
 

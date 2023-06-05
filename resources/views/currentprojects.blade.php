@@ -1,4 +1,6 @@
 <x-app-layout>
+
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -38,7 +40,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Project id</th>
@@ -124,10 +126,7 @@
                                                                 ->first();
                                                         @endphp
 
-                                                        {{-- Display the product information here --}}
-                                                        {{-- <p>Product Name: {{ $product->name }}</p>
-                                                    <p>Calculated Percentage: {{ $calculatedPercentage }}</p>
-                                                    <p>Latest Entry: {{ $latestEntry->created_at }}</p> --}}
+
                                                         @if (@$latestEntry->getting_value == 'gp')
                                                             <p class="text-danger">Getting Pause</p>
                                                         @elseif (@$latestEntry->getting_value == 'gu')
@@ -174,5 +173,21 @@
 
     </div>
     <!-- End of Page Wrapper -->
+
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'csv',
+                    filename: 'CurrentData',
+                    text: 'Download',
+                    exportOptions: {
+                        columns: ':visible' // Export all visible columns
+                    }
+                }]
+            });
+        });
+    </script>
 
 </x-app-layout>

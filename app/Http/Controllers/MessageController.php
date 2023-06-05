@@ -7,6 +7,8 @@ use App\Models\Enquiry;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class MessageController extends Controller
 {
@@ -98,8 +100,6 @@ class MessageController extends Controller
 
     public function chat_show($receiverId)
     {
-        // Logic to fetch the chat messages between the logged-in user and the selected user
-
         $user = auth()->user();
         $roles = $user->getRoleNames()->first();
         // $users = User::all();
@@ -112,8 +112,21 @@ class MessageController extends Controller
             $query->where('sender_id', $receiverId)
                 ->where('receiver_id', auth()->user()->id);
         })->get();
-        return view('new_enquiry', compact('receiver', 'messages', 'roles', 'users'));
-        // return response()->view('new_enquiry', compact('receiver', 'messages', 'roles', 'users'));
-        // return Response($messages);
+        $lastMes = Enquiry::whereIn('sender_id', [auth()->user()->id, $receiverId])
+            ->whereIn('receiver_id', [auth()->user()->id, $receiverId])
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        // return $lastMes;
+        foreach ($messages as $message) {
+
+            if ($message->is_seen == 'N' && $roles == 'Sub Admin') {
+                // return 123;
+                $message->is_seen = 'Y';
+                $message->save();
+            }
+            // return $message->is_seen;
+        }
+        return view('new_enquiry', compact('receiver', 'messages', 'roles', 'users', 'lastMes'));
     }
 }
