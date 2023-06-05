@@ -49,7 +49,7 @@ class MessageController extends Controller
         $user = auth()->user();
         $roles = $user->getRoleNames()->first();
         // $users = User::all();
-        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $users = User::where('id', '!=', auth()->user()->id)->where('id', '!=', 1)->get();
 
         return view('new_enquiry', compact('roles', 'users'));
     }
