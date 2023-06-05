@@ -30,7 +30,7 @@ class CheckAlertDateCommand extends Command
     {
         // Fetch all rows from the calender_alerts table
         $alerts = DB::table('calender_alerts')->get();
-
+        $this->info('Email notifications sent successfully for alert with ID: ');
         // Current date ka object banaein
         $currentDate = now();
         foreach ($alerts as $alert) {
@@ -64,10 +64,12 @@ class CheckAlertDateCommand extends Command
                     foreach ($productdetailConss as $productdetailCons) {
                         $users = $productdetailCons->user->email;
                         $msg->to($users, 'RACAP');
+                        $this->info($users);
                     }
                     foreach ($productdetailClients as $productdetailClient) {
                         $users = $productdetailClient->user->email;
                         $msg->to($users, 'RACAP');
+                        $this->info($users);
                     }
 
                     $msg->to($product->user->email, 'RACAP');
