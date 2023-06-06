@@ -1,8 +1,12 @@
        <!-- Sidebar -->
       @php
       use App\Models\Enquiry;
-          $is_seen = Enquiry::where('is_seen', 'N')->first();
-        //   return $is_seen;
+      $is_seens = Enquiry::where('is_seen', 'N')->where('receiver_id', auth()->id())->get();
+
+        //   foreach ($is_seens as $is_seen) {
+        //     # code...
+        //   }
+        //   echo $is_seen;
       @endphp 
        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
 
@@ -115,6 +119,8 @@
                    <a class="nav-link collapsed" href="{{ route('new.enquiry') }}">
                        <i class="fas fa-fw fa-folder"></i>
                        <span>New Enquiry</span>
+                       @foreach ($is_seens as $is_seen)
+                           
                        @if ($is_seen)
                            
                        <svg class="ml-2" xmlns="http://www.w3.org/2000/svg"
@@ -123,6 +129,7 @@
                                                                 <circle cx="8" cy="8" r="8" />
                                                             </svg>
                        @endif
+                       @endforeach
 
                    </a>
                </li>

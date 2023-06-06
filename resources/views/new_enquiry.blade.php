@@ -87,7 +87,8 @@
                                                                 {{ $user->updated_at->diffForHumans() }}</p>
                                                         @endif
                                                     @endif
-                                                    @if (@$lastMessage->is_seen == 'N' && $roles == 'Sub Admin')
+                                                    {{-- {{auth()->id()}} --}}
+                                                    @if (@$lastMessage->is_seen == 'N' && $lastMessage->user_id == $user->id)
                                                         <div class="ml-2">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor"
