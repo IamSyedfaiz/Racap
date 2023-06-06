@@ -15,10 +15,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('project:date-check')->dailyAt('11:20');
-        $schedule->command('project:check-alert-date-command')->dailyAt('11:20');
+        $schedule->command('project:date-check')->dailyAt('11:20')->withoutOverlapping();
+        $schedule->command('project:check-alert-date-command')->dailyAt('11:20')->withoutOverlapping();
     }
-
     /**
      * Register the commands for the application.
      */
