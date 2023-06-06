@@ -120,7 +120,7 @@ class MessageController extends Controller
         // return $lastMes;
         foreach ($messages as $message) {
 
-            if ($message->is_seen == 'N' && $roles == 'Sub Admin') {
+            if ($message->is_seen == 'N' && $message->user_id == $receiverId) {
                 // return 123;
                 $message->is_seen = 'Y';
                 $message->save();
