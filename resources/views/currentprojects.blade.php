@@ -43,8 +43,9 @@
                                 <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Project id</th>
+                                            <th>Project Name</th>
                                             <th>Client</th>
+                                            <th>Client Category</th>
                                             <th>Brand Name</th>
                                             <th>Model Number</th>
                                             <th>Factory Name</th>
@@ -63,8 +64,15 @@
                                         @foreach (@$products as $product)
                                             @if ($product->project->project_start_date <= $currentDate && $product->project->project_end_date >= $currentDate)
                                                 <tr>
-                                                    <td>{{ $product->project->id }} </td>
+                                                    <td>{{ $product->project->project_name }} </td>
                                                     <td>{{ $product->client->name }}</td>
+                                                    <td>
+                                                        @if ($product->client->category == 'D')
+                                                            Domestic
+                                                        @else
+                                                            Foreign
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $product->brand_name }}</td>
                                                     <td>{{ $product->modal_number }}</td>
                                                     <td>{{ $product->factory->name }}</td>
@@ -130,7 +138,6 @@
                                                         @if (@$latestEntry->getting_value == 'gp')
                                                             <p class="text-danger">Getting Pause</p>
                                                         @elseif (@$latestEntry->getting_value == 'gu')
-                                                            <p class="text-success">Getting Unpause</p>
                                                         @endif
                                                         <h4 class="small font-weight-bold">
                                                             {{ @$filteredName->phase_name }}

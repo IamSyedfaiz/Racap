@@ -59,7 +59,6 @@
                     @if (@$latestEntry->getting_value == 'gp')
                         <p class="text-danger">Getting Pause</p>
                     @elseif (@$latestEntry->getting_value == 'gu')
-                        <p class="text-success">Getting Unpause</p>
                     @endif
                     <h4 class="small font-weight-bold">
                         {{ @$filteredName->phase_name }}
@@ -88,7 +87,7 @@
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
                             <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
-                                class="btn btn-primary">History Getting</a>
+                                class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
                         </div>
@@ -191,7 +190,7 @@
                                                             <td>{{ @$upload_file->remark }}</td>
 
                                                             <td>
-                                                                <a href="{{ route('fileDelete', ['id' => $upload_file->id, 'product_id' => $products->id]) }}"
+                                                                <a href="{{ route('fileDelete', ['id' => $upload_file->id]) }}"
                                                                     class="btn btn-primary btn-sm">Delete</a>
                                                             </td>
 
@@ -427,10 +426,13 @@
                                         <div class="form-group">
                                             <label for="filesection">Section</label>
                                             <select class="form-control" name="section" id="filesection">
-                                                <option value="IB">Info Bank</option>
+                                                @if ($roles === 'Client')
+                                                @else
+                                                    <option value="IB">Info Bank</option>
+                                                @endif
                                                 <option value="D">Project Docs</option>
                                                 <option value="TR">Other Docs</option>
-                                                {{-- <option value="FC">Final Certificate</option> --}}
+
                                             </select>
                                         </div>
                                         <input type="text" name="product_id" hidden value="{{ @$products->id }}">

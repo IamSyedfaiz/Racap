@@ -214,6 +214,11 @@ class ReportController extends Controller
     }
     public function post_status(Request $request)
     {
+        $request->validate([
+            'select_phase' => 'required',
+            'phase_name' => 'required|array', // Validate that 'phase_name' is an array
+            'phase_name.*' => 'required|string', // Validate each 'phase_name' element as a string
+        ]);
         $product_id = $request->input('product_id');
         $phase_names = $request->input('phase_name');
         $data = [];
@@ -306,32 +311,32 @@ class ReportController extends Controller
             $data->save();
         }
 
-        $product = Product::find($request->product_id);
-        $proejctName = $product->project->project_name;
-        $productdetailClients = $product->productdetailClient;
-        $productdetailConss = $product->productdetailCons;
+        // $product = Product::find($request->product_id);
+        // $proejctName = $product->project->project_name;
+        // $productdetailClients = $product->productdetailClient;
+        // $productdetailConss = $product->productdetailCons;
 
-        $dataWith = [
-            'text1' => 'Response Status Changes, kindly do the needful.',
-            // 'text2' => '' . $request->invoice_payment . ' Raised  ' . $request->balance . ',' . $request->remark,
-            // 'text3' => 'This amount is added',
-            'link'      => url('/') . '/login'
-        ];
+        // $dataWith = [
+        //     'text1' => 'Response Status Changes, kindly do the needful.',
+        //     // 'text2' => '' . $request->invoice_payment . ' Raised  ' . $request->balance . ',' . $request->remark,
+        //     // 'text3' => 'This amount is added',
+        //     'link'      => url('/') . '/login'
+        // ];
 
-        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
-            $msg->from('racap@omegawebdemo.com.au');
-            foreach ($productdetailConss as $productdetailCons) {
-                $users = $productdetailCons->user->email;
-                $msg->to($users, 'RACAP');
-            }
-            foreach ($productdetailClients as $productdetailClient) {
-                $users = $productdetailClient->user->email;
-                $msg->to($users, 'RACAP');
-            }
-            $msg->to($product->user->email, 'RACAP');
+        // Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+        //     $msg->from('racap@omegawebdemo.com.au');
+        //     foreach ($productdetailConss as $productdetailCons) {
+        //         $users = $productdetailCons->user->email;
+        //         $msg->to($users, 'RACAP');
+        //     }
+        //     foreach ($productdetailClients as $productdetailClient) {
+        //         $users = $productdetailClient->user->email;
+        //         $msg->to($users, 'RACAP');
+        //     }
+        //     $msg->to($product->user->email, 'RACAP');
 
-            $msg->subject('Response Status Update - ' . $proejctName);
-        });
+        //     $msg->subject('Response Status Update - ' . $proejctName);
+        // });
 
 
         return redirect()->back()->with('success', 'Add Successfully');

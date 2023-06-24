@@ -64,7 +64,6 @@
                     @if (@$latestEntry->getting_value == 'gp')
                         <p class="text-danger">Getting Pause</p>
                     @elseif (@$latestEntry->getting_value == 'gu')
-                        <p class="text-success">Getting Unpause</p>
                     @endif
                     <h4 class="small font-weight-bold">{{ @$filteredName->phase_name }}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
@@ -92,7 +91,7 @@
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
                             <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
-                                class="btn btn-primary">History Getting</a>
+                                class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
                         </div>
@@ -245,10 +244,10 @@
 
                                                             <div class=" d-flex justify-content-end mt-4 ">
 
-                                                                <button
+                                                                {{-- <button
                                                                     onclick="document.getElementById('myModal{{ $trash->id }}').close();"
                                                                     class="mr-2 px-2 py-1 rounded-lg "
-                                                                    data-modal-toggle="default-modal">Cancel</button>
+                                                                    data-modal-toggle="default-modal">Cancel</button> --}}
 
                                                                 <a
                                                                     href="{{ route('final.delete', ['id' => $trash->id]) }}">
@@ -352,10 +351,10 @@
 
                                                             <div class=" d-flex justify-content-end mt-4 ">
 
-                                                                <button
+                                                                {{-- <button
                                                                     onclick="document.getElementById('myModal{{ $trash->id }}').close();"
                                                                     class="mr-2 px-2 py-1 rounded-lg "
-                                                                    data-modal-toggle="default-modal">Cancel</button>
+                                                                    data-modal-toggle="default-modal">Cancel</button> --}}
 
                                                                 <a
                                                                     href="{{ route('final.delete', ['id' => $trash->id]) }}">
@@ -458,10 +457,10 @@
 
                                                             <div class=" d-flex justify-content-end mt-4 ">
 
-                                                                <button
+                                                                {{-- <button
                                                                     onclick="document.getElementById('myModal{{ $trash->id }}').close();"
                                                                     class="mr-2 px-2 py-1 rounded-lg "
-                                                                    data-modal-toggle="default-modal">Cancel</button>
+                                                                    data-modal-toggle="default-modal">Cancel</button> --}}
 
                                                                 <a
                                                                     href="{{ route('final.delete', ['id' => $trash->id]) }}">

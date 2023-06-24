@@ -55,7 +55,6 @@
                     @if (@$latestEntry->getting_value == 'gp')
                         <p class="text-danger">Getting Pause</p>
                     @elseif (@$latestEntry->getting_value == 'gu')
-                        <p class="text-success">Getting Unpause</p>
                     @endif
                     <h4 class="small font-weight-bold">{{ @$filteredName->phase_name }}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
@@ -83,7 +82,7 @@
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
                             <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
-                                class="btn btn-primary">History Getting</a>
+                                class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
                         </div>
@@ -163,6 +162,7 @@
                                             <th>Balance</th>
                                             <th>Remarks</th>
                                             <th>Posting Date</th>
+                                            <th>Uploaded By</th>
                                         </tr>
                                     </thead>
 
@@ -185,6 +185,19 @@
                                                 <td>{{ $account->available_balance }}</td>
                                                 <td>{{ $account->remark }}</td>
                                                 <td>{{ $account->created_at }}</td>
+                                                <td>
+                                                    @if (@$account->user->getRoleNames()->first() == 'Sub Admin')
+                                                        <img src="../img/admin.jpg" class="rounded mr-0"
+                                                            alt="...">
+                                                    @elseif (@$account->user->getRoleNames()->first() == 'Consultant')
+                                                        <img src="../img/client.jpg" class="rounded mr-0"
+                                                            alt="...">
+                                                    @elseif (@$account->user->getRoleNames()->first() == 'Client')
+                                                        <img src="../img/vendor.jpg" class="rounded mr-0"
+                                                            alt="...">
+                                                    @endif
+                                                    {{ $account->user->name }}
+                                                </td>
                                             </tr>
                                         @endforeach
 

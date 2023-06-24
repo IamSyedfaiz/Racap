@@ -191,27 +191,27 @@ class AdminController extends Controller
         $productdetailConss = $product->productdetailCons;
 
         $fileName =  @$data->getMedia('post_image')->first()->file_name;
-        $dataWith = [
-            // 'text1' => 'Subject: Ledger Update - ' . $proejctName,
-            'text2' => 'File Name: ' . $fileName . ', uploaded for project: ' . $proejctName . ', Model:' . $modalNumber,
-            'text3' => 'Kindly login to view the file.',
-            'link'      => url('/') . '/login'
-        ];
+        // $dataWith = [
+        //     // 'text1' => 'Subject: Ledger Update - ' . $proejctName,
+        //     'text2' => 'File Name: ' . $fileName . ', uploaded for project: ' . $proejctName . ', Model:' . $modalNumber,
+        //     'text3' => 'Kindly login to view the file.',
+        //     'link'      => url('/') . '/login'
+        // ];
 
-        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
-            $msg->from('racap@omegawebdemo.com.au');
-            foreach ($productdetailConss as $productdetailCons) {
-                $users = $productdetailCons->user->email;
-                $msg->to($users, 'RACAP');
-            }
-            foreach ($productdetailClients as $productdetailClient) {
-                $users = $productdetailClient->user->email;
-                $msg->to($users, 'RACAP');
-            }
-            $msg->to($product->user->email, 'RACAP');
+        // Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+        //     $msg->from('racap@omegawebdemo.com.au');
+        //     foreach ($productdetailConss as $productdetailCons) {
+        //         $users = $productdetailCons->user->email;
+        //         $msg->to($users, 'RACAP');
+        //     }
+        //     foreach ($productdetailClients as $productdetailClient) {
+        //         $users = $productdetailClient->user->email;
+        //         $msg->to($users, 'RACAP');
+        //     }
+        //     $msg->to($product->user->email, 'RACAP');
 
-            $msg->subject('Subject: File Upload - ' . $proejctName);
-        });
+        //     $msg->subject('Subject: File Upload - ' . $proejctName);
+        // });
 
         return redirect()->back();
     }
@@ -306,60 +306,60 @@ class AdminController extends Controller
         $productdetailClients = $product->productdetailClient;
         $productdetailConss = $product->productdetailCons;
         // return $proejctName;
-        $dataWith = [
-            'text1' => 'Message: ' . auth()->user()->name . ' has updated ledger,',
-            'text2' => '' . $request->invoice_payment . ' Raised  ' . $request->balance . ',' . $request->remark,
-            // 'text3' => 'This amount is added',
-            'link'      => url('/') . '/login'
-        ];
+        // $dataWith = [
+        //     'text1' => 'Message: ' . auth()->user()->name . ' has updated ledger,',
+        //     'text2' => '' . $request->invoice_payment . ' Raised  ' . $request->balance . ',' . $request->remark,
+        //     // 'text3' => 'This amount is added',
+        //     'link'      => url('/') . '/login'
+        // ];
 
-        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
-            $msg->from('racap@omegawebdemo.com.au');
-            foreach ($productdetailConss as $productdetailCons) {
-                $users = $productdetailCons->user->email;
-                $msg->to($users, 'RACAP');
-            }
-            foreach ($productdetailClients as $productdetailClient) {
-                $users = $productdetailClient->user->email;
-                $msg->to($users, 'RACAP');
-            }
-            $msg->to($product->user->email, 'RACAP');
+        // Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+        //     $msg->from('racap@omegawebdemo.com.au');
+        //     foreach ($productdetailConss as $productdetailCons) {
+        //         $users = $productdetailCons->user->email;
+        //         $msg->to($users, 'RACAP');
+        //     }
+        //     foreach ($productdetailClients as $productdetailClient) {
+        //         $users = $productdetailClient->user->email;
+        //         $msg->to($users, 'RACAP');
+        //     }
+        //     $msg->to($product->user->email, 'RACAP');
 
-            $msg->subject('Subject: Ledger Update - ' . $proejctName);
-        });
+        //     $msg->subject('Subject: Ledger Update - ' . $proejctName);
+        // });
 
 
         return redirect()->back();
     }
-    public function fileDelete($id, $product_id)
+    public function fileDelete($id)
     {
 
         // DD($product_id);
 
-        $product = Product::find($product_id);
-        $proejctName = $product->project->project_name;
-        $productdetailClients = $product->productdetailClient;
-        $productdetailConss = $product->productdetailCons;
+        // $product = Product::find($product_id);
+        // $proejctName = $product->project->project_name;
+        // $productdetailClients = $product->productdetailClient;
+        // $productdetailConss = $product->productdetailCons;
         // return $proejctName;
-        $dataWith = [
-            'text1' => 'A file has been moved to trash under ' . $proejctName,
-            'link'      => url('/') . '/login'
-        ];
+        // $dataWith = [
+        //     'text1' => 'A file has been moved to trash under ' . $proejctName,
+        //     'link'      => url('/') . '/login'
+        // ];
 
-        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
-            $msg->from('racap@omegawebdemo.com.au');
-            foreach ($productdetailConss as $productdetailCons) {
-                $users = $productdetailCons->user->email;
-                $msg->to($users, 'RACAP');
-            }
-            foreach ($productdetailClients as $productdetailClient) {
-                $users = $productdetailClient->user->email;
-                $msg->to($users, 'RACAP');
-            }
-            $msg->to($product->user->email, 'RACAP');
+        // Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+        //     $msg->from('racap@omegawebdemo.com.au');
+        //     foreach ($productdetailConss as $productdetailCons) {
+        //         $users = $productdetailCons->user->email;
+        //         $msg->to($users, 'RACAP');
+        //     }
+        //     foreach ($productdetailClients as $productdetailClient) {
+        //         $users = $productdetailClient->user->email;
+        //         $msg->to($users, 'RACAP');
+        //     }
+        //     $msg->to($product->user->email, 'RACAP');
 
-            $msg->subject('File moved to trash - ' . $proejctName);
-        });
+        //     $msg->subject('File moved to trash - ' . $proejctName);
+        // });
         // die;
         // Get the product with the specified ID
         $uploadFile = UploadFile::where('id', $id)->first();
@@ -463,21 +463,26 @@ class AdminController extends Controller
 
     public function add_subadmin(Request $request)
     {
+        $request->validate([
+            'user_name' => 'required',
+            'user_email' => 'required',
+        ]);
+        $password = rand(10000000,  100000000);
+
         $data = new User;
         $data->name = $request->user_name;
         $data->email  = $request->user_email;
-        $data->password = bcrypt('12345678');
+        $data->password = $password;
         $data->parent_id = auth()->user()->id;
         $data->assignRole(Roles::SUB_ADMIN()->getValue());
         $data->save();
-        $currentDate = now();
-        $subcription = new Subscription();
-        $subcription->user_id = $data->id;
-        $subcription->amount = $request->amount;
-        $subcription->start_date = $currentDate;
-        $subcription->end_date = $request->expire_by;
-        $subcription->save();
-        $password = rand(10000000,  100000000);
+        // $currentDate = now();
+        // $subcription = new Subscription();
+        // $subcription->user_id = $data->id;
+        // $subcription->amount = $request->amount;
+        // $subcription->start_date = $currentDate;
+        // $subcription->end_date = $request->expire_by;
+        // $subcription->save();
 
         $data = [
             'name' => $request->user_name,
@@ -580,7 +585,7 @@ class AdminController extends Controller
             ->orderBy('created_at', 'desc')
             ->first();
 
-        $calender_alerts = CalenderAlert::all();
+        $calender_alerts = CalenderAlert::where('product_id', $id)->get();
         $current_date = now()->format('d-m-Y');
         $alert_date1 = '';
         $alert_date2 = '';
