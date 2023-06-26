@@ -106,6 +106,9 @@ Route::middleware('auth')->group(function () {
     // Send a chat message
     Route::post('/chat/send', [MessageController::class, 'chat_send'])->name('chat.send');
 
+    Route::get('/send-alert/{id}', [MessageController::class, 'send_alert'])->name('send.alert');
+    Route::post('/send-alert', [MessageController::class, 'save_send_alert'])->name('save.send.alert');
+
 
 
 

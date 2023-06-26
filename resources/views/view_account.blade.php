@@ -85,6 +85,8 @@
                                 class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
+                            <a href="{{ route('send.alert', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Send Alert</a>
                         </div>
                     </div>
                 </div>
