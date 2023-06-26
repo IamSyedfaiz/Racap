@@ -205,7 +205,6 @@
                     @if (@$latestEntry->getting_value == 'gp')
                         <p class="text-danger">Getting Pause</p>
                     @elseif (@$latestEntry->getting_value == 'gu')
-                        <p class="text-success">Getting Unpause</p>
                     @endif
                     <h4 class="small font-weight-bold">{{ @$filteredName->phase_name }}
                         <span class="float-right">{{ @$calculatedPercentage }}%</span>
@@ -233,7 +232,7 @@
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
                             <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
-                                class="btn btn-primary">History Getting</a>
+                                class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
                         </div>
@@ -255,7 +254,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Select Phase</label>
-                                    <select id="myDropdown" class="form-control" name="select_phase">
+                                    <select id="myDropdown" class="form-control" name="select_phase" required>
                                         <option>Select Phase</option>
                                         <option value="1">Option 1</option>
                                         <option value="2">Option 2</option>
@@ -263,6 +262,9 @@
                                         <option value="4">Option 4</option>
                                         <option value="5">Option 5</option>
                                     </select>
+                                    @error('phase_name')
+                                        <p class="small text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <input type="text" hidden name="product_id" value="{{ $products->id }}">
                                 <button class="btn btn-primary">Submit</button>
@@ -296,6 +298,7 @@
                             <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
+                                        <th>Sr No</th>
                                         <th>Phase Name</th>
                                         @if ($roles === 'Consultant' || $roles === 'Sub Admin')
                                             <th>Status</th>
@@ -310,6 +313,7 @@
                                     @if ($progressreports)
                                         @foreach (@$progressreports as $progressreport)
                                             <tr>
+                                                <th scope="row">Step {{ $loop->iteration }}</th>
                                                 <td>{{ $progressreport->phase_name }}
                                                 </td>
                                                 @if ($roles === 'Consultant' || $roles === 'Sub Admin')
@@ -554,6 +558,8 @@
             $('#myDropdown').on('change', function() {
                 var selectedValue = $(this).val();
                 var inputFields = '';
+
+
 
                 if (selectedValue == 1) {
                     inputFields += `<div class="form-group">

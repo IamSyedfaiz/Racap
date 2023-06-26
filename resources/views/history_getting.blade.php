@@ -59,7 +59,6 @@
                     @if (@$latestEntry->getting_value == 'gp')
                         <p class="text-danger">Getting Pause</p>
                     @elseif (@$latestEntry->getting_value == 'gu')
-                        <p class="text-success">Getting Unpause</p>
                     @endif
                     <h4 class="small font-weight-bold">
                         {{ @$filteredName->phase_name }}
@@ -88,7 +87,7 @@
                             <a href="{{ route('project.status', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Status</a>
                             <a href="{{ route('history.getting', ['id' => $products->id]) }}" type="button"
-                                class="btn btn-primary">History Getting</a>
+                                class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
                         </div>

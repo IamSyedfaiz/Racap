@@ -62,14 +62,14 @@
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label for="cname">Amount</label>
                                             <input type="text" class="form-control" name="amount" id="cname"
                                                 value="$100" aria-describedby="cname">
                                             @error('amount')
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                         {{--  <div class="form-group">
                                             <label for="cname">Current Date</label>
                                             <input type="text" class="form-control"  name="current_date"
@@ -78,7 +78,7 @@
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
                                         </div> --}}
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label for="cname">Expire by</label>
                                             <select class="form-control" id="client_product_name" name="expire_by">
                                                 <option value="">Select An Option</option>
@@ -89,7 +89,7 @@
                                             @error('product_id')
                                                 <p class="small text-danger">{{ $message }}</p>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>

@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/create_consultant_user', [ManagementController::class, 'create_consultant_user'])->name('create.consultant.user');
     Route::get('/user_delete/{id}', [ManagementController::class, 'user_delete'])->name('user.delete');
 
-    Route::post('/changeActive/{id}/{status}', [ManagementController::class, 'changeActive'])->name('change.active');;
+    Route::post('/changeActive/{id}/{status}', [ManagementController::class, 'changeActive'])->name('change.active');
 
 
 
@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/view-account/{id}', [AdminController::class, 'view_account'])->name('view.account');
     Route::get('/view-trash/{id}', [AdminController::class, 'view_trash'])->name('view.trash');
     Route::post('/add_account', [AdminController::class, 'add_account'])->name('add.account');
-    Route::get('/file-Delete/{id}/{product_id}', [AdminController::class, 'fileDelete'])->name('fileDelete');
+    Route::get('/file-Delete/{id}', [AdminController::class, 'fileDelete'])->name('fileDelete');
     Route::get('/restore_file/{id}', [AdminController::class, 'restore_file'])->name('restore.file');
     Route::get('/final_delete/{id}', [AdminController::class, 'final_delete'])->name('final.delete');
     Route::get('/past_projects', [AdminController::class, 'pastprojects'])->name('past.projects');
