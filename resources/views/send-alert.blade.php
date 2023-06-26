@@ -103,7 +103,7 @@
                                             <div class="form-group col-md-6 d-flex flex-column ">
                                                 <div for="reason" class="font-weight-bold text-primary">Mode</div>
                                                 <select class="form-control" name="mode">
-                                                    <option value="">Select a category</option>
+                                                    <option value="">Select a Mode</option>
                                                     <option value="Email">Email</option>
                                                 </select>
                                                 @error('mode')
