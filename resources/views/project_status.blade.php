@@ -235,57 +235,63 @@
                                 class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
+                            <a href="{{ route('send.alert', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Send Alert</a>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <form action="{{ route('post.status') }}" method="post">
-                @csrf
-                <div class="row ">
 
-                    <div class="col-md-6">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Add Phase</h6>
-                            </div>
-                            <div class="card-body">
+            @if ($roles == 'Sub Admin' || $roles == 'Consultant')
+                <form action="{{ route('post.status') }}" method="post">
+                    @csrf
+                    <div class="row ">
 
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Select Phase</label>
-                                    <select id="myDropdown" class="form-control" name="select_phase" required>
-                                        <option>Select Phase</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
-                                        <option value="4">Option 4</option>
-                                        <option value="5">Option 5</option>
-                                    </select>
-                                    @error('phase_name')
-                                        <p class="small text-danger">{{ $message }}</p>
-                                    @enderror
+                        <div class="col-md-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Add Phase</h6>
                                 </div>
-                                <input type="text" hidden name="product_id" value="{{ $products->id }}">
-                                <button class="btn btn-primary">Submit</button>
+                                <div class="card-body">
+
+
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Select Phase</label>
+                                        <select id="myDropdown" class="form-control" name="select_phase" required>
+                                            <option>Select Phase</option>
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                            <option value="4">Option 4</option>
+                                            <option value="5">Option 5</option>
+                                        </select>
+                                        @error('phase_name')
+                                            <p class="small text-danger">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    <input type="text" hidden name="product_id" value="{{ $products->id }}">
+                                    <button class="btn btn-primary">Submit</button>
+                                </div>
                             </div>
-                        </div>
 
-                    </div><!-- Earnings (Monthly) Card Example -->
-                    <div class="col-md-6">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Add Phase Name</h6>
+                        </div><!-- Earnings (Monthly) Card Example -->
+                        <div class="col-md-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Add Phase Name</h6>
+                                </div>
+                                <div class="card-body" id="inputFields">
+                                </div>
                             </div>
-                            <div class="card-body" id="inputFields">
-                            </div>
-                        </div>
 
-                    </div><!-- Earnings (Monthly) Card Example -->
+                        </div><!-- Earnings (Monthly) Card Example -->
 
 
-                </div>
-            </form>
+                    </div>
+                </form>
+            @endif
+
             <div class="">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between">

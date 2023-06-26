@@ -90,6 +90,8 @@
                                 class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
+                            <a href="{{ route('send.alert', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Send Alert</a>
                         </div>
                     </div>
                 </div>
@@ -128,8 +130,8 @@
                         </li> --}}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link bg-gradient-secondary" id="pills-upload-tab" data-toggle="pill"
-                                data-target="#pills-upload" type="button" role="tab" aria-controls="pills-upload"
-                                aria-selected="false">UPLOAD NEW</button>
+                                data-target="#pills-upload" type="button" role="tab"
+                                aria-controls="pills-upload" aria-selected="false">UPLOAD NEW</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">

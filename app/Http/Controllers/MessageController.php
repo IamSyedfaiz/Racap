@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Conversation;
 use App\Models\Enquiry;
+use App\Models\Product;
+use App\Models\SendAlert;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller
 {
@@ -128,5 +130,60 @@ class MessageController extends Controller
             // return $message->is_seen;
         }
         return view('new_enquiry', compact('receiver', 'messages', 'roles', 'users', 'lastMes'));
+    }
+    public function send_alert($id)
+    {
+        $user = auth()->user();
+        $roles = $user->getRoleNames()->first();
+        $product = Product::find($id);
+        $SendAlerts = SendAlert::where('product_id', $id)->get();
+
+        return view('send-alert', compact('roles', 'product', 'SendAlerts'));
+    }
+    public function save_send_alert(Request $request)
+    {
+        // $user = auth()->user();
+        // $roles = $user->getRoleNames()->first();
+        // $product = Product::find($request->project_id);
+        $request->validate([
+            'message' => 'required',
+            'mode' => 'required',
+        ]);
+        $alert = new SendAlert();
+
+        $alert->user_id = auth()->user()->id;
+        $alert->product_id = $request->product_id;
+        $alert->message = $request->message;
+        $alert->mode = $request->mode;
+
+        $alert->save();
+
+        $product = Product::find($request->product_id);
+        $proejctName = $product->project->project_name;
+        $productdetailClients = $product->productdetailClient;
+        $productdetailConss = $product->productdetailCons;
+        // return $proejctName;
+        $dataWith = [
+            'text1' => 'Message: ' . $request->message,
+            'text2' => ' Send By  ' . auth()->user()->name,
+            // 'text3' => 'This amount is added',
+            'link'      => url('/') . '/login'
+        ];
+
+        Mail::send('email.data_info', @$dataWith, function ($msg) use ($productdetailClients, $product, $productdetailConss, $proejctName) {
+            $msg->from('racap@omegawebdemo.com.au');
+            foreach ($productdetailConss as $productdetailCons) {
+                $users = $productdetailCons->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            foreach ($productdetailClients as $productdetailClient) {
+                $users = $productdetailClient->user->email;
+                $msg->to($users, 'RACAP');
+            }
+            $msg->to($product->user->email, 'RACAP');
+
+            $msg->subject('Alert Update - ' . $proejctName);
+        });
+        return redirect()->back()->with('success', 'Message Send successfully ');
     }
 }

@@ -90,6 +90,8 @@
                                 class="btn btn-primary">Pause History</a>
                             <a href="{{ route('alert.calender', ['id' => $products->id]) }}" type="button"
                                 class="btn btn-primary">Alert Date</a>
+                            <a href="{{ route('send.alert', ['id' => $products->id]) }}" type="button"
+                                class="btn btn-primary">Send Alert</a>
                         </div>
                     </div>
 
@@ -168,46 +170,48 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Update the Getting Pause & Unpause
-                                    </h6>
-                                </div>
-                                <div class="card-body p-4">
-                                    <div class="mb-5">
-                                        <form action="{{ route('store.history.getting') }}" method="post">
-                                            @csrf
-                                            <div class="orm-group mb-10 d-flex flex-row">
-                                                <div class="">
-                                                    <input type="radio" name="getting_value" value="gp"
-                                                        id="" class="mx-2">
-                                                    <label class="font-weight-bold text-primary">Getting
-                                                        Pause</label>
+                            @if ($roles == 'Sub Admin' || $roles == 'Consultant')
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Update the Getting Pause & Unpause
+                                        </h6>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <div class="mb-5">
+                                            <form action="{{ route('store.history.getting') }}" method="post">
+                                                @csrf
+                                                <div class="orm-group mb-10 d-flex flex-row">
+                                                    <div class="">
+                                                        <input type="radio" name="getting_value" value="gp"
+                                                            id="" class="mx-2">
+                                                        <label class="font-weight-bold text-primary">Getting
+                                                            Pause</label>
+                                                    </div>
+                                                    <div class="mr-4">
+                                                        <input type="radio" name="getting_value" value="gu"
+                                                            id="" class="mx-2">
+                                                        <label class="font-weight-bold text-primary">Getting
+                                                            Unpause</label>
+                                                    </div>
                                                 </div>
-                                                <div class="mr-4">
-                                                    <input type="radio" name="getting_value" value="gu"
-                                                        id="" class="mx-2">
-                                                    <label class="font-weight-bold text-primary">Getting
-                                                        Unpause</label>
-                                                </div>
-                                            </div>
 
-                                            <div class="form-row">
-                                                <div class="form-group col-md-12 d-flex flex-column ">
-                                                    <label for="reason"
-                                                        class="font-weight-bold text-primary">Reason</label>
-                                                    <textarea name="reason" id="" required cols="60" rows="5" class="p-2"
-                                                        placeholder="Enter Comments"></textarea>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12 d-flex flex-column ">
+                                                        <label for="reason"
+                                                            class="font-weight-bold text-primary">Reason</label>
+                                                        <textarea name="reason" id="" required cols="60" rows="5" class="p-2"
+                                                            placeholder="Enter Comments"></textarea>
 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <input type="text" name="product_id" hidden
-                                                value="{{ $products->id }}">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
+                                                <input type="text" name="product_id" hidden
+                                                    value="{{ $products->id }}">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
 
                             {{-- <div class="row">
                                 <div class="col-12">
