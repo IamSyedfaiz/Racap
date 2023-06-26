@@ -30,7 +30,7 @@
             <div class="row">
 
                 <!-- Earnings (Monthly) Card Example -->
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">{{ $products->modal_number }}</h6>
@@ -52,7 +52,7 @@
                     </div>
 
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
 
                     <h2>{{ $products->client->name }}</h2>
                     @if (@$latestEntry->getting_value == 'gp')
