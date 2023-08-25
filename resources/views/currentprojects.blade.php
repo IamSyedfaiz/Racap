@@ -43,6 +43,7 @@
                                 <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Project ID</th>
                                             <th>Project Name</th>
                                             <th>Client</th>
                                             <th>Client Category</th>
@@ -64,6 +65,7 @@
                                         @foreach (@$products as $product)
                                             @if ($product->project->project_start_date <= $currentDate && $product->project->project_end_date >= $currentDate)
                                                 <tr>
+                                                    <td>{{ $product->project->id }} </td>
                                                     <td>{{ $product->project->project_name }} </td>
                                                     <td>{{ $product->client->name }}</td>
                                                     <td>
