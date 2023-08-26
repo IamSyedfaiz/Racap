@@ -227,10 +227,6 @@ class AdminController extends Controller
     }
     public function view_account($id)
     {
-
-
-
-
         $user = User::find(auth()->user()->id);
         $roles = $user->getRoleNames()->first();
         $products = Product::find($id);

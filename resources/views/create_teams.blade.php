@@ -64,7 +64,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select Client Category </label>
-                                            <select class="form-control" id="cname" name="client_category">
+                                            <select class="form-control" id="cname" name="client_category" required>
                                                 <option value="">Select An Option</option>
                                                 <option value="D">Domestic </option>
                                                 <option value="F">Foreign</option>
@@ -91,7 +91,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select Client Category </label>
-                                            <select class="form-control" id="client_category" name="client_category">
+                                            <select class="form-control" id="client_category" name="client_category"
+                                                required>
                                                 <option value="">Select An Option</option>
                                                 <option value="D">Domestic </option>
                                                 <option value="F">Foreign</option>
@@ -99,11 +100,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select client</label>
-                                            <select class="form-control" id="client_id" name="client_id">
+                                            <select class="form-control" id="client_id" name="client_id" required>
                                                 <option value="">Select An Option</option>
-                                                {{-- @foreach (@$clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach --}}
                                             </select>
                                             @error('client_id')
                                                 <p class="small text-danger">{{ $message }}</p>
@@ -135,16 +133,16 @@
                                         <div class="form-group">
                                             <label for="sdate">Project start date</label>
                                             <input type="date" class="form-control" name="project_start_date"
-                                                id="sdate" aria-describedby="sdate">
+                                                required id="sdate" aria-describedby="sdate">
                                         </div>
                                         <div class="form-group">
                                             <label for="edate">Project end date</label>
-                                            <input type="date" class="form-control" name="project_end_date"
+                                            <input type="date" class="form-control" name="project_end_date" required
                                                 id="edate" aria-describedby="edate">
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select Client Category </label>
-                                            <select class="form-control" id="project_client_category"
+                                            <select class="form-control" id="project_client_category" required
                                                 name="client_category">
                                                 <option value="">Select An Option</option>
                                                 <option value="D">Domestic </option>
@@ -153,11 +151,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select client</label>
-                                            <select class="form-control" id="project_cname" name="client_id">
+                                            <select class="form-control" id="project_cname" name="client_id"
+                                                required>
                                                 <option value="">Select An Option</option>
-                                                {{-- @foreach (@$clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach --}}
                                             </select>
                                             @error('client_id')
                                                 <p class="small text-danger">{{ $message }}</p>
@@ -165,7 +161,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select Factory</label>
-                                            <select class="form-control" id="factory_cname" name="factory_id">
+                                            <select class="form-control" id="factory_cname" name="factory_id"
+                                                required>
                                                 <option value="">Select An Option</option>
                                             </select>
                                             @error('factory_id')
@@ -206,7 +203,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select Client Category</label>
-                                            <select class="form-control" id="product_client_category"
+                                            <select class="form-control" id="product_client_category" required
                                                 name="client_category">
                                                 <option value="">Select An Option</option>
                                                 <option value="D">Domestic </option>
@@ -215,11 +212,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select client</label>
-                                            <select class="form-control" id="product_cname" name="client_id">
+                                            <select class="form-control" id="product_cname" name="client_id"
+                                                required>
                                                 <option>Select An Option</option>
-                                                {{-- @foreach (@$clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                                @endforeach --}}
                                             </select>
                                             @error('client_id')
                                                 <p class="small text-danger">{{ $message }}</p>
@@ -227,7 +222,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select Factory</label>
-                                            <select class="form-control" id="product_factory_cname"
+                                            <select class="form-control" id="product_factory_cname" required
                                                 name="factory_id">
                                                 <option value="">Select An Option</option>
                                             </select>
@@ -237,7 +232,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="cname">Select project</label>
-                                            <select class="form-control" id="product_pname" name="project_id">
+                                            <select class="form-control" id="product_pname" name="project_id"
+                                                required>
                                                 <option value="">Select An Option</option>
                                             </select>
                                             @error('project_id')
@@ -266,7 +262,8 @@
                                             @csrf
                                             <div class="form-group">
                                                 <label for="cname">Select User</label>
-                                                <select class="form-control" id="client_user_cname" name="user_id">
+                                                <select class="form-control" id="client_user_cname" name="user_id"
+                                                    required>
                                                     <option value="">Select An Option</option>
                                                     @foreach (@$users as $user)
                                                         @if ($user->getRoleNames()->first() == 'Client')
@@ -281,7 +278,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Select Client Category </label>
-                                                <select class="form-control" id="add_client_category"
+                                                <select class="form-control" id="add_client_category" required
                                                     name="client_category">
                                                     <option value="">Select An Option</option>
                                                     <option value="D">Domestic </option>
@@ -290,12 +287,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Select Client</label>
-                                                <select class="form-control" id="client_cname" name="client_id">
+                                                <select class="form-control" id="client_cname" name="client_id"
+                                                    required>
                                                     <option value="">Select An Option</option>
-                                                    {{-- @foreach ($clients as $client)
-                                                        <option value="{{ $client->id }}">{{ $client->name }}
-                                                        </option>
-                                                    @endforeach --}}
                                                 </select>
                                                 @error('client_id')
                                                     <p class="small text-danger">{{ $message }}</p>
@@ -303,7 +297,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Select Factory</label>
-                                                <select class="form-control" id="client_factory_cname"
+                                                <select class="form-control" id="client_factory_cname" required
                                                     name="factory_id">
                                                     <option value="">Select An Option</option>
                                                 </select>
@@ -313,7 +307,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Project Name</label>
-                                                <select class="form-control" id="client_project_name"
+                                                <select class="form-control" id="client_project_name" required
                                                     name="project_id">
                                                     <option value="">Select An Option</option>
                                                 </select>
@@ -323,7 +317,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Brand Name</label>
-                                                <select class="form-control" id="client_brand_name" name="brand_id">
+                                                <select class="form-control" id="client_brand_name" name="brand_id"
+                                                    required>
                                                     <option value="">Select An Option</option>
                                                 </select>
                                                 @error('brand_id')
@@ -332,7 +327,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Product Name</label>
-                                                <select class="form-control" id="client_product_name"
+                                                <select class="form-control" id="client_product_name" required
                                                     name="product_id">
                                                     <option value="">Select An Option</option>
                                                 </select>
@@ -342,7 +337,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Model Number</label>
-                                                <select class="form-control" id="client_modal_number"
+                                                <select class="form-control" id="client_modal_number" required
                                                     name="modal_number">
                                                     <option value="">Select An Option</option>
                                                 </select>
@@ -371,7 +366,7 @@
                                             @csrf
                                             <div class="form-group">
                                                 <label for="cname">Select User</label>
-                                                <select class="form-control" id="consultant_user_cname"
+                                                <select class="form-control" id="consultant_user_cname" required
                                                     name="user_id">
                                                     <option value="">Select An Option</option>
                                                     @foreach (@$users as $user)
@@ -385,38 +380,9 @@
                                                     <p class="small text-danger">{{ $message }}</p>
                                                 @enderror
                                             </div>
-                                            {{-- <div class="form-group">
-                                            <label for="cname">User Name</label>
-                                            <input type="text" class="form-control" required name="user_name"
-                                                id="cname" aria-describedby="cname">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User Email</label>
-                                            <input type="text" class="form-control" required name="user_email"
-                                                id="cname" aria-describedby="cname">
-                                            @error('user_email')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User Mobile Number</label>
-                                            <input type="number" class="form-control" name="user_mobile_number"
-                                                id="cname" aria-describedby="cname">
-                                            @error('user_mobile_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cname">User Landline Number</label>
-                                            <input type="number" class="form-control" name="user_landline_number"
-                                                id="cname" aria-describedby="cname">
-                                            @error('user_landline_number')
-                                                <p class="small text-danger">{{ $message }}</p>
-                                            @enderror
-                                        </div> --}}
                                             <div class="form-group">
                                                 <label for="cname">Select Client Category </label>
-                                                <select class="form-control" id="add_consultant_category"
+                                                <select class="form-control" id="add_consultant_category" required
                                                     name="client_category">
                                                     <option value="">Select An Option</option>
                                                     <option value="D">Domestic </option>
@@ -425,17 +391,14 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Select Client</label>
-                                                <select class="form-control" id="consultant_cname" name="client_id">
+                                                <select class="form-control" id="consultant_cname" name="client_id"
+                                                    required>
                                                     <option value="">Select An Option</option>
-                                                    {{-- @foreach ($clients as $client)
-                                                        <option value="{{ $client->id }}">{{ $client->name }}
-                                                        </option>
-                                                    @endforeach --}}
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Select Factory</label>
-                                                <select class="form-control" id="consultant_factory_cname"
+                                                <select class="form-control" id="consultant_factory_cname" required
                                                     name="factory_id">
                                                     <option value="">Select An Option</option>
                                                     @foreach ($clients as $client)
@@ -449,14 +412,14 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Project name</label>
-                                                <select class="form-control" id="consultant_project_name"
+                                                <select class="form-control" id="consultant_project_name" required
                                                     name="project_id">
                                                     <option value="">Select An Option</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Brand Name</label>
-                                                <select class="form-control" id="consultant_brand_name"
+                                                <select class="form-control" id="consultant_brand_name" required
                                                     name="brand_id">
                                                     <option value="">Select An Option</option>
                                                 </select>
@@ -466,14 +429,14 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Product name</label>
-                                                <select class="form-control" id="consultant_product_name"
+                                                <select class="form-control" id="consultant_product_name" required
                                                     name="product_id">
                                                     <option>Select An Option</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="cname">Model Number</label>
-                                                <select class="form-control" id="consultant_modal_number"
+                                                <select class="form-control" id="consultant_modal_number" required
                                                     name="modal_number">
                                                     <option value="">Select An Option</option>
                                                 </select>

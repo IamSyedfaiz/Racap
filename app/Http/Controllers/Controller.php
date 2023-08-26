@@ -21,10 +21,33 @@ class Controller extends BaseController
         if (auth()->user()) {
             // $users = User::where('parent_id', auth()->user()->id)->get();
             $users = User::all();
-            $clients = Client::where('user_id', auth()->user()->id)->get();
-            $projects = Project::where('user_id', auth()->user()->id)->get();
-            $products = Product::where('user_id', auth()->user()->id)->get();
-            $factories = Factory::where('user_id', auth()->user()->id)->get();
+
+            // $clients = Client::where('user_id', auth()->user()->id)->get();
+
+            $clients = Client::where('user_id', auth()->user()->id)
+                ->orWhereHas('productdetail', function ($query) {
+                    $query->where('user_id', auth()->user()->id);
+                })
+                ->get();
+            $projects = Project::where('user_id', auth()->user()->id)
+                ->orWhereHas('productdetail', function ($query) {
+                    $query->where('user_id', auth()->user()->id);
+                })
+                ->get();
+            $products = Product::where('user_id', auth()->user()->id)
+                ->orWhereHas('productdetail', function ($query) {
+                    $query->where('user_id', auth()->user()->id);
+                })
+                ->get();
+            $factories = Factory::where('user_id', auth()->user()->id)
+                ->orWhereHas('productdetail', function ($query) {
+                    $query->where('user_id', auth()->user()->id);
+                })
+                ->get();
+
+            // $projects = Project::where('user_id', auth()->user()->id)->get();
+            // $products = Product::where('user_id', auth()->user()->id)->get();
+            // $factories = Factory::where('user_id', auth()->user()->id)->get();
             // $users = User::where('id', auth()->user()->id)->get();
         } else {
             return redirect('/login');
