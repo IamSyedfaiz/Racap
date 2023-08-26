@@ -63,8 +63,9 @@
                                     <tbody>
 
                                         @foreach (@$products as $product)
-                                            @if ($product->project->project_start_date <= $currentDate && $product->project->project_end_date >= $currentDate)
+                                            @if (@$product->project->project_start_date <= $currentDate && @$product->project->project_end_date >= $currentDate)
                                                 <tr>
+
                                                     <td>{{ $product->project->id }} </td>
                                                     <td>{{ $product->project->project_name }} </td>
                                                     <td>{{ $product->client->name }}</td>
@@ -80,40 +81,43 @@
                                                     <td>{{ $product->factory->name }}</td>
                                                     <td>{{ $product->product_name }}</td>
                                                     <td>
-                                                        @if (@$product->conversation->last()->sender->name)
-                                                            @if (@$product->conversation->last()->user->getRoleNames()->first() == 'Sub Admin')
+                                                        @if (@$product->latestConversation->last()->sender->name)
+                                                            @if (@$product->latestConversation->last()->user->getRoleNames()->first() == 'Sub Admin')
                                                                 <img src="{{ asset('img/admin.jpg') }}"
                                                                     class="rounded mr-0" alt="...">
-                                                            @elseif (@$product->conversation->last()->user->getRoleNames()->first() == 'Consultant')
+                                                            @elseif (@$product->latestConversation->last()->user->getRoleNames()->first() == 'Consultant')
                                                                 <img src="{{ asset('img/client.jpg') }}"
                                                                     class="rounded mr-0" alt="...">
-                                                            @elseif (@$product->conversation->last()->user->getRoleNames()->first() == 'Client')
+                                                            @elseif (@$product->latestConversation->last()->user->getRoleNames()->first() == 'Client')
                                                                 <img src="{{ asset('img/vendor.jpg') }}"
                                                                     class="rounded mr-0" alt="...">
                                                             @endif
                                                         @endif
 
-                                                        {{ @$product->conversation->last()->sender->name }}
+                                                        {{ @$product->latestConversation->last()->sender->name }}
                                                     </td>
                                                     <td>
-                                                        {{-- {{ $product->response->id }} --}}
                                                         @foreach ($product->response as $response)
                                                             @if ($response->reply_under_process == 'Y')
                                                                 <div class="btn "
-                                                                    style="color:#fff; background:blue;"> R</div>
+                                                                    style="color:#fff; background:blue;"> R
+                                                                </div>
                                                             @endif
 
                                                             @if ($response->awaited_reply_under_process == 'Y')
                                                                 <div class="btn"
-                                                                    style="color:#fff; background:blue;">D</div>
+                                                                    style="color:#fff; background:blue;">D
+                                                                </div>
                                                             @endif
                                                             @if ($response->docs_verification_under_process == 'Y')
                                                                 <div class="btn"
-                                                                    style="color:#fff; background:green;">P</div>
+                                                                    style="color:#fff; background:green;">P
+                                                                </div>
                                                             @endif
                                                             @if ($response->info_awaited == 'Y')
                                                                 <div class="btn"
-                                                                    style="color:#fff; background:green;">I</div>
+                                                                    style="color:#fff; background:green;">I
+                                                                </div>
                                                             @endif
                                                         @endforeach
                                                     </td>
@@ -150,7 +154,8 @@
                                                             <div class="progress-bar bg-success" role="progressbar"
                                                                 style="width: {{ @$calculatedPercentage }}%"
                                                                 aria-valuenow="50" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
+                                                                aria-valuemax="100">
+                                                            </div>
                                                         </div>
                                                     </td>
 
@@ -194,7 +199,8 @@
                     exportOptions: {
                         columns: ':visible' // Export all visible columns
                     }
-                }]
+                }],
+                ordering: false // Disable sorting
             });
         });
     </script>

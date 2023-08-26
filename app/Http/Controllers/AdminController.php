@@ -80,42 +80,52 @@ class AdminController extends Controller
     {
 
         $user = auth()->user();
+        $userId = $user->id;
+
         $roles = $user->getRoleNames()->first();
         $products = '';
         if ($roles === Roles::SUPER_ADMIN()->getValue()) {
             $products = Product::all();
         } elseif ($roles === Roles::SUB_ADMIN()->getValue()) {
 
-            $products = Product::where('user_id', auth()->user()->id)->get();
+            // $products = Product::where('user_id', auth()->user()->id)->get();
+
+
+            // $products = Product::with(['conversation' => function ($query) {
+            //     $query->latest('created_at');
+            // }])
+            //     ->where('user_id', $userId)
+            //     ->get();
+
+            $products = Product::with(['conversation' => function ($query) {
+                $query->latest('created_at')->take(1);
+            }])->where('user_id', $userId)->get()->sortBy(function ($item) {
+                return count($item['conversation']) <= 0;
+            });
+
+            // $products = Product::with(['conversation' => function ($query) {
+            //     $query->latest('created_at')->take(1);
+            // }])->where('user_id', $userId)->orderByDesc('conversation')->get();
+
+            // return $products;
         } else {
 
-            $products = Product::whereHas('productdetail', function ($q) use ($user) {
-                $q->where('user_id', '=', $user->id);
-            })->get();
+            // $products = Product::whereHas('productdetail', function ($q) use ($user) {
+            //     $q->where('user_id', '=', $user->id);
+            // })->get();
+
+            $products = Product::with(['conversation' => function ($query) {
+                $query->latest('created_at')->take(1);
+            }])->whereHas('productdetail', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->get()->sortBy(function ($item) {
+                return count($item['conversation']) <= 0;
+            });
+
+            // return $products;
         }
         $currentDate = now();
-        // foreach ($products as $product) {
-        //     if ($product->project->project_start_date <= $currentDate && $product->project->project_end_date >= $currentDate) {
-        //         $progressreports = ProgressReport::where('product_id', $product->id)->get();
-        //         $filteredPercentage = $progressreports->where('is_completed', 'N');
-        //         $filteredName = $progressreports->where('is_completed', 'N')->last();
-        //         $allLength = count($progressreports);
-        //         $length = count($filteredPercentage);
-        //         if ($allLength > 0) {
-
-        //             $calculatedPercentage = ($length / $allLength) * 100;
-        //             $calculatedPercentage = intval($calculatedPercentage);
-        //         } else {
-        //             $calculatedPercentage = 0;
-        //             $calculatedPercentage = intval($calculatedPercentage);
-        //         }
-        //         $latestEntry = HistoryGetting::where('product_id', $product->id)
-        //             ->orderBy('created_at', 'desc')
-        //             ->first();
-        //     }
-        // }
-
-
+        // return $products;
         return view('currentprojects', compact(['products', 'roles', 'currentDate']));
     }
     public function project_details($id)
@@ -620,6 +630,18 @@ class AdminController extends Controller
     {
         $alert_calender = CalenderAlert::find($id);
         $alert_calender->delete();
+        return redirect()->back();
+    }
+
+    public function current_project()
+    {
+        $projects = Conversation::where('is_seen', 'N')->get();
+
+        foreach ($projects as $project) {
+
+            $project->is_seen = 'Y';
+            $project->save();
+        }
         return redirect()->back();
     }
 }

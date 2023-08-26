@@ -65,4 +65,8 @@ class User extends Authenticatable
                 ->orWhere('sender_id', $userId);
         })->latest()->first();
     }
+    public function productdetail()
+    {
+        return $this->hasMany(ProductDetail::class);
+    }
 }

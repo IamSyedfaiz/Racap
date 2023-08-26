@@ -48,6 +48,10 @@ class Product extends Model
     {
         return $this->hasMany(Conversation::class);
     }
+    public function latestConversation()
+    {
+        return $this->hasMany(Conversation::class)->orderByDesc('created_at');
+    }
     public function response()
     {
         return $this->hasMany(Response::class);

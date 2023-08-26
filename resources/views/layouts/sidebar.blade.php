@@ -1,13 +1,16 @@
        <!-- Sidebar -->
-      @php
-      use App\Models\Enquiry;
-      $is_seens = Enquiry::where('is_seen', 'N')->where('receiver_id', auth()->id())->get();
-
-        //   foreach ($is_seens as $is_seen) {
-        //     # code...
-        //   }
-        //   echo $is_seen;
-      @endphp 
+       @php
+           use App\Models\Enquiry;
+           use App\Models\Conversation;
+           $is_seens = Enquiry::where('is_seen', 'N')
+               ->where('receiver_id', auth()->id())
+               ->get();
+           //    $is_seen = Conversation::where('is_seen', 'N')->first();
+           $is_seen = Conversation::where('is_seen', 'N')
+               ->where('user_id', '!=', auth()->user()->id)
+               ->first();
+           
+       @endphp
        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
 
            <!-- Sidebar - Brand -->
@@ -30,6 +33,24 @@
 
            <!-- Divider -->
            <hr class="sidebar-divider">
+
+           @if (
+               $is_seen &&
+                   $is_seen->product_id ==
+                       auth()->user()->productdetail->isNotEmpty())
+               <li class="nav-item">
+                   <form class="nav-link collapsed" action="{{ route('current.project') }}" method="POST">
+                       @csrf
+
+                       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                           <strong>Attention !</strong> Please review the information provided below.
+                           <button type="submit" class="close">
+                               <span aria-hidden="true">&times;</span>
+                           </button>
+                       </div>
+                   </form>
+               </li>
+           @endif
 
            <!-- Heading -->
            <div class="sidebar-heading">
@@ -120,20 +141,19 @@
                        <i class="fas fa-fw fa-folder"></i>
                        <span>New Enquiry</span>
                        @foreach ($is_seens as $is_seen)
-                           
-                       @if ($is_seen)
-                           
-                       <svg class="ml-2" xmlns="http://www.w3.org/2000/svg"
-                                                                width="16" height="16" fill="#32de84"
-                                                                class="bi bi-circle-fill" viewBox="0 0 16 16">
-                                                                <circle cx="8" cy="8" r="8" />
-                                                            </svg>
-                       @endif
+                           @if ($is_seen)
+                               <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                   fill="#32de84" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                   <circle cx="8" cy="8" r="8" />
+                               </svg>
+                           @endif
                        @endforeach
 
                    </a>
                </li>
            @endif
+
+
 
 
 

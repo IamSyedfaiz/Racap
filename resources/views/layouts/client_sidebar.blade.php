@@ -1,9 +1,15 @@
     <!-- Sidebar -->
     @php
         use App\Models\Enquiry;
+        use App\Models\Conversation;
+        
         $is_seens = Enquiry::where('is_seen', 'N')
             ->where('receiver_id', auth()->id())
             ->get();
+        
+        $is_seen = Conversation::where('is_seen', 'N')
+            ->where('user_id', '!=', auth()->user()->id)
+            ->first();
     @endphp
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -27,7 +33,23 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
+        @if (
+            $is_seen &&
+                $is_seen->product_id ==
+                    auth()->user()->productdetail->isNotEmpty())
+            <li class="nav-item">
+                <form class="nav-link collapsed" action="{{ route('current.project') }}" method="POST">
+                    @csrf
 
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Attention !</strong> Please review the information provided below.
+                        <button type="submit" class="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </form>
+            </li>
+        @endif
         <!-- Heading -->
         <div class="sidebar-heading">
             Projects
