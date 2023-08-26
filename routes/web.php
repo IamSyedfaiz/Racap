@@ -117,6 +117,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/alert_calender/{id}', [AdminController::class, 'alert_calender'])->name('alert.calender');
     Route::post('/alert_calender', [AdminController::class, 'store_alert_calender'])->name('store.alert.calender');
     Route::get('/delete_alert_calender/{id}', [AdminController::class, 'delete_alert_calender'])->name('delete.alert.calender');
+    Route::post('/current-project', [AdminController::class, 'current_project'])->name('current.project');
 });
 
 
